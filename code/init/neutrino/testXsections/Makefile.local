@@ -1,0 +1,5 @@
+SUBDIREXCL :=
+FILEEXCL := test_matrixelement.f90 test_bgr.f90 lepton_xsec_free.f90 test_vacXsec.f90
+#FILEEXCL := test_matrixelement.f90 test_bgr.f90
+EXEFILE := test_inMedRecipes.f90 test_F2.f90
+#EXEFILE :=  test_vacXsec.f90 test_inMedRecipes.f90

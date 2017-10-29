@@ -1,0 +1,109 @@
+$barbar_barbar
+!use_ND_ND_model=.false.
+!new_NR_NR=.true.
+!NR_NR_massshift=.true.
+$end
+
+$barbar_to_barbar_model
+!couplings_switch=1
+!lambda_cutoff=1.2
+$end
+
+$baryonWidthMedium_tables
+!onlyNucleon=.true.
+!DeltaOset=.true.
+maxres=2
+$end
+
+$spectralFunction
+debugflag=.false.
+$end
+
+$baryonWidthVacuum
+use_cutOFF=.true.
+$end
+
+$inMediumWidth
+!maxres=3
+$end
+
+$selfenergy_realpart
+maxres=2
+!fullInterpolation=.false.
+!noDispersion=.true.
+!abs_accuracy=0.05
+!rel_accuracy=0.1
+!intSolver=1
+!makeTable=.false.
+$end
+
+$selfEnergyMesons
+  dispersion = .false.
+$end
+
+
+!*************************************************** -*- fortran -*-
+! General Input :
+!***************************************************
+
+$initDatabase
+propagationSwitch=0        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+                           ! used to initialize the resonances' database
+$end
+
+$input
+path_to_input="~/GiBUU/buuinput"
+$end
+
+$initRandom
+SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=2           !0=no density,1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=2           !1=dynamic, 2=analytic
+$end
+
+
+$baryonPotential
+  !Switch for equation of state for nucleon resonances spin=1/2
+  !Parameters for nucleon potentials:
+  !  4=no potential
+  !  1=soft mom-dep  lambda = 2.130
+  !  2=hard mom-dep  lambda = 2.126
+  !  3=soft  non-mom-dep
+  !  4=hard  non-mom-dep
+  !  5=medium  mom-dep
+EQS_TYPE=5
+$end
+
+$Coulomb
+coulombFlag=.false
+$end
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target
+target_Z=8,   
+target_A=16
+densitySwitch_Static=2 	   ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+$end
+
+
+!****************************************************************
+!   The widths of the particles
+!***************************************************************
+
+$width_Baryon
+mediumSwitch=.true.       ! Switch on/off in-medium width of all baryons at once -> The vacuum width are used.
+mediumSwitch_coll=.true. ! Switch on/off in-medium width of the delta. .false.=vacuum width
+mediumSwitch_delta=.false.
+$end
+
+$width_meson
+  mediumSwitch = 1
+$end

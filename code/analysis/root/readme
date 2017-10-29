@@ -1,0 +1,68 @@
+#############################
+Analyze GiBUU events with CERN ROOT
+written by
+Olga Lalakulich  12.11.2012  last update 28.12.2012
+#############################
+
+
+
+
+Step1.
+-----------------------
+Convert FinalEvents.dat file to ROOT TTree
+
+>root  # run root
+>>.X convert-events-to-simpleTTree.cpp  # convert your events
+					# output "n= ...  currentEventNumber=" is possible (for numEnsembles * target_A > 5000)
+					# the numbers in  currentEventNumber (5000 ,10000, 15000) may be repeated, this is normal
+
+This will produce GiBUUEvents.root file.  For further analyses you can reuse this file.
+
+
+
+Note. The default parameter kMaxNumberParticles=115 in convert-events-to-simpleTTree.cpp presuppose that there are no more than 115 outgoing particles in one event.
+Change this if necessary (for example, if your nucleus is Pb282 you may NEED to increase it, if your nucleus is C12 you may want to decrease it)
+
+
+
+
+Step2.
+---------------------------------------
+Run one of the existing analyses
+
+>root 		  # run root
+>>.L Analyze.C+g  # compile the script ; it MUST compile without errors
+>>Analyze a	  # create object "a" of the class "Analyze"
+
+
+Now you can run available analyses in any order
+>>a.Loop()
+>>a.LoopEnergyReconstruction("ArgoNeuT  #bar{#nu}-mode  #bar{#nu}_{#mu}-flux  CC")
+>>a.LoopPionsInCLAS()
+>>a.LoopMuonKinematics("ArgoNeuT  #bar{#nu}-mode  #bar{#nu}_{#mu}-flux  CC")  #the string gives the legend at top right of all of your plots and shows you reaction
+									      # as you see from the example, notations are nearly the same as LaTeX (with # instead of \)
+>>a.LoopNumberOutgoing("ArgoNeuT  #bar{#nu}-mode  #bar{#nu}_{#mu}-flux  CC")  # if you call with empty string LoopNumberOutgoing() the default string will be "#nu A"
+
+
+Note-1. Output histograms are saved in files NumberOutgoing.root, MuonKinematics.root, EnergyReconstruction.root
+
+Note-2. Some plots require external data files (ArgoNeuT*.exp, stored at /home/local/olalakul/myroot/Events-to-TTree/events) to put ArgoNeuT data on GiBUU calculations.
+In the LoopNumberOutgoing.C, for examples, the defaults of these files are sometimes for neutrinos sometimes for antineutrinos.
+This may not correspond to the reactions you are investigating. In this case delete the canvases and the output eps files with the names including "ArgoNeut"
+
+
+Step3.
+----------------------------------------
+Create your own analysis
+
+
+
+
+
+
+
+
+
+
+
+

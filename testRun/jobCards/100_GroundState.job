@@ -1,0 +1,65 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for ground state
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =         100 ! ground state
+      numEnsembles    =         200
+      numTimeSteps    =          40
+      delta_T         =         0.5 ! time step size [fm]
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./database/particleProperties.f90
+&initDatabase
+      propagationSwitch = 0 ! 0=all resonances with more than 1 star
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 1  ! 1=dynamic density according to testparticle density
+      gridSize        =  8,  8,  8 ! size of the box [fm]
+      gridPoints      = 10, 10, 10 ! Number of grid points
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      symmetryPotFlag = 1
+!      EQS_Type=5 !  1=soft mom-dep  lambda = 2.130
+                 !  2=hard mom-dep  lambda = 2.126
+                 !  3=soft  non-mom-dep
+                 !  4=hard  non-mom-dep
+                 !  5=medium  mom-dep
+/
+
+! file: ./potential/coulomb/coulomb.f90
+&coulomb
+      coulombFlag      = T
+/
+
+! file: ./potential/yuka.f90
+&Yukawa
+      yukawaFlag       = T
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      oneBodyProcesses        = F
+      twoBodyProcesses        = F
+      threeBodyProcesses      = F
+      energyCheck     =  0.100
+/
+

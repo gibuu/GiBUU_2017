@@ -1,0 +1,76 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!
+!you need to change minRes,maxRes (determines from which resonance the imaginary part is calculated),
+!inMediumParameterSet (1=electron, 2=neutrino) and the path to input
+!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$inMediumWidth
+minRes=3
+maxRes=3
+$end
+
+$baryonWidthMedium_tables
+inMediumParameterset=2
+$end
+
+
+$input
+path_to_input="/home/hadron/leitner/buuinput_no_ND_ND"
+$end
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$barbar_barbar
+use_ND_ND_model=.false.
+NR_NR_massSHIFT=.false.
+$end
+
+$baryonWidthVacuum
+use_cutoff=.true.
+$end
+
+$initDatabase
+propagationSwitch=3        
+! * 3=propagate everybody
+usageForXsectionSwitch=2         
+! * 2=All resonances besides the 1* star I=1/2 resonances
+$end
+
+
+$initRandom
+SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=2           !0=no density,1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=2           !1=dynamic, 2=analytic
+$end
+
+$baryonPotential
+  !Switch for equation of state for nucleon resonances spin=1/2
+  !Parameters for nucleon potentials:
+  !  4=no potential
+  !  1=soft mom-dep  lambda = 2.130
+  !  2=hard mom-dep  lambda = 2.126
+  !  3=soft  non-mom-dep
+  !  4=hard  non-mom-dep
+  !  5=medium  mom-dep
+EQS_TYPE=5
+$end
+
+$Coulomb
+coulombFlag=.false
+$end
+
+$target
+target_Z=20,   
+target_A=40
+densitySwitch_Static=1 	   ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+$end
+
+$width_Baryon
+mediumSwitch=.true.       ! Switch on/off in-medium width of all baryons at once -> The vacuum width are used.
+mediumSwitch_Delta=.false. ! Switch on/off in-medium width of the delta. .false.=vacuum width
+$end

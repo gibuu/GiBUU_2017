@@ -1,0 +1,24 @@
+
+! &initRandom
+!   seed=123
+! /
+
+&input
+  path_To_Input='~/GiBUU/buuinput'
+/
+
+&initDatabase
+  propagationSwitch=1,
+  usageForXsectionSwitch=1
+/
+
+&XsectionRatios_input
+  flagInMedium=.true.
+  flagTabulate=.false.
+/
+
+&angular_distribution
+  iParam_gammaNVN = 4
+  NN_NR_noniso = .true.
+  ! debug = .true.
+/

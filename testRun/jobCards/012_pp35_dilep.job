@@ -1,0 +1,84 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for p p => e+ e- X with HADES acceptance filtering
+!------------------------------------------------------------------------------
+! Variants of this jobcard were used to produce results shown in these papers:
+! * http://inspirehep.net/record/1409302
+! * http://inspirehep.net/record/1322579
+!------------------------------------------------------------------------------
+
+!******************************************************************************
+! General Input :
+!******************************************************************************
+
+&input
+  numEnsembles	= 10000		! number of ensembles
+  eventtype	= 12		! 2=PionA, 3=photon A, 12=HiPion A
+  numTimeSteps	= 0		! number of time steps
+  delta_T	= 0.2		! time step size
+  num_runs_SameEnergy = 100	! number of runs
+  num_Energies = 1
+  length_perturbative = 250
+  freezeRealParticles = T
+  ! localEnsemble = T		! default: parallel ensemble
+  path_to_input = "~/GiBUU/buuinput"
+/
+
+&target
+  target_Z = 1, target_A = 1    ! proton
+/
+
+&initDatabase
+  rho_dilep = T
+/
+
+!******************************************************************************
+!	Input specific for the reactions
+!******************************************************************************
+
+&HiPionNucleus
+  ekin_lab           = 3.5
+  projectileID       = 1
+  projectileCharge   = 1
+  distance           = -1.
+  nTestparticles     = 50
+  impact_parameter   = -1.
+  doPerturbativeInit = T
+  minimumMomentum    = 0.0
+/
+
+&insertion
+  minimumEnergy = 0.0
+/
+
+!******************************************************************************
+!       Analysis
+!******************************************************************************
+
+&DileptonAnalysis
+  enable           = T
+  binsz            = 0.005
+  filter           = 4           ! 1=KEK, 2=HADES(simple), 3=HADES(full,pair), 4=HADES(full,single)
+  massBinning      = 0.150, 0.470, 0.700
+  DeltaDalitzFF    = 1           ! 1 = const, 2 = Dipole, 3 = MAID, 4 = VMD, 5 = Iachello, 6 = Ramalho
+/
+
+&HiPion_Analysis
+  Enable        = T
+  DoOutChannels = T
+/
+
+!******************************************************************************
+!       Collision Term :
+!******************************************************************************
+
+&barBar_barBarMes
+  NNpi_BG = 3   ! (1=Teis, 2=Buss, 3=Weil)
+/
+
+&angular_distribution
+  NN_NR_noniso = T
+/
+
+&decayChannels
+  rhoDelta_is_sigmaDelta = T
+/

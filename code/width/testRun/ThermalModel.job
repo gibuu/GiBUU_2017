@@ -1,0 +1,73 @@
+!-------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for a mesonic thermal model calculation
+!-----------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!-----------------------------------------------------------------------
+
+! file: code/inputOutput/input.f90
+&input
+   path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: code/width/testRun/ThermalModel.f90
+&ThermalModel
+
+!   modus = 0 ! no solver
+!   modus = 1 ! solver2
+!   modus = 2 ! solver3
+   modus = 3 ! multiplicitySolver2
+      
+!      eps = 0.05186945
+   eps = 0.0744
+   rhoPi = 0.0698
+   rhoS = 0.0
+   
+   finalT = 0.157835
+   finalMuPi = -0.0818
+   finalMuS = 0 
+
+      startT = 0.1
+      startMuPi = 0.1
+      
+! in LAB:
+!     densPi = 0.078372, densRho = 0.0108141 ! beta = 0
+!     densPi = 0.079704, densRho = 0.010148 ! beta = 0.5
+!     densPi = 0.081595, densRho = 0.009203 ! beta = 0.7
+!     densPi = 0.083270, densRho = 0.0083656 ! beta = 0.8
+!     densPi = 0.086299, densRho = 0.0068508 ! beta = 0.9
+!     densPi = 0.089074, densRho = 0.0054628 ! beta = 0.95
+
+! in Comoving frame
+!     densPi = 0.078372, densRho = 0.0108141 ! beta = 0
+!      densPi = 0.0725941, densRho = 0.00926442 ! beta = 0.5
+!      densPi = 0.06500, densRho = 0.007334 ! beta = 0.7
+!     densPi = 0.0581579, densRho = 0.00585369 ! beta = 0.8
+!      densPi = 0.0464407, densRho = 0.0036984 ! beta = 0.9
+!      densPi = 0.0359257, densRho = 0.00221638 ! beta = 0.95
+
+!        densPi = 0.119276,  densRho = 0.0248622  ! beta = 0
+!  densPi = 0.122126,  densRho = 0.0234372  ! beta = 0.5
+!  densPi = 0.125776,  densRho = 0.021612  ! beta = 0.7
+!  densPi = 0.12961,  densRho = 0.0196952  ! beta = 0.8
+!  densPi = 0.135955,  densRho = 0.0165222  ! beta = 0.9
+!  densPi = 0.1423,  densRho = 0.0133502  ! beta = 0.95
+!  densPi = 0.153591,  densRho = 0.0077046  ! beta = 0.99
+
+!  densPi = 0.119276,  densRho = 0.0248621  ! beta = 0
+!  densPi = 0.111213,  densRho = 0.0213692  ! beta = 0.5
+!  densPi = 0.10005,  densRho = 0.0172136  ! beta = 0.7
+!  densPi = 0.0903406,  densRho = 0.0137767  ! beta = 0.8
+!  densPi = 0.0731073,  densRho = 0.00889237 ! beta = 0.9
+!  densPi = 0.0570383,  densRho = 0.00538126  ! beta = 0.95
+  densPi = 0.0296395,  densRho = 0.00141206  ! beta = 0.99
+
+!  densPi = 0.059638,  densRho = 0.01243105  ! beta = 0  * 0.5   
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+   FileNameDecayChannels = 'DecayChannels.noPhotonicMeson.dat'
+/
+   
+

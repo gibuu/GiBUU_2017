@@ -1,0 +1,88 @@
+!-------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for optical Glauber calculations
+!-----------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!-----------------------------------------------------------------------
+
+$projectile
+!      fermiMotion = .FALSE.
+!      projectile_Z=  1, projectile_A=  1 ! proton,neutron, deuterium
+!      projectile_Z=  4, projectile_A=  9, densitySwitch_Static=4 ! Be
+!      projectile_Z=  6, projectile_A= 12, densitySwitch_Static=4 ! C
+!      projectile_Z=  6, projectile_A= 12 ! C
+!      projectile_Z=  7, projectile_A= 14 ! N
+!      projectile_Z= 10, projectile_A= 20 ! Ne
+!      projectile_Z= 13, projectile_A= 27 ! Al
+!      projectile_Z= 16, projectile_A= 32 ! S
+      projectile_Z= 18, projectile_A= 40 ! Ar
+!      projectile_Z= 26, projectile_A= 56 ! Fe
+!      projectile_Z= 29, projectile_A= 64 ! Cu
+!      projectile_Z= 36, projectile_A= 84 ! Kr
+!      projectile_Z= 50, projectile_A=119 ! Sn
+!      projectile_Z= 54, projectile_A=131 ! Xe
+!      projectile_Z= 73, projectile_A=181 ! Ta
+!      projectile_Z= 82, projectile_A=208 ! Pb
+$end
+
+
+$target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 13, target_A= 27 ! Al
+!      target_Z= 16, target_A= 32 ! S
+      target_Z= 18, target_A=37 ! mixture KCl
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 50, target_A=119 ! Sn
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 73, target_A=181 ! Ta
+!      target_Z= 82, target_A=208 ! Pb
+$end
+
+! file: ./density/testRun/OpticalGlauber.f90
+&Glauber
+      impact = -999
+      impact_profile = 3
+      sigma = 30
+/
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype           =       1 ! Heavy Ion Collisions (low energy)
+!      numEnsembles        =    5000
+            numEnsembles        =    500
+!      numEnsembles        =    10
+      num_runs_sameEnergy =       1
+
+      delta_T         =  0.02   ! time step size [fm]
+!      numTimeSteps = 10
+
+     numTimeSteps        =     1000
+      time_max            =   20.0
+
+!      numTimeSteps = 500
+!      time_max = 10.0
+
+!      localEnsemble = .TRUE.
+
+      length_real = 500
+
+!      DoHagedorn = F
+!      FileNameBootstrap="./Bootstrap.dat"
+
+      printParticleVectors=.true.
+
+
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/

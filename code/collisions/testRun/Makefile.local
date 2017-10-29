@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL :=test.f90 testMomConservation.f90 testHistory.f90 KodamaCluster.f90
+EXEFILE :=testHistory.f90 TryGridOrdering.f90

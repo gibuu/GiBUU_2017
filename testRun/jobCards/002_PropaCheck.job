@@ -1,0 +1,70 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 100,   ! number of ensembles
+  eventtype = 2,        ! pion+nucleus
+  delta_T = 0.25,       ! time step size
+  numTimeSteps = 100,   ! number of time steps
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 84,
+  Target_Z = 36,
+/
+
+! file: code/potential/baryonPotential.f90
+&baryonPotential
+  symmetryPotFlag = 1,
+/
+
+! file: code/potential/coulomb/coulomb.f90
+&coulomb
+  coulombFlag = T,
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  RungeKuttaOrder = 2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+! file: code/init/initPion.f90
+&pionNucleus                ! EVENTTYPE = 2
+  UseCoulomb = T,           ! switch for coulomb correction of incoming state
+  CoulombDistance = 400.,   ! distance for the coulomb correction
+  distance = 10.,           ! distance of pions to nucleus
+  impact_parameter = -2.,   ! negative impact-parameter=>impact-parameter integration
+  charge = -1,              ! charge of pions
+  numberPions = 6,          ! number of pions per ensemble
+  ekin_lab = 500.,          ! kinetic energy in system where nucleus rests
+  delta_ekin_lab = 0.03,
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+  oneBodyProcesses   = F,
+  twoBodyProcesses   = F,
+  threeBodyProcesses = F,
+  energyCheck = 0.1,
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2           ! 1=dynamic, 2=analytic
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.03      ! minimal kinetic energy of a produced nucleon in GeV
+/

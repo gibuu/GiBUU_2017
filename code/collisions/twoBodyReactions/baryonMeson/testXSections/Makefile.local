@@ -1,0 +1,2 @@
+FILEEXCL :=test_etaDelta.f90 test_etaNuc.f90 test_kaonLambda.f90 test_kaonSigma.f90 test_mesonHyperon.f90 test_phiNuc.f90 test_piDelta.f90 test_pionP11_1440.f90 test_rhoDelta.f90 test_sigmaNuc.f90
+EXEFILE := test.f90 test_phiNuc.f90 test_omegaNuc.f90 test_rhoNuc.f90

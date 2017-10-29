@@ -1,0 +1,10 @@
+! jobcard for integrateHist
+
+&integrateHist
+  fileNames(1) = "pi0gammaDecayDensity.dat"
+  fileNames(2) = "omegaDecayDensity.dat"
+  fileNames(3) = "omegaProdDensity.dat"
+  backward = .true.
+  normalize = .true.
+/ 
+ 

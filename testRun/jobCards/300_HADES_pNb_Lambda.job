@@ -1,0 +1,75 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+!  HADES: p + Nb -> Lambda X @ 3.5 GeV   !
+!------------------------------------------------------------------------------
+! * real particles                       !
+! * no potentials                        !
+!------------------------------------------------------------------------------
+
+!******************************************************************************
+!       General Input :
+!******************************************************************************
+
+&Input
+  numEnsembles = 10		! number of ensembles
+  eventtype    = 300		! hadron+nucleus
+  numTimeSteps = 200		! number of time steps
+  delta_T      = 0.2		! time step size
+  num_runs_SameEnergy = 1000	! number of runs
+  num_Energies = 1
+  path_to_input = "~/GiBUU/buuinput/"
+/
+
+&Target
+  target_Z = 41, target_A = 93
+/
+
+&InitDensity
+  densitySwitch = 1            ! 1=dynamic, 2=analytic, 0=none
+/
+
+&InitPauli
+  pauliSwitch = 1              ! 1=dynamic, 2=analytic, 0=nome
+/
+
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+
+!******************************************************************************
+!       Input specific for hadron-induced reactions
+!******************************************************************************
+
+&hadron
+  ekin_lab=3.5           ! beam energy (GeV)
+  impactParameter=-100.  ! negative value -- random choice
+  particleId=1,
+  particleCharge=1,
+  iniType=0,
+  zChoice=2,
+  delta=1.,
+  deltaZ=1.
+/
+
+&HICanalysis_Input
+  flag_outputDetailed = .false.
+  flag_outputPert     = .false.
+  flag_outputReal     = .true.
+/
+
+!******************************************************************************
+!       Potentials
+!******************************************************************************
+
+&propagation
+  Mode = 1
+  UseHadronic        = .false.
+/
+
+!******************************************************************************
+!       Collision Term :
+!******************************************************************************
+
+&Pythia
+  PARP(91) = 0.44        ! width intrinsic kT
+/

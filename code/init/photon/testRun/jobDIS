@@ -1,0 +1,12 @@
+!************************************************************ -*- fortran -*-
+
+$input 
+      path_to_input="~/WC/buuinput"
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+$end
+
+$pythia
+!      CKIN(77) = 1.5
+!      CKIN(5) = 0.75
+$end

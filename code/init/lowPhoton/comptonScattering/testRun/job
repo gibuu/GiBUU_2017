@@ -1,0 +1,27 @@
+!***************************************************
+! General Input :
+!***************************************************
+
+$input
+  path_to_Input = '../../../../../buuinput'
+$end
+
+$comptonScattering_nl
+	debug=.false.
+$end
+$test_comptonScattering_nl
+	charge=1
+	!theta_gamma=0
+	theta_gamma=130
+	!theta_gamma=90
+$end
+
+$input_FF_ResProd
+!W_cutOff_lambda=1.
+!W_cutOff_switch=.true. ! Switch on W-dependence in form factors
+$end
+$vertices_nl
+$end
+$baryonWidth
+!writeReadTable=.false.
+$end

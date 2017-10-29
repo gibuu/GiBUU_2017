@@ -1,0 +1,4 @@
+SUBDIREXCL :=
+FILEEXCL := plotLowXS.f90 plotHighXS.f90 plotAllXS.f90 CalcJoos76.f90 CalcEth.f90
+#EXEFILE :=plotLowXS.f90 plotHighXS.f90 CalcJoos76.f90 CalcEth.f90
+EXEFILE :=plotAllXS.f90 CalcJoos76.f90 CalcEth.f90

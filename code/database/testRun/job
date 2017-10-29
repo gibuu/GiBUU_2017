@@ -1,0 +1,25 @@
+!************************************************************ -*- fortran -*-
+
+
+$input
+      eventtype   = 14          ! HiLepton
+      numEnsembles= 2000        ! number of ensembles
+      numTimeSteps= 0           ! number of time steps
+
+      set_length_perturbative = .TRUE.
+      length_perturbative = 50
+
+      num_runs_SameEnergy=10000 ! number of runs per energy
+!      num_runs_SameEnergy= 1
+
+      path_To_Input = '~/GiBUU/buuinput'
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+$end
+
+
+$initDatabase
+      propagationSwitch=1
+      usageForXsectionSwitch=2
+$end

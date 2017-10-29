@@ -1,0 +1,116 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for p A => e+ e- X
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype    = 12         ! 12 = HiPion A
+      numEnsembles = 200	! number of ensembles
+      numTimeSteps = 200	! number of time steps
+      delta_T      = 0.2	! time step size [fm]
+      num_runs_SameEnergy = 1
+      length_perturbative = 1000
+      freezeRealParticles = .true.
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 16, target_A= 32 ! S
+      target_Z= 20, target_A= 40 ! Ca
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+/
+
+
+! file: ./init/initHiPion.f90
+&HiPionNucleus
+      projectileID     = 1             ! ID of projectile
+      projectileCharge = 1             ! charge of projectile
+      ekin_lab         = 3.5           ! kinetic energy of projectile in lab frame
+      distance         = 0.            ! distance in z-direction at init
+      nTestParticles   = 50            ! number of projectiles per ensemble
+      impact_parameter = -1.           ! impact parameter [fm], <0:distributed over disk
+/
+
+! file: ./analysis/DileptonAnalysis.f90
+&DileptonAnalysis
+      Enable = .true.
+/
+
+&decayChannels
+  rhoDelta_is_sigmaDelta = T
+/
+
+!******************************************************************************
+!	In-Medium Stuff
+!******************************************************************************
+
+! file: ./width/mesonWidthMedium.f90
+!&width_Meson
+!     mediumSwitch = .true.     ! use collisional width for mesons?
+!     mediumSwitch_rho   = .true.
+!     mediumSwitch_omega = .true.
+!     mediumSwitch_phi   = .true.
+!/
+
+! file: ./width/mesonWidthMedium.f90
+!&mesonWidthMedium_tables
+!     minMes = 103
+!     maxMes = 107
+!/
+
+! file: ./width/offShellPotential.f90
+!&offShellPotential
+!     useOffShellPotentialMesons = .true.
+!     max_offshellparameter = 100.
+!     OffShell_debug = .true.
+!     useConstCS_mesons = .true.
+!/
+
+! file: ./propagation/propagation.f90
+!&Propagation
+!      delta_P = 1E-6
+!      delta_E = 1E-6
+!/
+
+! file: ./potential/mesonPotential.f90
+&mesonPotential
+      vectorMesonPot = 0 ! Switch for medium-modification of vector mesons
+			!   1   = Brown-Rho-Scaling
+			!   2   = Brown-Rho-Scaling with momentum dependence according to Kondtradyuk (page 162,effenberger dr.-thesis)
+			!  else = no modification
+!     brownRho = 0.16	! scaling parameter alpha
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 2 ! 1 = dynamic, 2 = analytic, 0 = no density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

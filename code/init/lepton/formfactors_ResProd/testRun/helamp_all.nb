@@ -1,0 +1,1001 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     31195,        802]*)
+(*NotebookOutlinePosition[     31826,        824]*)
+(*  CellTagsIndexPosition[     31782,        820]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    \(<< LinearAlgebra`MatrixManipulation`\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Kinematics", "Subsection"],
+
+Cell[BoxData[
+    \(\($Assumptions = {mn > 0, ms \[GreaterEqual] mn, 
+          q2 \[LessEqual] 0};\)\)], "Input"],
+
+Cell[BoxData[
+    \(q = {q0, 0, 0, q3}; pi = {ms - q0, 0, 0, \(-q3\)}; pf = {ms, 0, 0, 0}; 
+    q3 = \@\(q0^2 - q2\); q0 = \(ms^2 - mn^2 + q2\)\/\(2\ ms\); 
+    k\_R = \(ms^2 - mn^2\)\/\(2\ ms\);\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Basic definitions: \[Gamma], \[Sigma] matrices, scalar products, \
+etc\
+\>", "Subsection"],
+
+Cell[BoxData[
+    \(Sp3[a_, b_] := \[Sum]\+\(n = 2\)\%4 a[\([n]\)] b[\([n]\)]; 
+    Sp4[a_, b_] := Simplify[a[\([1]\)]\ b[\([1]\)] - Sp3[a, b]];\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(I2 = {{1, 0}, {0, 1}}\), ";", 
+      RowBox[{"Zo", "=", 
+        RowBox[{"(", GridBox[{
+              {"0", "0"},
+              {"0", "0"}
+              }], ")"}]}], ";", 
+      RowBox[{"I4", "=", 
+        RowBox[{"BlockMatrix", "[", 
+          RowBox[{"(", GridBox[{
+                {"I2", "Zo"},
+                {"Zo", "I2"}
+                }], ")"}], "]"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{\(\[Sigma][j_]\), ":=", 
+      RowBox[{"Which", "[", 
+        RowBox[{\(j == 1\), ",", 
+          RowBox[{"(", GridBox[{
+                {"0", "1"},
+                {"1", "0"}
+                }], ")"}], ",", \(j == 2\), ",", 
+          RowBox[{"(", GridBox[{
+                {"0", \(-I\)},
+                {"I", "0"}
+                }], ")"}], ",", \(j == 3\), ",", 
+          RowBox[{"(", GridBox[{
+                {"1", "0"},
+                {"0", \(-1\)}
+                }], ")"}]}], "]"}]}]], "Input"],
+
+Cell[BoxData[{
+    RowBox[{\(\[Gamma][\[Mu]_]\), ":=", 
+      RowBox[{"Which", "[", 
+        RowBox[{\(\[Mu] \[Equal] 0\), ",", 
+          RowBox[{"BlockMatrix", "[", 
+            RowBox[{"(", GridBox[{
+                  {"I2", "Zo"},
+                  {"Zo", \(-I2\)}
+                  }], ")"}], "]"}], 
+          ",", \(\[Mu] \[Equal] 1 \[Or] \[Mu] \[Equal] 2 \[Or] \[Mu] \[Equal] 
+              3\), ",", 
+          RowBox[{"BlockMatrix", "[", 
+            RowBox[{"(", GridBox[{
+                  {"Zo", \(\[Sigma][\[Mu]\ ]\)},
+                  {\(-\[Sigma][\[Mu]\ ]\), "Zo"}
+                  }], ")"}], "]"}], ",", \(\[Mu] \[Equal] 5\), ",", 
+          RowBox[{"BlockMatrix", "[", 
+            RowBox[{"(", GridBox[{
+                  {"Zo", "I2"},
+                  {"I2", "Zo"}
+                  }], ")"}], "]"}]}], 
+        "]"}]}], "\[IndentingNewLine]", \(g[\[Mu]_, \[Nu]_] := 
+      Which[\[Mu] \[Equal] 0 \[And] \[Nu] \[Equal] 0, 
+        1, \[Mu] \[Equal] 1 && \[Nu] \[Equal] 1 \[Or] \[Mu] \[Equal] 
+              2 && \[Nu] \[Equal] 2 \[Or] \[Mu] \[Equal] 3 && \[Nu] \[Equal] 
+              3, \(-1\), True, 0]\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(Gs[p_] := 
+        Simplify[\[Gamma][0]\ p[\([1]\)] - \[Gamma][1]\ p[\([2]\)] - \[Gamma][
+                2]\ p[\([3]\)] - \[Gamma][
+                3]\ p[\([4]\)]];\)\), "\[IndentingNewLine]", 
+    \(Ss[p_] := 
+      Simplify[\[Sum]\+\(i = 2\)\%4 \[Sigma][i - 1] p[\([i]\)]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\[Sigma][\[Mu]_, p_] := 
+      Simplify[\(I\/2\) \((\[Gamma][\[Mu]] . Gs[p] - 
+              Gs[p] . \[Gamma][\[Mu]])\)]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Epsilon][i_] := 
+      Which[i \[Equal] \(+1\), \(-\(1\/\@2\)\) {1, I, 0}, 
+        i \[Equal] \(-1\), \(1\/\@2\) {1, \(-I\), 0}, 
+        i \[Equal] 0, {0, 0, 1}]\)], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Spinors and normalization of spinors", "Subsection"],
+
+Cell[BoxData[{
+    RowBox[{\(U[p_]\), ":=", 
+      RowBox[{"Simplify", "[", 
+        RowBox[{"BlockMatrix", "[", 
+          RowBox[{"(", GridBox[{
+                {"I2"},
+                {\(Ss[p]\/\(p[\([1]\)] + \@Sp4[p, p]\)\)}
+                }], ")"}], "]"}], "]"}]}], "\[IndentingNewLine]", 
+    RowBox[{\(Ub[p_]\), ":=", 
+      RowBox[{"Simplify", "[", 
+        RowBox[{
+          RowBox[{"BlockMatrix", "[", 
+            RowBox[{"(", GridBox[{
+                  {"I2", \(Ss[p]\/\(p[\([1]\)] + \@Sp4[p, p]\)\)}
+                  }], ")"}], "]"}], ".", \(\[Gamma][0]\)}], 
+        "]"}]}], "\[IndentingNewLine]", \(Nm[p_] := 
+      Simplify[\@\(\((p[\([1]\)] + \@Sp4[p, p])\)\/\(2 \@ Sp4[p, p]\)\)]\)}], \
+"Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Nucleon", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[" EM Current", "Subsection"],
+
+Cell[BoxData[
+    \(JN[\[Mu]_] := \[Gamma][\[Mu]] 
+          F1 + \(I\/\(2\ mn\)\) \[Sigma][\[Mu], q]\ F2\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Helicity amplitudes", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullSimplify[
+      Nm[pi]\ Nm[pf]\ Ub[pf] . \(\((JN[1] + I\ JN[2])\)\/\@2\) . U[pi] /. 
+        ms \[Rule] mn]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {"0", \(\(\((F1 + F2)\)\ \@\(-q2\)\)\/\(\@2\ mn\)\)},
+            {"0", "0"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}], 
+      TraditionalForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(1/2\) = \(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) %[\([1, 
+            2]\)]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\((F1 + F2)\)\ \@\(2\ \[Pi]\)\ \@\(-q2\)\ \@\(\(ms\ \
+\[Alpha]\)\/\(ms\^2 - mn\^2\)\)\)\/mn\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullSimplify[
+      Nm[pi]\ Nm[pf]\ Ub[pf] . \((q3\ JN[0] - q0\ JN[3])\) . U[pi] /. 
+        ms \[Rule] mn]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(\(\@\(-\(\(q2\ \((q2 - 4\ mn\^2)\)\^2\)\/mn\^4\)\)\ \((4\ F1\ \
+mn\^2 + F2\ q2)\)\)\/\(16\ mn\^2 - 4\ q2\)\), "0"},
+            {
+              "0", \(\(\@\(-\(\(q2\ \((q2 - 4\ mn\^2)\)\^2\)\/mn\^4\)\)\ \((4\
+\ F1\ mn\^2 + F2\ q2)\)\)\/\(16\ mn\^2 - 4\ q2\)\)}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}], 
+      TraditionalForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(S\_\(1/2\) = \(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) 
+        FullSimplify[%[\([1, 1]\)] q3/\((\(-q2\))\) /. 
+            ms \[Rule] mn]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\[Pi]\ \@\(4\ mn\^2 - q2\)\ \((4\ F1\ mn\^2 + F2\ \
+q2)\)\ \@\(\(ms\ \[Alpha]\)\/\(ms\^2 - mn\^2\)\)\)\/\(4\ mn\^3\)\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["N*(1440)", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[" EM Current", "Subsection"],
+
+Cell[BoxData[
+    \(JR[\[Mu]_] := \(1\/\(4\ mn^2\)\) \((\(-q2\)\ \[Gamma][\[Mu]] + 
+              Gs[q] q[\([\[Mu] + 1]\)])\) F1 + 
+        I\/\(2\ mn\)\ \[Sigma][\[Mu], q]\ F2\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullSimplify[
+      Nm[pi]\ Nm[pf]\ Ub[pf] . \(\((JR[1] + I\ JR[2])\)\/\@2\) . 
+          U[pi]]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {
+              "0", \(\(2\ F2\ mn\ \((mn + ms)\) - 
+                    F1\ q2\)\/\(4\ \@2\ \@\(\(mn\^5\ ms\)\/\(\((mn - ms)\)\^2 \
+- q2\)\)\)\)},
+            {"0", "0"}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}], 
+      TraditionalForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(1/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) %[\([1, 
+              2]\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1\/2\ \@\(\[Pi]\/2\)\ \((2\ F2\ mn\ \((mn + ms)\) - 
+          F1\ q2)\)\ \@\(\(\((\((mn - ms)\)\^2 - q2)\)\ \[Alpha]\)\/\(mn\^5\ \
+\((ms\^2 - mn\^2)\)\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(FullSimplify[
+      Nm[pi]\ Nm[pf]\ Ub[pf] . \((q3\ JR[0] - q0\ JR[3])\) . 
+          U[pi]]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(-\(\(\((F1\ \((mn + ms)\) - 
+                          2\ F2\ mn)\)\ q2\)\/\(8\ \@\(\(mn\^5\ ms\)\/\(\((mn \
+- ms)\)\^2 - q2\)\)\)\)\), "0"},
+            {
+              "0", \(-\(\(\((F1\ \((mn + ms)\) - 
+                          2\ F2\ mn)\)\ q2\)\/\(8\ \@\(\(mn\^5\ ms\)\/\(\((mn \
+- ms)\)\^2 - q2\)\)\)\)\)}
+            },
+          RowSpacings->1,
+          ColumnSpacings->1,
+          ColumnAlignments->{Left}], "\[NoBreak]", ")"}], 
+      TraditionalForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(S\_\(1/2\) = \(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) 
+        FullSimplify[%[\([1, 1]\)] q3/\((\(-q2\))\)]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\((F1\ \((mn + ms)\) - 2\ F2\ mn)\)\ \@\[Pi]\ \
+\((\((mn - ms)\)\^2 - q2)\)\ \@\(\((mn + ms)\)\^2 - q2\)\ \@\(\(ms\ \
+\[Alpha]\)\/\(ms\^2 - mn\^2\)\)\)\/\(8\ mn\^\(5/2\)\ ms\^\(3/2\)\)\)], \
+"Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["\[CapitalDelta](1232)", "Section"],
+
+Cell[BoxData[
+    \(V[\[Beta]_, \[Nu]_] := \(-\((\(C3v\/mn\) \((g[\[Beta], \[Nu]]\ Gs[q] - 
+                    q[\([\[Beta] + 
+                            1]\)]\ \[Gamma][\[Nu]])\) + \(C4v\/mn\^2\) \((g[\
+\[Beta], \[Nu]]\ Sp4[q, pf] - q[\([\[Beta] + 1]\)]\ pf[\([\[Nu] + 1]\)])\) 
+                I4 + \ \(C5v\/mn\^2\) \((g[\[Beta], \[Nu]]\ Sp4[q, pi] - 
+                    q[\([\[Beta] + 1]\)]\ pi[\([\[Nu] + 1]\)])\) 
+                I4)\) . \[Gamma][5]\)\)], "Input"],
+
+Cell[BoxData[
+    \(M[\[Beta]_, Jp_, 
+        J_] := \[Sum]\+\(j = 1\)\%3\(\[Sum]\+\(\[Lambda] = \
+\(-1\)\)\%1\(\[Sum]\+\(s = \(-1\)/2\)\%\(1/2\)ClebschGordan[{1, \[Lambda]}, \
+{1/2, s}, {3/2, Jp}] \(\((\(-1\))\)\^\(\[Lambda] + 
+                    1\)\) \(\[Epsilon][\(-\[Lambda]\)]\)[\([j]\)] \((Ub[pf] . 
+                    V[j, \[Beta]] . U[pi])\)[\([\(-s\) + 3/2, \(-J\) + 
+                    3/2]\)] Nm[pi] Nm[pf]\)\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(1/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((M[1, 1/2, \
+\(-1\)/2] + I\ M[2, 1/2, \(-1\)/2])\)\/\@2]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\(\[Pi]\/3\)\ \((\((C4v + C5v)\)\ ms\ \((ms\^2 - \
+mn\^2)\) + \((C4v - C5v)\)\ ms\ q2 + 2\ C3v\ mn\ \((q2 - mn\ \((mn + \
+ms)\))\))\)\ \@\(-\(\(\((\((mn - ms)\)\^2 - q2)\)\ \[Alpha]\)\/\(mn\^5\ \((mn \
+- ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ ms\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(3/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((M[1, 3/2, 1/2] + \
+I\ M[2, 3/2, 1/2])\)\/\@2]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(3\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(3\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(3\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(-\(1\/2\)\)\ \@\[Pi]\ \((\((2\ C3v\ mn - \((C4v + 
+                      C5v)\)\ \((mn - ms)\))\)\ \((mn + ms)\) + \((C4v - 
+                C5v)\)\ q2)\)\ \@\(-\(\(\((\((mn - ms)\)\^2 - q2)\)\ \[Alpha]\
+\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(S\_\(1/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((q3\ M[0, 1/2, 
+                  1/2] - q0\ M[3, 1/2, 1/2])\) q3/\((\(-q2\))\)]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\(\[Pi]\/6\)\ \((2\ ms\ \((C3v\ mn + C4v\ ms)\) + \
+C5v\ \((mn\^2 + ms\^2 - q2)\))\)\ \((\((mn - ms)\)\^2 - q2)\)\ \
+\@\(-\(\(\((\((mn + ms)\)\^2 - q2)\)\ \[Alpha]\)\/\(mn\ \((mn - ms)\)\ \((mn \
++ ms)\)\)\)\)\)\/\(2\ mn\^2\ ms\^2\)\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["N*(1520)", "Section"],
+
+Cell[BoxData[
+    \(V[\[Beta]_, \[Nu]_] := \((\(C3\/mn\) \((g[\[Beta], \[Nu]]\ Gs[q] - 
+                q[\([\[Beta] + 
+                        1]\)]\ \[Gamma][\[Nu]])\) + \(C4\/mn\^2\) \
+\((g[\[Beta], \[Nu]]\ Sp4[q, pf] - 
+                q[\([\[Beta] + 1]\)]\ pf[\([\[Nu] + 1]\)])\) 
+            I4 + \ \(C5\/mn\^2\) \((g[\[Beta], \[Nu]]\ Sp4[q, pi] - 
+                q[\([\[Beta] + 1]\)]\ pi[\([\[Nu] + 1]\)])\) I4)\)\)], "Input"],
+
+Cell[BoxData[
+    \(M[\[Beta]_, Jp_, 
+        J_] := \[Sum]\+\(j = 1\)\%3\(\[Sum]\+\(\[Lambda] = \
+\(-1\)\)\%1\(\[Sum]\+\(s = \(-1\)/2\)\%\(1/2\)ClebschGordan[{1, \[Lambda]}, \
+{1/2, s}, {3/2, Jp}] \(\((\(-1\))\)\^\(\[Lambda] + 
+                    1\)\) \(\[Epsilon][\(-\[Lambda]\)]\)[\([j]\)] \((Ub[pf] . 
+                    V[j, \[Beta]] . U[pi])\)[\([\(-s\) + 3/2, \(-J\) + 
+                    3/2]\)] Nm[pi] Nm[pf]\)\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(1/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((M[1, 1/2, \
+\(-1\)/2] + I\ M[2, 1/2, \(-1\)/2])\)\/\@2]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\(\[Pi]\/3\)\ \((\((mn - ms)\)\ \((2\ C3\ mn\^2 + \
+\((C4 + C5)\)\ ms\ \((mn + ms)\))\) - \((2\ C3\ mn + \((C4 - C5)\)\ ms)\)\ \
+q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 - q2)\)\ \[Alpha]\)\/\(mn\ \((mn - ms)\)\ \
+\((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\ ms\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(3/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((M[1, 3/2, 1/2] + \
+I\ M[2, 3/2, 1/2])\)\/\@2]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(3\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(3\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(3\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\[Pi]\ \((\((mn - ms)\)\ \((2\ C3\ mn + \((C4 + \
+C5)\)\ \((mn + ms)\))\) + \((C5 - C4)\)\ q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 \
+- q2)\)\ \[Alpha]\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\)\
+\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(S\_\(1/2\) = 
+      FullSimplify[\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) \((q3\ M[0, 1/2, 
+                  1/2] - q0\ M[3, 1/2, 1/2])\) q3/\((\(-q2\))\)]\)], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(-\\(\\(1\\/2\
+\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\
+\\\", Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not \
+physical. \\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", \
+ButtonStyle->\\\"RefGuideLinkText\\\", ButtonFrame->None, \
+ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\(-1\\), \\(1\\/2\\), \
+\\(-\\(\\(1\\/2\\)\\)\\)}}] \[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(ClebschGordan::"phy"\), \(\(:\)\(\ \)\), \
+"\<\"\\!\\(TraditionalForm\\`\\(\\*TagBox[StyleBox[\\\"(\\\", \
+Rule[SpanMaxSize, DirectedInfinity[1]]], ThreeJSymbol]\[MediumSpace] \
+\\*GridBox[{{\\\"1\\\", \\(1\\/2\\), \\(3\\/2\\)}, {\\\"0\\\", \
+\\(-\\(\\(1\\/2\\)\\)\\), \\(-\\(\\(1\\/2\\)\\)\\)}}] \
+\[MediumSpace]\\*TagBox[StyleBox[\\\")\\\", Rule[SpanMaxSize, \
+DirectedInfinity[1]]], ThreeJSymbol]\\)\\) is not physical. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"ClebschGordan::phy\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"stop"\), \(\(:\)\(\ \)\), "\<\"Further output of \
+\\!\\(TraditionalForm\\`\\(ClebschGordan :: \\\"phy\\\"\\)\\) will be \
+suppressed during this calculation. \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::stop\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\@\(\[Pi]\/6\)\ \((2\ ms\ \((C3\ mn + C4\ ms)\) + C5\
+\ \((mn\^2 + ms\^2 - q2)\))\)\ \((\((mn + ms)\)\^2 - q2)\)\ \@\(-\(\(\((\((mn \
+- ms)\)\^2 - q2)\)\ \[Alpha]\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\
+\/\(2\ ms\^2\)\)], "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["N*(1535)", "Section"],
+
+Cell[BoxData[
+    \(JR[\[Mu]_] := \((\(1\/\(4\ mn^2\)\) \((\(-q2\)\ \[Gamma][\[Mu]] + 
+                  Gs[q] q[\([\[Mu] + 1]\)])\) F1 + 
+            I\/\(2\ mn\)\ \[Sigma][\[Mu], q]\ F2)\) . \[Gamma][5]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(A\_\(1/2\) = 
+      FullSimplify[\((\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) 
+              Nm[pi]\ Nm[pf]\ Ub[pf] . \(\((JR[1] + I\ JR[2])\)\/\@2\) . 
+                U[pi])\)[\([1, 2]\)]]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(-\(\(\@\(\[Pi]\/2\)\ \((2\ F2\ mn\ \((mn - ms)\) + 
+                F1\ q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 - q2)\)\ \[Alpha]\)\/\
+\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\)\)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(S\_\(1/2\) = 
+      FullSimplify[\((\(\@\(\(2\ \[Pi]\ \[Alpha]\)\/k\_R\)\) 
+                Nm[pi]\ Nm[pf]\ Ub[pf] . \((q3\ JR[0] - q0\ JR[3])\) . 
+                  U[pi])\)[\([1, 1]\)] q3/\((\(-q2\))\)]\)], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(\((2\ F2\ mn + F1\ \((mn - ms)\))\)\ \@\[Pi]\ \
+\@\(-\(\(\((\((mn - ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\ \
+\[Alpha]\)\/\(mn\ \((mn - ms)\)\ ms\^2\ \((mn + ms)\)\)\)\)\)\/\(8\ \
+mn\^2\)\)], "Output"]
+}, Open  ]]
+}, Closed]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{1200, 723},
+WindowMargins->{{Automatic, 25}, {Automatic, 94}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 69, 1, 29, "Input"],
+
+Cell[CellGroupData[{
+Cell[1848, 56, 32, 0, 41, "Subsection"],
+Cell[1883, 58, 114, 2, 29, "Input"],
+Cell[2000, 62, 208, 3, 87, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[2245, 70, 100, 3, 33, "Subsection"],
+Cell[2348, 75, 157, 2, 60, "Input"],
+Cell[2508, 79, 407, 12, 47, "Input"],
+Cell[2918, 93, 531, 15, 47, "Input"],
+Cell[3452, 110, 1141, 25, 68, "Input"],
+Cell[4596, 137, 312, 6, 82, "Input"],
+Cell[4911, 145, 153, 3, 46, "Input"],
+Cell[5067, 150, 198, 4, 51, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[5302, 159, 58, 0, 33, "Subsection"],
+Cell[5363, 161, 718, 17, 165, "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[6118, 183, 26, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[6169, 187, 33, 0, 41, "Subsection"],
+Cell[6205, 189, 118, 2, 46, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6360, 196, 41, 0, 41, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[6426, 200, 144, 3, 51, "Input"],
+Cell[6573, 205, 322, 9, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6932, 219, 111, 2, 56, "Input"],
+Cell[7046, 223, 144, 2, 57, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7227, 230, 140, 3, 29, "Input"],
+Cell[7370, 235, 509, 12, 131, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7916, 252, 168, 3, 56, "Input"],
+Cell[8087, 257, 171, 2, 61, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[8319, 266, 27, 0, 44, "Section"],
+
+Cell[CellGroupData[{
+Cell[8371, 270, 33, 0, 41, "Subsection"],
+Cell[8407, 272, 189, 3, 47, "Input"],
+
+Cell[CellGroupData[{
+Cell[8621, 279, 129, 3, 51, "Input"],
+Cell[8753, 284, 416, 12, 87, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9206, 301, 134, 3, 56, "Input"],
+Cell[9343, 306, 206, 3, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9586, 314, 125, 3, 29, "Input"],
+Cell[9714, 319, 561, 14, 125, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10312, 338, 138, 2, 56, "Input"],
+Cell[10453, 342, 239, 4, 61, "Output"]
+}, Open  ]]
+}, Closed]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[10753, 353, 40, 0, 44, "Section"],
+Cell[10796, 355, 472, 7, 109, "Input"],
+Cell[11271, 364, 438, 7, 84, "Input"],
+
+Cell[CellGroupData[{
+Cell[11734, 375, 163, 3, 57, "Input"],
+Cell[11900, 380, 658, 11, 59, "Message"],
+Cell[12561, 393, 643, 10, 59, "Message"],
+Cell[13207, 405, 659, 11, 59, "Message"],
+Cell[13869, 418, 400, 7, 21, "Message"],
+Cell[14272, 427, 298, 4, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14607, 436, 153, 3, 57, "Input"],
+Cell[14763, 441, 658, 11, 59, "Message"],
+Cell[15424, 454, 643, 10, 59, "Message"],
+Cell[16070, 466, 659, 11, 59, "Message"],
+Cell[16732, 479, 400, 7, 21, "Message"],
+Cell[17135, 488, 304, 4, 71, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17476, 497, 187, 3, 56, "Input"],
+Cell[17666, 502, 658, 11, 59, "Message"],
+Cell[18327, 515, 643, 10, 59, "Message"],
+Cell[18973, 527, 659, 11, 59, "Message"],
+Cell[19635, 540, 400, 7, 21, "Message"],
+Cell[20038, 549, 287, 4, 73, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[20374, 559, 27, 0, 44, "Section"],
+Cell[20404, 561, 434, 7, 88, "Input"],
+Cell[20841, 570, 438, 7, 84, "Input"],
+
+Cell[CellGroupData[{
+Cell[21304, 581, 163, 3, 57, "Input"],
+Cell[21470, 586, 658, 11, 59, "Message"],
+Cell[22131, 599, 643, 10, 59, "Message"],
+Cell[22777, 611, 659, 11, 59, "Message"],
+Cell[23439, 624, 400, 7, 21, "Message"],
+Cell[23842, 633, 303, 4, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[24182, 642, 153, 3, 57, "Input"],
+Cell[24338, 647, 658, 11, 59, "Message"],
+Cell[24999, 660, 643, 10, 59, "Message"],
+Cell[25645, 672, 659, 11, 59, "Message"],
+Cell[26307, 685, 400, 7, 21, "Message"],
+Cell[26710, 694, 263, 4, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[27010, 703, 187, 3, 56, "Input"],
+Cell[27200, 708, 658, 11, 59, "Message"],
+Cell[27861, 721, 643, 10, 59, "Message"],
+Cell[28507, 733, 659, 11, 59, "Message"],
+Cell[29169, 746, 400, 7, 21, "Message"],
+Cell[29572, 755, 280, 4, 73, "Output"]
+}, Open  ]]
+}, Closed]],
+
+Cell[CellGroupData[{
+Cell[29901, 765, 27, 0, 44, "Section"],
+Cell[29931, 767, 217, 3, 47, "Input"],
+
+Cell[CellGroupData[{
+Cell[30173, 774, 220, 4, 59, "Input"],
+Cell[30396, 780, 244, 3, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[30677, 788, 237, 4, 59, "Input"],
+Cell[30917, 794, 250, 4, 73, "Output"]
+}, Open  ]]
+}, Closed]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

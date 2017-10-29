@@ -1,0 +1,114 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for pion induced reactions
+! This runs the LoPion init with a high energy!
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =           2 ! Pion induced (low energy)
+      numEnsembles    =          10
+      numTimeSteps    =         140
+      delta_T         =        0.25 ! time step size [fm]
+      num_runs_SameEnergy =       1 ! number of runs per energy
+
+      length_perturbative =    1500
+
+      freezeRealParticles = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initPion.f90
+&pionNucleus
+      UseCoulomb      = T      ! coulomb correction of incoming state
+      CoulombDistance =  400.0 ! distance for the coulomb correction (=infinity)
+      distance        =   10.0 ! distance of pions to nucleus
+      impact_parameter=   -2.0 ! <0: impact-parameter integration
+      charge          =     -1 ! charge of pions
+      numberPions     =    100 ! number of pions per ensemble
+      ekin_lab        = 50.000 ! kinetic energy
+      delta_ekin_lab  =  0.030 ! step size
+/
+
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 16, target_A= 32 ! S
+!      target_Z= 20, target_A= 40 ! Ca
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+/
+
+
+! file: ./database/particleProperties.f90
+&initDatabase
+      propagationSwitch = 0 ! 0=all resonances with more than 1 star
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./width/mesonWidthMedium.f90
+&width_Meson
+      mediumSwitch    = 1
+/
+
+! file: ./width/baryonWidthMedium.f90
+&width_Baryon
+      mediumSwitch       = T ! use in medium width for all baryons
+      mediumSwitch_Delta = T ! use in medium width for Delta
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      noPerturbativePotential = T ! perturbative baryons feel no potential
+/
+
+! file: ./potential/mesonPotential.f90
+&mesonPotential
+      noPerturbativePotential = T ! perturbative mesons feel no potential
+/
+
+! file: ./collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      correctEnergy_message=.false. ! reduce verbosity
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      energyCheck     =  0.100
+/
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.030
+/
+

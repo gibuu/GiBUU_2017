@@ -1,0 +1,132 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for high energy lepton on nucleon (deuterium)
+! specialised for EIC calculations
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          14 ! HiLepton
+      numEnsembles    =         200
+      numTimeSteps    =           0
+
+      length_perturbative = 100 ! okay for nucleon/deuterium
+
+      num_runs_SameEnergy=1  ! number of runs per energy
+!      num_runs_SameEnergy=500  ! number of runs per energy
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+/
+
+! file: ./init/initHiLepton.f90
+&HiLeptonNucleus
+      shadow  = F
+!      DoStatistics = T ! additional output
+
+      iExperiment=16 ! EIC
+      EIC_Ee =  3.0  ! Energy of electron [GeV]
+      EIC_EA = 12.0  ! Energy of nucleus [GeV]
+
+!      user_ymax    =   0.8
+!      user_numin   =   7.66416316291920
+!      user_numax   =  61.3133053033536
+!      user_costmin =  -1.0
+!      user_costmax =   1.0
+!      user_smin    =   4.0
+!      user_xBmin   =   0.0
+!      user_qsqmin  =   0.1
+!      user_maxw    =   0.0
+
+/
+
+! file: ./analysis/HiLeptonAnalysis.f90
+&HiLepton_Analysis
+!      DoLeptonKinematics = T
+!      DoHadronKinematics = T
+!      DoTimes       = T
+!      DoOutChannels = T
+!      DoInvMasses   = T
+!      DoFindRho0    = T
+!      DoClasie      = T
+!      DoMorrow      = T
+
+!      DoClassifyFirst = T
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91) = 0.44     ! width intrinsic kT
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      noPerturbativePotential = T ! perturbative baryons feel no potential
+/
+
+! file: ./potential/mesonPotential.f90
+&mesonPotential
+      noPerturbativePotential = T ! perturbative mesons feel no potential
+/
+
+! file: ./collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      correctEnergy_message=.false. ! reduce verbosity
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      energyCheck     =  0.100
+/
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.100 ! minimal kinetic energy of produced nucleons (GeV)
+/
+
+! file: ./collisions/twoBodyReactions/hadronFormation.f90
+&hadronformation
+      useJetSetVec    = F ! not needed on nucleon -> speed up
+/
+
+! file: ./analysis/EventOutputAnalysis.f90
+&EventOutput
+!      WritePerturbativeParticles = T  ! if you want that output
+/
+
+! file: ./database/particleProperties.f90
+&ModifyParticles
+      stabilityFlag(102)   = 0
+      stabilityFlag(105)   = 0
+      stabilityFlag(107)   = 0
+
+!      stabilityFlag(2)   = 0
+!      stabilityFlag(103) = 0
+!      mass(101) = 0.140
+!      width(103)=0.100
+/
+

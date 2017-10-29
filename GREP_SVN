@@ -1,0 +1,2 @@
+#!/bin/sh
+svngrep -i "$@" code/ --include "*.f90" --include "*.f"

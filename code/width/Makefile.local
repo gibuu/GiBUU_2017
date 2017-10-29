@@ -1,0 +1,2 @@
+SUBDIREXCL := deltaTest testRun testRun_collWidth testRun_energyDet
+FILEEXCL :=

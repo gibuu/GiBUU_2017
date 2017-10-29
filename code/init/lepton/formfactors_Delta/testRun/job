@@ -1,0 +1,8 @@
+! file: code/inputOutput/input.f90
+&input
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+$input_FF_Delta
+FF_Delta=0
+$end

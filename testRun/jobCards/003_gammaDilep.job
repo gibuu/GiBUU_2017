@@ -1,0 +1,120 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for gamma A => e+ e- X
+!------------------------------------------------------------------------------
+
+!******************************************************************************
+! General Input :
+!******************************************************************************
+
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 200	! number of ensembles
+  eventtype    = 3	! 2 = Pion A, 3 = lowPhoton A, 12 = HiPion A
+  numTimeSteps = 200	! number of time steps
+  delta_T      = 0.2	! time step size [fm]
+  num_runs_sameEnergy = 1
+  num_energies = 1
+  path_To_Input = "~/GiBUU/buuinput"
+  length_perturbative     = 1000
+  freezeRealParticles = .true.
+  ! localEnsemble = .true.		! default: parallel ensemble
+  ! LRF_equals_CALC_frame = .true.	! needed for offshell potential
+/
+
+! file: code/density/nucleus.f90
+&target
+  ! target_Z =  1 , target_A =   1		! H
+  ! target_Z =  6 , target_A =  12		! C
+  target_Z = 20 , target_A =  40		! Ca
+  ! target_Z = 26 , target_A =  56		! Fe
+  ! target_Z = 29 , target_A =  63		! Cu
+  ! target_Z = 41 , target_A =  93		! Nb
+  ! target_Z = 82 , target_A = 208		! Pb
+/
+
+! file: code/analysis/DileptonAnalysis.f90
+&DileptonAnalysis
+  Enable = .true.
+/
+
+&decayChannels
+  rhoDelta_is_sigmaDelta = T
+/
+
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+
+!******************************************************************************
+!	Photon-induced reactions
+!******************************************************************************
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+  energy_gamma = 1.5		! photon energy [GeV]
+  vecMes       = .true.		! gamma N -> V N
+  resonances   = .true.		! gamma N -> R
+  pi0eta       = .true.		! gamma N -> pi0 eta N
+  twoPi        = .false.	! gamma N -> pi pi N
+  singlePi     = .false.	! gamma N -> pi N
+/
+
+! file: code/init/lepton/formfactors_ResProd/formFactor_ResProd.f90
+&input_FF_ResProd
+  W_cutOff_switch = .true.	! Switch on W-dependence in form factors,
+				! important for Delta Dalitz dilepton channel
+  ! W_cutOff_lambda = 1.071
+/
+
+!******************************************************************************
+!	In-Medium Stuff
+!******************************************************************************
+
+! &width_Meson
+!   mediumSwitch = .true.	! use collisional width for mesons?
+!   mediumSwitch_rho   = .true.
+!   mediumSwitch_omega = .true.
+!   mediumSwitch_phi   = .true.
+! /
+
+! &mesonWidthMedium_tables
+!   minMes = 103
+!   maxMes = 107
+! /
+
+! &offShellPotential
+!   useOffShellPotentialMesons = .true.
+!   max_offshellparameter = 100.
+!   OffShell_debug = .true.
+!   useConstCS_mesons = .true.
+! /
+
+! file: code/propagation/propagation.f90
+&Propagation
+  delta_P = 1E-6
+  delta_E = 1E-6
+/
+
+! file: code/potential/mesonPotential.f90
+&mesonPotential
+  vectorMesonPot = 0	! Switch for medium-modification of vector mesons
+			!   1   = Brown-Rho-Scaling
+			!   2   = Brown-Rho-Scaling with momentum dependence according to Kondtradyuk (page 162,effenberger dr.-thesis)
+			!  else = no modification
+  ! brownRho = 0.16	! scaling parameter alpha
+/
+
+!******************************************************************************
+!	Ground State (Frozen Nucleus, Analytic Density, Zero Temperature)
+!******************************************************************************
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2	! 1 = dynamic, 2 = analytic, 0 = no density
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2	! 1 = dynamic, 2 = analytic, 0=no pauli blocking
+/

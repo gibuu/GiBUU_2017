@@ -1,0 +1,51 @@
+!**************************************************** -*- fortran -*-
+! Input for CrossSectionPlotter
+!
+$Plotter2
+  id1    = 101        ! Id of particle 1	
+  id2    = 101        ! Id of particle 2
+  q1     = +1        ! charge of particle 1 
+  q2     = -1        ! charge of particle 2
+  anti1  = .false.  ! if .true., then particle 1 is an antiparticle
+  anti2  = .false.  ! if .true., then particle 2 is an antiparticle
+
+  id_out = 101
+  q_out = 0
+
+  Nevents = 2000
+  srts_min = 0.
+  srts_max = 2.
+  dp = 0.05
+$end          
+!****************************************************
+
+!***************************************************
+! General Input :
+!***************************************************
+
+$input
+  path_To_Input = '~/GiBUU/buuinput'
+  numEnsembles  = 1
+  DoPrLevel(0:2) = .false., .false., .false.
+$end
+
+$initDatabase
+  rho_dilep = .false.
+$end
+
+$initDensity
+  densitySwitch=0 ! <== for vacuum
+! densitySwitch=3 ! <== for in-medium
+! densityInput_Proton =0.084
+! densityInput_Neutron=0.084
+$end
+
+
+$pythia
+  PARP(91)=0.44            ! width intrinsic kT
+$end
+
+
+! $master_2Body
+!   usePythia = 0          ! use Fritiof instead of Pythia
+! $end

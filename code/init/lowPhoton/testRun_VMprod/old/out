@@ -1,0 +1,30 @@
+
+------ Init "input": reading...
+   Simulation type is "PARALLEL ENSEMBLES"
+   Eventtype    =           3
+   Number of ensembles   =          30
+   Use variable time step: F
+   Check grid dimensions: F
+   Number time steps/run =         120
+   Number run/energy     =           1
+   Number of energies    =           1
+ 
+   Print particle vector at start/end of a run:  F
+   Print particle vector at different times   :  F
+   Use continous boundary conditions:  F
+   Final Coulomb correction at end of run= T
+   Path to input files= ../../../../../buuinput                                     
+   Length of perturbative vector= (hard wired in the code)
+ 
+   Generate povray output:  F
+------ Init "input": reading finished.
+
+
+------ Init "initDatabase": reading...
+  Set propagationSwitch to            0 .
+  Set usageForXsectionSwitch to            0 .
+------ Init "initDatabase": reading finished.
+
+ Printing baryon properties to file
+ Printing meson properties to file
+ Printing decay channels to file "DecayChannels.txt" 

@@ -1,0 +1,4 @@
+SUBDIREXCL :=
+FILEEXCL := plot.f90 printBaryons.f90 test_HamiltonFunc.f90 omega_3pi_vac.f90 test_ticket71.f90 test_ticket72.f90
+#EXEFILE := test_rho_dil.f90 testSpecFunc.f90 test.f90 test_VM_vac.f90
+EXEFILE := ThermalModel.f90 ThermalModelFit.f90 printWidth.f90

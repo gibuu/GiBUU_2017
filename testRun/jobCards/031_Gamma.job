@@ -1,0 +1,81 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for nucleons in a box
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =   31 ! InAbox
+      numEnsembles    =  100
+      numTimeSteps    =    3
+      delta_T         =  0.5 ! time step size [fm]
+      num_energies    =    7
+
+      continousBoundaries     = T
+
+      printParticleVectors    = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initInABox.f90
+&initInABox
+!      fermiMotion=.true.
+!      proton_Density=0.08
+!      neutron_Density=0.01
+!      energy_Density = 0.2
+!      energy_Density = 0.5
+!      energy_Density = 1.0
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 1 ! 1=dynamic density according to testparticles
+
+!      gridsize(1)=10. ! size of the box [fm]
+!      gridsize(2)=10.
+!      gridsize(3)=10.
+/
+
+! file: ./database/particleProperties.f90
+&initDatabase
+      propagationSwitch = 0 ! 0=all resonances with more than 1 star
+/
+
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./propagation/propagation.f90
+&Propagation
+      RungeKuttaOrder = 2
+/
+
+! file: ./width/baryonWidthMedium.f90
+&width_Baryon
+      mediumSwitch       = T ! use in medium width for all baryons
+      mediumSwitch_Delta = T ! use in medium width for Delta
+/
+
+! file: ./width/mesonWidthMedium.f90
+&width_Meson
+      mediumSwitch    =           1
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=3238124   ! Seed for the random number
+/
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.030
+/

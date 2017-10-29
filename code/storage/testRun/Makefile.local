@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL := test.f90 testH2DBspline.f90
+EXEFILE := rebinHistMC.f90 sumHist.f90 sumHistMC.f90 sumHistMC_avg.f90 smearHistMC.f90 smearHist.f90 integrateHist.f90

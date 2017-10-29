@@ -1,0 +1,58 @@
+$initTestPionNuk
+  chargePion = -1
+  ChargeNUK  = 1
+  numLoops   = 40000
+$end
+
+$initTest
+  ChargeNUK = 1
+  ! chargeMeson = 0
+  dens = 0.
+  ! K_factor = 2.
+$end
+
+$baryonWidthVacuum
+  use_cutoff=.true.
+$end
+
+!***************************************************
+! General Input :
+!***************************************************
+
+$initDatabase
+  propagationSwitch      = 0   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+  usageForXsectionSwitch = 2
+$end
+
+$input
+numEnsembles=300,  !number of ensembles
+eventtype=2,     
+! elementary = 0
+!  HeavyIon   = 1
+!  Pion       = 2
+!  Photo      = 3 !** NOT YET IMPLEMETED ***!
+!  Lepton     = 4 !** NOT YET IMPLEMETED ***!
+!  HiHeavyIon =11 !** NOT YET IMPLEMETED ***!
+!  HiPion     =12 !** by KG ***!
+!  HiPhoto    =13 !** by TF ***!
+!  HiLepton   =14 !** by TF ***!
+numTimeSteps=20  !number of time steps
+delta_T=0.5 !time step size
+fullensemble=.false.
+num_runs_SameEnergy=1
+num_Energies=1
+path_To_Input='~/GiBUU/buuinput'
+$end
+
+$initRandom
+  ! SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=0,           !0= density=0., 1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=1         !0=no pauli blocking, 1=dynamic, 2=analytic
+$end
+

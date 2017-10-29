@@ -1,0 +1,66 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! Jobcard for e^- induced pion production off nuclei.
+! Density is chosen static, potentials are switched on (Hadronic+Coulomb).
+!******************************************************************************
+
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 10,     ! number of ensembles
+  eventtype    = 4,      ! virtual photon
+  delta_T      = 0.25,   ! time step size
+  numTimeSteps = 0,      ! number of time steps
+  num_energies = 1,
+  num_runs_sameEnergy = 2,
+  length_perturbative = 100,
+  freezeRealParticles = T,
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 223214,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 16,
+  Target_Z =  8,
+  densitySwitch_static = 2,   ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,   ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2,   ! 1=dynamic, 2=analytic
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  RungeKuttaOrder = 2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+! file: code/init/lowElectron/lowElectron.f90
+&LowElectron
+  energy_li = 1.08,
+  energy_lf = 0.05,
+  theta_lf  = 32.,
+  delta_energy_lf = 0.025,
+  Do_1Pi = T,
+  minEnergy_1pi = 0.19,
+  Do_Res = T,
+  onlyDelta = T,
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.01,
+/

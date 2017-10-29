@@ -1,0 +1,14 @@
+SUBDIREXCL :=
+FILEEXCL :=testBAB.f90 testFritiof.f90 test.f90 GenerateRandomFiles.f90 DoPiN.f90 testRhoMass.f90 StringFrag.f90 PlayInpart.f90 TryNeutrino.f90 testManni.f90 DoXU.f90 Check_gammaN_rhoN.f90 testMass.f90
+#EXEFILE :=DoPiN.x
+EXEFILE :=StringFrag.x
+#EXEFILE :=testRhoMass.x
+#EXEFILE :=testBAB.x
+#EXEFILE :=testFritiof.x
+#EXEFILE :=GenerateRandomFiles.x
+#EXEFILE :=PlayInpart.x
+#EXEFILE :=TryNeutrino.x
+#EXEFILE :=testManni.x
+#EXEFILE :=DoXU.x
+#EXEFILE :=Check_gammaN_rhoN.f90
+#EXEFILE :=testMass.x

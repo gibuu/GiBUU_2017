@@ -1,0 +1,223 @@
+#******************************************************************************* -*- Makefile -*-
+#****e* /Makefile.objects
+# NAME
+# Makefile.objects
+# PURPOSE
+# Sub-Makefile for the ClusterCode, to be used in the directory 'objects'.
+#
+# This is a template, which must be copied as a local "Makefile" 
+# into each directory in the tree where an exe-file should be produced. 
+# In particular it must be used in the directory "objects".
+# NOTES
+# Copied from the GiBUU workingCode.
+#*******************************************************************************
+
+.SUFFIXES:            # Delete the default suffixes
+
+export SHELL = /bin/bash
+
+### LOCAL VARIABLES:
+
+ifeq ($(wildcard Makefile.local),)
+  include $(shell pwd)/Makefile.local   # generate error message with full path if Makefile.local is missing
+else
+  include Makefile.local
+endif
+
+export CALLINGDIR := $(CURDIR)
+
+export PERL = $(strip $(shell which perl 2>/dev/null))
+export ECHO = echo -e
+ifeq ($(PERL),$(EMPTY))
+  export MAKEDEP = $(strip $(shell which makedepf90 2>/dev/null))
+endif
+
+### FILES:
+
+SRCf90 := $(wildcard *.f90)
+SRCF90 := $(wildcard *.F90)
+SRCf77 := $(wildcard *.f)
+SRC := $(SRCf90) $(SRCF90) $(SRCf77)
+SRC := $(filter-out $(FILEEXCL), $(SRC))
+SRC := $(filter-out $(EXEFILE), $(SRC))
+OBJ := $(patsubst %.f90, %.o, $(SRC))
+OBJ := $(patsubst %.F90, %.o, $(OBJ))
+OBJ := $(patsubst %.f, %.o, $(OBJ))
+MOD := $(patsubst %.f90, %.o, $(SRC))
+MOD := $(patsubst %.F90, %.o, $(MOD))
+MOD := $(patsubst %.f, %.o, $(MOD))
+EXEALL := $(patsubst %.f90, %.x, $(EXEFILE))
+EXEALL := $(patsubst %.F90, %.x, $(EXEALL))
+EXEALL := $(patsubst %.f, %.x, $(EXEALL))
+
+# The following is only well defined when compiling the 
+# executable in OBJDIR (i.e. in the second call) or if
+# you use this Makefile in a directory other than OBJDIR:
+OBJDIROBJ := $(wildcard $(strip $(OBJDIR))/*.o)
+OBJDIROBJ := $(filter-out $(strip $(OBJDIR))/PDFstub.orig.6225.o, $(OBJDIROBJ))
+
+### SUBDIRS:
+
+SUBDIR := $(sort $(notdir $(shell find -maxdepth 1 ! -name  ".*" -type d)))
+SUBDIR := $(filter-out $(SUBDIREXCL), $(SUBDIR))
+SUBDIR := $(filter-out $(wildcard *.dSYM), $(SUBDIR))
+
+### Compiler flags: (use as abbreviation)
+
+FLAGSF77c=$(FLAGSF77) $(FLAGSDOUBLE) $(FLAGSFORALL) -I$(OBJDIR)
+FLAGSF90c=$(FLAGSF90) $(FLAGSDOUBLE) $(FLAGSFORALL) -I$(OBJDIR)
+
+FLAGSLD=-L$(strip $(LIBDIR)) -lPDF
+
+### RULES:
+
+# This is the target called without any arguments:
+# (empty target in order to ensure clean programming)
+#all: ;
+# (calling testRun instead:)
+all: full
+
+# The following "workdir" will be replaced automatically via the
+# main Makefile:
+
+quick:
+	cd WORKDIR && $(MAKE) CalledFromTestRun
+
+full:
+	cd WORKDIR && $(MAKE) CalledFromTestRunFull
+
+
+
+# some of the targets we call from the main Makefile:
+
+iterate: MakefileDepend objects EXE
+
+compileOBJ:
+#	@$(MAKE) subdirs
+	@$(MAKE) MakefileDepend
+	@$(MAKE) objects 
+
+objects: $(OBJ)
+
+EXE: $(EXEALL)
+
+# We assume here, that there are no .o and no .mod files
+# generated in /testRun. If necessary, this has to be
+# improved.
+#
+#linking:
+#	@for X in $(OBJ); do\
+#	(ln -sf $(CURDIR)/$$X $(OBJDIR)/$$X;)\
+#	done
+#	@for X in $(shell find -maxdepth 1 -name  "*.mod" ); do\
+#	(ln -sf $(CURDIR)/$$X $(OBJDIR)/$$X;)\
+#	done
+
+print:
+	@echo "!!! CURDIR     =" $(CURDIR)
+	@echo "!!! SUBDIR     =" $(SUBDIR)
+	@echo "!!! SRC        =" $(SRC)
+
+subdirs:
+	@for X in $(SUBDIR); do\
+	  (cd $$X && $(MAKE) iterate;)\
+	done
+
+MakefileDepend: $(SRC)
+ifneq ($(PERL),$(EMPTY))
+	@echo "Generating source code dependencies via perl script!"
+	@WORKDIR/../../scripts/Own_Makedepf90.pl  $(SRC) > MakefileDepend
+else
+  ifneq ($(MAKEDEP),$(EMPTY))
+	@echo "Generating source code dependencies via makedepf90!"
+	@$(MAKEDEP) -m "%f.o" $(SRC) > MakefileDepend
+  else
+	@echo "Error: Could not generate source code dependencies! (neither perl nor makedepf90 found)"
+  endif
+endif
+
+MAKEFILE: print
+	@for X in $(SUBDIR); do\
+	(cp $(ROOTDIR)/Makefile.SUB $$X/Makefile; cd $$X && $(MAKE) MAKEFILE;)\
+	done
+
+### Compiling:
+
+%.o: %.f90
+	@$(ECHO) $(blue)File: `ls -l $< | awk '{print $$NF}'` $(endBlue) 
+	$(FORT) $(FLAGSF90c) -c $<
+
+%.o: %.F90
+	@$(ECHO) $(blue)File: `ls -l $< | awk '{print $$NF}'` $(endBlue)
+	$(FORT) $(FLAGSF90c) -D$(FORT_NOPATH) -c $<
+
+%.o: %.f
+	@$(ECHO) $(blue)File: `ls -l $< | awk '{print $$NF}'` $(endBlue) 
+	$(FORT) $(FLAGSF77c) -c $<
+
+
+### Compiling and linking:
+
+%.x: %.f90 $(OBJDIR)/version.o
+	@$(ECHO) $(StartHeader)"Compiling executable" $@ $(EndHeader)
+	@$(ECHO) "Flags: " $(FLAGSF90c) $(FLAGSLD)
+	@$(FORT) $(FLAGSF90c) -o $@ $< $(OBJDIROBJ) $(FLAGSLD)
+	@ln -sf $(CURDIR)/$@ $(EXEDIR) 
+	@$(ECHO) $(StartHeader)"...done"$(EndHeader)
+
+%.x: %.F90 $(OBJDIR)/version.o
+	@$(ECHO) $(StartHeader)"Compiling executable" $@ $(EndHeader)
+	@$(ECHO) "Flags: " $(FLAGSF90c) -D$(FORT_NOPATH) $(FLAGSLD)
+	@$(FORT) $(FLAGSF90c) -D$(FORT_NOPATH) -o $@ $< $(OBJDIROBJ) $(FLAGSLD)
+	@ln -sf $(CURDIR)/$@ $(EXEDIR) 
+	@$(ECHO) $(StartHeader)"...done"$(EndHeader)
+
+%.x: %.f $(OBJDIR)/version.o
+	@$(ECHO) $(StartHeader)"Compiling executable" $@ $(EndHeader)
+	@$(ECHO) "Flags: " $(FLAGSF77c) $(FLAGSLD)
+	@$(FORT) $(FLAGSF77c) -o $@ $< $(OBJDIROBJ) $(FLAGSLD)
+	@ln -sf $(CURDIR)/$@ $(EXEDIR) 
+	@$(ECHO) $(StartHeader)"...done"$(EndHeader)
+
+### Rules in order to produce specific libraries from *.o files:
+# (This is only necessary in directory /objects)
+
+buildLIBS: buildLIBpdfstub
+	@rm -f $(LIBDIR)/libPDF.a
+ifeq ($(PDF),PDFLIB)
+	@echo "Using PDFLIB..."
+	@if [ -f $(LIBDIR)/libPDF8.04.a ]; then \
+	ln -s $(LIBDIR)/libPDF8.04.a $(LIBDIR)/libPDF.a; \
+	fi
+endif
+ifeq ($(PDF),LHAPDF)
+	@echo "Using LHAPDF..."
+	@if [ -f $(LIBDIR)/libLHAPDF.a ]; then \
+	ln -s $(LIBDIR)/libLHAPDF.a $(LIBDIR)/libPDF.a; \
+	fi
+endif
+	@if [ ! -f $(LIBDIR)/libPDF.a ]; then \
+	echo "Using PDFstub..."; \
+	ln -s $(LIBDIR)/libPDFstub.orig.6225.a $(LIBDIR)/libPDF.a; \
+	fi
+
+buildLIBpdfstub: libPDFstub.orig.6225.a
+	@-rm -f $(LIBDIR)/$<
+	@ln -s $(CURDIR)/$< $(LIBDIR)
+
+lib%.a: %.o
+	-rm $@
+	ar r $@ $<
+	ar s $@
+
+
+
+### Rules for specific files:
+
+#Amplitudes.o :
+#	$(FORT)  $(FLAGSDOUBLE) $(FLAGSFORALL) -nowarn -traceback -fpe0 -I$(OBJDIR) -c $<
+# with all the checks "Amplitudes" compiles 22 minutes and throws tons of warnings during runtime.
+
+### DEPENDENCIES:
+
+include MakefileDepend

@@ -1,0 +1,3 @@
+SUBDIREXCL := 
+FILEEXCL := test_FF.f90 
+EXEFILE :=  test_hep_ph_0602210v2_lalakulich.f90 test_FF.f90 helicityAmplitudes_test.f90

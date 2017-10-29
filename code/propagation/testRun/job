@@ -1,0 +1,167 @@
+!***************************************************
+! General Input :
+!***************************************************
+
+$initDatabase
+propagationSwitch=0        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+!used to initialize the resonances' database
+$end
+
+$input
+numEnsembles=10,  !number of ensembles
+eventtype=1,      !0=HeavyIon, 1=pion Nucleus, 2=elementary reactions, 3=photon induced
+numTimeSteps=140  !number of time steps
+delta_T=0.25 !time step size
+fullensemble=.false.
+num_runs_SameEnergy=1
+num_Energies=5
+$end
+
+$initRandom
+SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=2,           ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+densitySwitch_Static=1,	   ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+$end
+
+$initPauli
+pauliSwitch=2           !1=dynamic, 2=analytic
+$end
+
+$propagation
+delta_P=0.01,       ! Delta Momentum for derivatives
+coulomb=.false.,    ! Whether to use coulomb in propagation
+hadronic=.true.,    ! Whether to use hadronic potentials in propagation
+DerivativeType=2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+predictorCorrector=.false. ! Whether to use a predictor/corrector algorithm to do the propagation
+$end
+
+!************************************************************
+!	Input for potentials
+!************************************************************
+
+$mesonPotential
+  !Switch for medium-modification of vector mesons
+  !1=Brown-Rho-Scaling
+  !2=Brown-Rho-Scaling with momentum dependence 
+  !  according to Kondtradyuk (page 162,effenberger dr.-thesis)
+  !else=no modification
+vectorMesonPot=0,
+  !Switch for offshell-potential (so called fake-potential)
+offshellPotential=.false.,
+  !Switch for pionPotential
+  ! 1=Oset potential (NPA 554),  which is valid up to 50Mev kinetic energy
+  ! 2=Kapusta suggestion for pion potential (rather unusual)
+  ! 3=Delta Hole potential, which is valid up to 130 MeV kinetic energy
+  ! 4=Smooth spline transition between switch 1 and 3.
+  ! else=no pion potential
+pionPot_Switch=0,
+noPerturbativePotential=.false.
+$end
+
+$baryonPotential
+  !Switch for equation of state for nucleon resonances spin=1/2
+  !Parameters for nucleon potentials:
+  !  1=soft mom-dep  lambda = 2.130
+  !  2=hard mom-dep  lambda = 2.126
+  !  3=soft  non-mom-dep
+  !  4=hard  non-mom-dep
+  !  5=medium  mom-dep
+EQS_Type=5,
+  !Switch for potential of spin=3/2 resonances
+  !  1=nucleon (spin=1/2) potential times  3/5   [according to ericson/Weise book]
+  !  2= 100 MeV *rho/rhoNull
+DeltaPot=1,
+$end
+
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target      !Only relevant for eventtypes 0,1 and 3
+target_Z=79,   
+target_A=197
+$end
+
+!************************************************************
+
+$heavyIon                  !Eventype=0
+impact_Parameter=0.0,
+distance=20.,
+coulomb=.false.,
+ekin_lab_Target=1.0,     !kinetic Energy/nucleon of Target in lab frame
+ekin_lab_Projectile=0.0  !kinetic Energy/nucleon of Projectile in lab frame
+$end
+
+$projectile   !Only relevant for heavy ion collisions (eventtype=0)
+projectile_Z=79,
+projectile_A=197
+$end
+
+
+!************************************************************
+
+$pionNucleus       
+distance=10.,            !distance of pions to nucleus
+impact_parameter=-2.,    !negative impact-parameter=>impact-parameter integration
+charge=-1,                !charge of pions
+numberPions=100,         !number of pions per ensemble
+ekin_lab=0.03,           !kinetic energy in system where nucleus rests
+coulomb=.true.,         !switch for coulomb correction of incoming state
+coulombDistance=400.,     !distance for the coulomb correction (=infinity)
+delta_ekin_lab=0.03
+$end
+
+!************************************************************
+
+$elementary              !Eventype=2
+impactParameter=0.,      !smaller 0: Impact parameter Integration
+distance=20.,
+coulombCorrection=.true.,
+particleId_1=1,          !Identity of first particle
+particleCharge_1=0,      !Charge of second particle
+particleId_2=1,          !Identity of second particle
+particleCharge_2=0,      !Charge of second particle
+$end
+
+!************************************************************
+
+$photonNucleus           !Eventype=3
+$end
+
+
+!*********************************************************
+!          The collision term
+!**********************************************************
+
+
+$collisionTerm
+energyCheck=0.001       ! accuracy of energy check in GeV
+minimumEnergy=0.030 ! minimal kinetic energy of a produced nucleon in GeV
+oneBodyProcesses=.true.
+twoBodyProcesses=.true.
+threeBodyProcesses=.false.
+$end
+
+$master_1Body
+debug=.true.
+$end
+
+$master_2Body
+fullEnergy=.true.
+baryonBaryonScattering=.false.
+baryonMesonScattering=.true.
+mesonMesonScattering=.false.
+debug=.false.
+$end
+
+
+!****************************************************
+
+$initThermoDynamics
+temperatureSwitch=1 
+! 1=groundstate calculations (T=0,mu=E_F)
+! 2=the full procedure according to testparticle density (real particles only!)
+$end

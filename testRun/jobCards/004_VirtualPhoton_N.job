@@ -1,0 +1,75 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 10000,   ! number of ensembles
+  eventtype    = 4,       ! virtual photon
+  delta_T      = 0.25,    ! time step size
+  numTimeSteps = 0,       ! number of time steps
+  num_energies = 1,
+  num_runs_sameEnergy  = 1,
+  length_perturbative  = 4,
+  printParticleVectors = T,
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 1,
+  Target_Z = 1,
+  fermiMotion = F,
+  densitySwitch_static = 0,   ! 0=no density, 1=Woods-Saxon, 2=according NPA 554 (Oset)
+/
+
+! file: code/potential/baryonPotential.f90
+&baryonPotential
+  EQS_Type = 0,                  ! Switch for equation of state for nucleon resonances (spin=1/2)
+  noPerturbativePotential = T,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 0,   ! 0=none, 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 0,   ! 0=none, 1=dynamic, 2=analytic
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  Mode = 1,   ! whether to use a predictor/corrector algorithm to do the propagation
+/
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+  mediumSwitch       = T,   ! Switch on/off in-medium width of all baryons at once
+  mediumSwitch_Delta = T,   ! Switch on/off in-medium width of the delta
+/
+
+! file: code/width/mesonWidthMedium.f90
+&width_Meson
+  mediumSwitch = 1,   ! Switch on/off in-medium width of all mesons at once
+/
+
+! file: code/init/lowElectron/lowElectron.f90
+&LowElectron
+  energy_li = 1.255,
+  energy_lf = 0.855,
+  theta_lf  = 10.,
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.,
+/

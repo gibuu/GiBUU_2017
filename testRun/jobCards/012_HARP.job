@@ -1,0 +1,129 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! Sample jobcard for high-energy pion- and proton-induced reactions on nuclei,
+! suitable for HARP and NA61/SHINE calculations.
+! Variants of this jobcard have been used for the following publications:
+! * http://inspirehep.net/record/810890
+! * http://inspirehep.net/record/1397003
+!------------------------------------------------------------------------------
+! $HeadURL$
+! $LastChangedRevision$
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          12 ! HiPion
+      numEnsembles    =         100
+      numTimeSteps    =         100
+      delta_T         =  0.1    ! time step size [fm]
+      freezeRealParticles     = T
+      localEnsemble   = T
+
+!      length_perturbative = 500  ! adjust according target nucleus
+      length_perturbative = 2000 ! adjust according target nucleus
+!      length_perturbative = 4000 ! adjust according target nucleus
+
+!      num_runs_SameEnergy=10000  ! number of runs per energy
+      num_runs_SameEnergy=2  ! number of runs per energy
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 16, target_A= 32 ! S
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+/
+
+! file: ./init/initHiPion.f90
+&HiPionNucleus
+      distance        =   10.0  ! distance in z-direction at init
+      impact_parameter=  -99.0  ! if <0: choosen by MC
+      ProjectileID    =   1     ! id of projectile, 1=proton
+      ProjectileCharge=   1     ! charge of projectile
+!      ProjectileAnti  =   F     ! antiparticle flag of projectile
+      nTestparticles  =   25    ! Number of projectile testparticles
+
+!      ekin_lab =   515.0 ! kinetic energy of projectile [GeV]
+      p_lab = 3.0 ! momentum of projectile [GeV/c]
+!      p_lab = 5.0 ! momentum of projectile [GeV/c]
+!      p_lab = 8.0 ! momentum of projectile [GeV/c]
+!      p_lab =12.0 ! momentum of projectile [GeV/c]
+!      p_lab =31.0 ! momentum of projectile [GeV/c]
+
+      DoPerturbativeInit = T    ! T: collision happens at time=0
+      DoOnlyOne          = T    ! T: no ping-ping-ping...
+      minimumMomentum =   0.100 ! minimal momentum to be created.
+!      NucCharge       = -1      ! if >=0: scatter only on nucleons with this charge
+/
+
+! file: ./analysis/HiPionAnalysis.f90
+&HiPion_Analysis
+      DoHarp = T ! Analysis for the HARP experiment
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91) = 0.44     ! width intrinsic kT
+      MSTP(21) = 21       ! selection of main routine
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      noPerturbativePotential = T ! perturbative baryons feel no potential
+/
+
+! file: ./potential/mesonPotential.f90
+&mesonPotential
+      noPerturbativePotential = T ! perturbative mesons feel no potential
+/
+
+! file: ./collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      correctEnergy_message=.false. ! reduce verbosity
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      energyCheck     =  0.100
+/
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.100 ! minimal kinetic energy of produced nucleons (GeV)
+/
+
+! file: ./analysis/EventOutputAnalysis.f90
+&EventOutput
+!      WritePerturbativeParticles = T  ! if you want that output
+/

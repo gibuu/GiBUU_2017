@@ -1,0 +1,11 @@
+&input
+  path_To_Input = "~/GiBUU/buuinput"
+/
+
+&baryonWidthVacuum 
+  Delta_width = 1   ! 1=Manley, 2=Dmitriev, 3=Moniz, 4=Verwest, 5=Bass
+/
+
+&initDatabase
+  rho_dilep = F
+/

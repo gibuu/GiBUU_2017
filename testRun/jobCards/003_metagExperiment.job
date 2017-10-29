@@ -1,0 +1,94 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 1,     ! number of ensembles
+  eventtype    = 3,     ! photon+A
+  delta_T      = 0.2,   ! time step size
+  numTimeSteps = 0,     ! number of time steps for a proton target
+  ! numTimeSteps = 200  ! number of time steps for a nuclear target
+  num_energies = 1,     ! Number of different energies
+  num_runs_sameEnergy = 1,       ! Number of runs with the same energy
+  length_perturbative = 50,    ! Proton
+  ! length_perturbative = 1000     ! Ca
+  ! length_perturbative = 3000   ! Nb
+  path_To_Input = "~/GiBUU/buuinput",   ! path to input directory
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+/
+
+! file: code/database/particleProperties.f90
+&ModifyParticles
+  stabilityFlag(101) = 4   ! Let pi^0 decay
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_Z = 1, Target_A = 1,   ! Proton
+  ! Target_Z=20, Target_A=40,       ! Ca40
+  ! Target_Z=41, Target_A=93,     ! Nb93
+  fermiMotion = T,
+  densitySwitch_static = 1,     ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+/
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+  energy_gamma = 1.3,
+  delta_energy = 0.01,
+  singlePi = T,
+  twoPi = T,
+  resonances = T,
+  VECMES(1:3) = 3*T,
+  VECMES_DELTA(1:3) = 3*F,
+  PI0ETA = T,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,   ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2,   ! 1=dynamic, 2=analytic
+/
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+  mediumSwitch       = T,   ! Switch on/off in-medium width of all baryons at once
+  mediumSwitch_Delta = T,   ! Switch on/off in-medium width of the delta
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  propagateNoPhoton = F,   ! photons are propagated
+/
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2body
+  baryonBaryonScattering = T,
+  baryonMesonScattering = T,
+  mesonMesonScattering = F,
+/
+
+! file: code/collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+  MDCY(102,1) = 1   ! pi^0 unstable in Pythia
+/
+
+! file: code/analysis/LowPhotonAnalysis.f90
+&lowPhotonAnalysis
+  outputEvents = T,            ! Print events to file
+  outputEvents_onlyFree = T,   ! Prints only "free" nucleons to file
+  KruscheOutput = F,
+  FissumOutput = F,
+  TwoPiOutput = F,
+  photonAnalyse = T,           ! Generate analysis for final state photons
+/

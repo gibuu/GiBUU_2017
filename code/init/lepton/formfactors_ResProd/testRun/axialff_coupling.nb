@@ -1,0 +1,533 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10567,        358]*)
+(*NotebookOutlinePosition[     11691,        391]*)
+(*  CellTagsIndexPosition[     11647,        387]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[{
+    \(\(\(qcm = \@\(\((MR^2 - mpi^2 - MN^2)\)^2 - 4\ mpi^2\ MN^2\)\/\(2\ \
+MR\);\)\(\[IndentingNewLine]\)
+    \)\), "\n", 
+    \(\(\(Ecm = \(MR^2 + MN^2 - mpi^2\)\/\(2\ MR\);\)\(\[IndentingNewLine]\)
+    \)\), "\[IndentingNewLine]", 
+    \(\(IR = \(-2\)\ iso\  + 
+          4;\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\(fmpi12pl = 
+        Sqrt[gamma/\((IR\ \ \(qcm\/\(4\ \[Pi]\ MR\)\) \((Ecm - 
+                    MN)\) \((MR + MN)\)^2)\)];\)\), "\[IndentingNewLine]", 
+    \(\(FA012pl = \(-clebsch\)\ fpi\ fmpi12pl;\)\[IndentingNewLine]\), "\
+\[IndentingNewLine]", 
+    \(\(fmpi12mi = 
+        Sqrt[gamma/\((IR\ \ \(qcm\/\(4\ \[Pi]\ MR\)\) \((Ecm + 
+                    MN)\) \((MR - MN)\)^2)\)];\)\), "\[IndentingNewLine]", 
+    \(\(FA012mi = 
+        clebsch\ fpi\ fmpi12mi;\)\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(fmpi32pl = 
+        Sqrt[gamma/\((IR\ \ \(qcm^3\/\(12\ \[Pi]\ MR\)\) \((Ecm + 
+                    MN)\))\)];\)\), "\[IndentingNewLine]", 
+    \(\(FA032pl = 
+        clebsch\ fpi\ fmpi32pl;\)\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(fmpi32mi = 
+        Sqrt[gamma/\((IR\ \ \(qcm^3\/\(12\ \[Pi]\ MR\)\) \((Ecm - 
+                    MN)\))\)];\)\), "\[IndentingNewLine]", 
+    \(\(FA032mi = 
+        clebsch\ fpi\ fmpi32mi;\)\[IndentingNewLine]\), \
+"\[IndentingNewLine]", 
+    \(\(mpi = 0.138;\)\), "\[IndentingNewLine]", 
+    \(\(fpi = 0.0924;\)\), "\[IndentingNewLine]", 
+    \(\ \(MN = 0.938;\)\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["P33(1232)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32pl*mpi\ \  /. \ {\ clebsch \[Rule] \ Sqrt[2/3], 
+        gamma\  \[Rule] 0.118, iso \[Rule] 3/2, \ 
+        MR \[Rule] 1.232}\), "\[IndentingNewLine]", 
+    \(FA032pl\ \  /. \ {\ clebsch \[Rule] \ Sqrt[2/3], gamma\  \[Rule] 0.118, 
+        iso \[Rule] 3/2, \ MR \[Rule] 1.232}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`2.148655385785809`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1.1746649805097944`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["P11(1440)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi12pl\ *\ mpi\  /. \ {clebsch\  \[Rule] \ 2, \ 
+        gamma\  \[Rule] 0.391*0.69, iso \[Rule] 1/2, \ 
+        MR \[Rule] 1.462}\), "\[IndentingNewLine]", 
+    \(FA012pl\  /. \ {clebsch\  \[Rule] \ 2, \ gamma\  \[Rule] 0.391*0.69, 
+        iso \[Rule] 1/2, \ MR \[Rule] 1.462}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.38845981842712857`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(-0.5201983655458938`\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["D13(1520)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32mi*mpi\  /. \ {\ clebsch \[Rule] \ 2, gamma -> 0.124*0.59, 
+        iso \[Rule] 1/2, \ \ MR \[Rule] 1.524}\), "\[IndentingNewLine]", 
+    \(FA032mi\  /. \ {\ clebsch \[Rule] \ 2, gamma -> 0.124*0.59, 
+        iso \[Rule] 1/2, \ \ MR \[Rule] 1.524}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1.608664384159969`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`2.1542114361794362`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["S11(1535)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi12mi*mpi\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.151*0.51, 
+        iso \[Rule] 1/2, \ MR \[Rule] 1.534}\), "\[IndentingNewLine]", 
+    \(FA012mi\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.151*0.51, 
+        iso \[Rule] 1/2, \ MR \[Rule] 1.534}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.16924752416207214`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.22664451061703572`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["S31(1620)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi12mi*mpi\  /. {clebsch \[Rule] Sqrt[2/3], 
+        gamma \[Rule] \ 0.154*0.09, iso \[Rule] 3/2, \ 
+        MR \[Rule] 1.672}\), "\[IndentingNewLine]", 
+    \(FA012mi /. {clebsch \[Rule] Sqrt[2/3], gamma \[Rule] 0.154*0.09, 
+        iso \[Rule] 3/2, MR \[Rule] 1.672}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.09496518020286973`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.051917246613893867`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["S11(1650)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi12mi*mpi\  /. \ {clebsch \[Rule] 2, gamma\  -> 0.173*0.89, 
+        iso \[Rule] 1/2, MR \[Rule] 1.659}\), "\[IndentingNewLine]", 
+    \(FA012mi\  /. \ {clebsch \[Rule] 2, gamma\  -> 0.173*0.89, 
+        iso \[Rule] 1/2, MR \[Rule] 1.659}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.18698356327823942`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.2503953803899901`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["D15(1675)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32mi*mpi\  /. \ {clebsch \[Rule] \ 2, \ gamma -> 0.159*0.47, 
+        iso \[Rule] 1/2, MR \[Rule] 1.676}\), "\[IndentingNewLine]", 
+    \(FA032mi\  /. \ {clebsch \[Rule] \ 2, \ gamma -> 0.159*0.47, 
+        iso \[Rule] 1/2, MR \[Rule] 1.676}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1.0306424792104032`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1.3801647112904527`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["F15(1680)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32pl*mpi\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.139*0.70, 
+        iso \[Rule] 1/2, \ MR \[Rule] 1.684}\), "\[IndentingNewLine]", 
+    \(FA032pl\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.139*0.70, 
+        iso \[Rule] 1/2, \ MR \[Rule] 1.684}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.3225617915819279`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.43195231220536423`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["D33(1700)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32mi*mpi\  /. \ {clebsch \[Rule] \ Sqrt[2/3], 
+        gamma -> 0.599*0.14, \ 
+        iso \[Rule] 3/2, \ \ MR \[Rule] 1.762}\), "\[IndentingNewLine]", 
+    \(FA032mi\  /. \ {clebsch \[Rule] \ Sqrt[2/3], gamma -> 0.599*0.14, \ 
+        iso \[Rule] 3/2, \ \ MR \[Rule] 1.762}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1.5357806953781334`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.8396077903129648`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["P13(1720)", "Subsection",
+  FormatType->TextForm],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32pl*mpi\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.383*0.13, \ 
+        iso \[Rule] 1/2, \ \ MR \[Rule] 1.717}\), "\[IndentingNewLine]", 
+    \(FA032pl\  /. \ {clebsch \[Rule] \ 2, gamma -> 0.383*0.13, \ 
+        iso \[Rule] 1/2, \ \ MR \[Rule] 1.717}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.21949649912713778`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.2939344423093844`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["F35(1905)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32pl*mpi\  /. \ {clebsch \[Rule] \ Sqrt[2/3], gamma -> 0.327*0.12, 
+        iso \[Rule] 3/2, MR \[Rule] 1.881}\), "\[IndentingNewLine]", 
+    \(FA032pl\  /. \ {clebsch \[Rule] \ Sqrt[2/3], gamma -> 0.327*0.12, 
+        iso \[Rule] 3/2, MR \[Rule] 1.881}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.27182523455555657`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.1486062334442231`\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["P31(1910)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi12pl*mpi\  /. \ {clebsch -> Sqrt[2/3], gamma -> 0.239*0.23, 
+        iso \[Rule] 3/2, \ \ MR \[Rule] 1.882}\), "\[IndentingNewLine]", 
+    \(FA012pl\  /. \ {clebsch -> Sqrt[2/3], gamma -> 0.239*0.23, 
+        iso \[Rule] 3/2, \ \ MR \[Rule] 1.882}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.13866639981679124`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`\(-0.07580860333197796`\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["F37(1950)", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(fmpi32pl*mpi\  /. \ {clebsch \[Rule] \ Sqrt[2/3], gamma -> 0.300*0.38, 
+        iso \[Rule] 3/2, MR \[Rule] 1.945}\), "\[IndentingNewLine]", 
+    \(FA032pl\  /. \ {clebsch \[Rule] \ Sqrt[2/3], gamma -> 0.300*0.38, 
+        iso \[Rule] 3/2, MR \[Rule] 1.945}\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.4306463662199953`\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`0.23543338253724616`\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{1280, 963},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"PrintingMargins"->{{54, 54}, {72, 72}},
+"PaperSize"->{597.562, 842.375},
+"PaperOrientation"->"Portrait",
+"PrintCellBrackets"->False,
+"PrintRegistrationMarks"->True,
+"PrintMultipleHorizontalPages"->False,
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "home", "leitner", \
+"dimpfelmoser", "neutrino_calculations", "code", "mathematica"}, \
+"axialff_coupling.nb.ps", CharacterEncoding -> "iso8859-1"],
+"Magnification"->1}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 1545, 34, 749, "Input"],
+
+Cell[CellGroupData[{
+Cell[3324, 89, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[3404, 94, 317, 5, 62, "Input"],
+Cell[3724, 101, 69, 1, 40, "Output"],
+Cell[3796, 104, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3915, 111, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[3971, 115, 315, 5, 62, "Input"],
+Cell[4289, 122, 71, 1, 40, "Output"],
+Cell[4363, 125, 75, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4487, 132, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[4567, 137, 288, 4, 62, "Input"],
+Cell[4858, 143, 69, 1, 40, "Output"],
+Cell[4930, 146, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5049, 153, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[5129, 158, 280, 4, 62, "Input"],
+Cell[5412, 164, 71, 1, 40, "Output"],
+Cell[5486, 167, 71, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5606, 174, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[5686, 179, 305, 5, 62, "Input"],
+Cell[5994, 186, 71, 1, 40, "Output"],
+Cell[6068, 189, 72, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6189, 196, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[6245, 200, 276, 4, 62, "Input"],
+Cell[6524, 206, 71, 1, 40, "Output"],
+Cell[6598, 209, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6717, 216, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[6797, 221, 280, 4, 62, "Input"],
+Cell[7080, 227, 70, 1, 40, "Output"],
+Cell[7153, 230, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7272, 237, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[7352, 242, 280, 4, 62, "Input"],
+Cell[7635, 248, 70, 1, 40, "Output"],
+Cell[7708, 251, 71, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7828, 258, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[7884, 262, 313, 5, 62, "Input"],
+Cell[8200, 269, 70, 1, 40, "Output"],
+Cell[8273, 272, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8392, 279, 55, 1, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[8472, 284, 288, 4, 62, "Input"],
+Cell[8763, 290, 71, 1, 40, "Output"],
+Cell[8837, 293, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8956, 300, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[9012, 304, 292, 4, 62, "Input"],
+Cell[9307, 310, 71, 1, 40, "Output"],
+Cell[9381, 313, 70, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9500, 320, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[9556, 324, 286, 4, 62, "Input"],
+Cell[9845, 330, 71, 1, 40, "Output"],
+Cell[9919, 333, 76, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10044, 340, 31, 0, 58, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[10100, 344, 292, 4, 62, "Input"],
+Cell[10395, 350, 70, 1, 40, "Output"],
+Cell[10468, 353, 71, 1, 40, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,225 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for Real photon scattering on Ca
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+! for details please contact
+! * Olga Lalalkulich
+!------------------------------------------------------------------------------
+! * Describes photon (eventType=3) nucleus collisions with sqrt(s)<2 GeV
+!   and Q^2<2 GeV^2
+! * was used, e.g., for Fig. 2 in "Lalakulich Mosel PRC 87 (2013) 014602"
+!------------------------------------------------------------------------------
+
+************************************************************************
+! DON'T FORGET to change  "path_to_input" in the namelist &input
+! according to your local GiBUU installation
+!******************************************************************************
+
+
+!##############################################################################
+! general input, controls among others the statistics of output
+!##############################################################################
+
+
+! the number of generated events is proportional (but not equal, because some "events" can be in prohibited phase space)
+! to target_A * numEnsembles * num_runs_SameEnergy
+! file: code/inputOutput/input.f90
+&input
+	numEnsembles=100	! for C12 you can use 4000, for heavier nuclei should be lower; decrease it if there are problems with memory,
+	eventtype=3		! 3 - photon induced (low energy)
+	numTimeSteps=200	! the distance numTimeSteps*delta_T (100*0.2=20 fm in this example) should significantly exceed the radius of the target nucleus
+	delta_T=0.2
+	fullEnsemble=.true.
+	localEnsemble=.true.
+	num_runs_sameEnergy=1	! increase these if you want to increase statistics (= number of generated events)
+	num_energies=11		! 11 steps in the photon energy, see namelist $low_photo_induced
+	printParticleVectors=.false.
+	freezeRealParticles=.true.
+	LRF_equals_CALC_frame=.true. !if .false.: no offshelltransport possible
+	path_To_Input='~/GiBUU/buuinput'
+/
+
+! file: code/density/density.f90
+&initDensity
+	densitySwitch=2		! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+
+!##############################################################################
+!init flags
+!##############################################################################
+
+!******************************************************************************
+! photon init:
+!******************************************************************************
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+	energy_gamma=0.4
+	delta_energy=0.01	! Increase of energy for energy scans.
+	realRun=.false.		! Do not initialize the final state particles as perturbative particles but as real ones.
+	vecMes=.true.		! Switch for the production of vector mesons (.false.=no vector meson production)
+	vecMes_Delta=.true.
+	resonances=.true.	! Switch for including or excluding resonance production processes
+	onlyDelta=.false.	! Switch for including only delta resonance (only useful if resonances=.true.)
+	singlePi=.true.		! Switch for including direct single pion production. If resonances=.true. then it's only a background, else the full cross section.
+	twoPi=.true.		! Switch for the 2pi production: gamma N -> N pi pi (.false.=no 2pi production)
+	noNucs_twoPi=.false.	! Do not propagate the nucleons which are produced in a 2Pi event.
+	equalDistribution_twoPi=.false. ! All two pion production channels are populated with the same probability -> Higher statistics for pi^0 pairs. The perweights are readjusted.
+	nuclearTarget_corr=.true.
+/
+
+! file: code/density/nucleus.f90
+&target
+	target_Z=20
+	target_A=40
+	densitySwitch_static=2	! 0: density=0.0, 1: Woods-Saxon by Lenske, 2 : NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii,
+					! 5: density distribution is a sphere with density according to the input value of "fermiMomentum_input".
+	fermiMomentum_input=0.225 ! Input value of the fermi momentum for densitySwitch_static=5.
+	fermiMotion=.true.
+/
+
+
+
+!******************************************************************************
+! Model ingredients
+!******************************************************************************
+
+! file: code/init/lepton/formfactors_QE_nucleon/FF_QE_nucleonScattering.f90
+&ff_QE
+	parametrization=3	! 1=BBA03, 2=BBBA05, 3=BBBA07
+/
+
+!******************************************************************************
+! form factors for resonance production
+!******************************************************************************
+
+! file: code/init/lepton/formfactors_ResProd/formFactor_ResProd.f90
+&input_FF_ResProd
+	FF_ResProd=0		! 0=MAID in CM-frame, 1=fit of Lalakulich ,2=MAID in LAB-frame
+/
+
+
+!##############################################################################
+!analysis flags
+!##############################################################################
+
+! file: code/analysis/LowPhotonAnalysis.f90
+&lowPhotonAnalysis
+	outputEvents=.false.	! If .true. then all events are printed to file for the photon induced events.
+/
+
+
+
+
+!##############################################################################
+! in-medium width
+!##############################################################################
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+	mediumSwitch=.true.	! if .false. vacuum widths will be used for all resonances
+                                ! and other switches are not meaningful/relevant
+	mediumSwitch_Delta=.true. ! Use Oset broadening of the Delta (only relevant for mediumSwitch_coll=.false.)
+	mediumSwitch_coll=.false. ! Use collisional broadening of all resonances
+/
+
+
+! file: code/spectralFunctions/spectralFunc.f90
+&spectralFunction
+	nuclwidth=0.001		! if mediumSwitch_coll=.false.: this parameter determines the "bare nucleon width", for numerical purpose
+	relativistic=.true.	! if mediumSwitch_coll=.false.: relativistic or non-rel. spectral function
+/
+
+
+!##############################################################################
+! propagation
+!##############################################################################
+
+! file: code/propagation/propagation.f90
+&Propagation
+	RungeKuttaOrder=2	! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+
+!##############################################################################
+! potentials
+!##############################################################################
+
+! file: code/potential/baryonPotential.f90
+&baryonPotential
+	EQS_TYPE=5		! 1=soft mom-dep, 2=hard mom-dep, 3=soft non-mom-dep, 4=hard non-mom-dep, 5=medium mom-dep
+	DeltaPot=1		! 1=2/3 of nucleon potential, 2=100 MeV*rho/rhoNull
+	symmetryPotFlag=1	! Switch for the asymmetry term in the nucleon potential
+				! must be .true. if CoulombFlag in the namelist &Coulomb is .true.
+/
+
+
+! file: code/potential/coulomb/coulomb.f90
+&coulomb
+	coulombFlag=.true.
+/
+
+
+!##############################################################################
+! collision term
+!##############################################################################
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+	oneBodyProcesses=.true.
+	twoBodyProcesses=.true.
+	threeBodyProcesses=.true.
+	DoJustAbsorptive=.false.
+/
+
+
+! file: code/collisions/oneBodyReactions/master_1Body.f90
+&master_1body
+	correctEnergy=.true.
+/
+
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2body
+	baryonBaryonScattering=.true.
+	baryonMesonScattering=.true.
+	mesonMesonScattering=.false.
+/
+
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&resonanceCrossSections
+	fullPropagator=.false.	! Use self energies in resonance propagators (only when collisional broadening is switched on)
+/
+
+
+! file: code/collisions/twoBodyReactions/baryonBaryon/barBar_barBar.f90
+&barBar_barBar
+	use_ND_ND_model=.true.	! Switch for delta nucleon -> delta nucleon cross sections: false=old parametrization, true =one pion exchange model (Effenberger, Buss)
+	new_NR_NR=.true.	! .false.= Switch off the NR-> NR improvement (improvement= better NN<->NN fit is being used), only for debugging or comparing
+	NR_NR_massSHIFT=.true.	! .true.= Shift the srts in NR-> NR elastic collisions.
+/
+
+! file: code/collisions/phaseSpace/winkelVerteilung.f90
+&angular_distribution
+	deltaPWave=.true.
+	pionNucleon_backward=.true.
+/
+
+
+! file: code/collisions/insertion.f90
+&insertion
+	minimumEnergy=0.005	! default is 0.005 GeV
+/

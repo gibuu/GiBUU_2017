@@ -1,0 +1,213 @@
+!************************************************************ -*- fortran -*-
+
+$datatable
+
+!      Ebeam=1.997, theta=46.160 ! E140x
+!      Ebeam=3.301, theta=50.000 
+!      Ebeam=4.014, theta=50.700 
+!      Ebeam=4.951, theta=56.010
+!      Ebeam=5.600, theta=58.000 
+      Ebeam=6.453, theta=59.510
+      
+!      Ebeam=2.445, theta=20.000 ! JLABh2
+!      Ebeam=2.445, theta=30.000
+!      Ebeam=3.245, theta=26.980  
+!      Ebeam=2.445, theta=38.500  
+!      Ebeam=4.054, theta=24.030
+!      Ebeam=2.445, theta=70.010 
+!      Ebeam=4.054, theta=30.000
+!      Ebeam=4.054, theta=39.990  
+!      Ebeam=4.045, theta=47.990
+
+!...Other stuff:
+
+!  iNmax = 10000
+  iNmax = 1000
+!  iNmax = 100
+!  iNmax = 10
+!  iNmax = 0
+
+  doRes = .true.
+  do1Pi = .true.
+  do2Pi = .true.
+  doDIS = .true.
+$end
+
+!************************************************************ -*- fortran -*-
+!* A JobCard for BUU: (K.Gallmeister, 10.10.2006)
+!* ==================
+!*
+!* This JobCard tries to be a template for all 
+!*       "HiEnergy photonNucleus" 
+!* collisions.
+!* Here: on DEUTERIUM (no propagation, only decays)
+!*
+!************************************************************
+
+
+!************************************************************
+! General Input :
+!************************************************************
+$input
+      eventtype   = 13          ! HiPhoton
+      numEnsembles= 200        ! number of ensembles
+      numTimeSteps= 0           ! number of time steps
+      
+      set_length_perturbative = .TRUE.
+      length_perturbative = 50
+
+!      num_runs_SameEnergy=10000 ! number of runs per energy
+!      num_runs_SameEnergy= 1    ! number of runs per energy
+      num_runs_SameEnergy= 10    ! number of runs per energy
+
+      path_To_Input = '~/buuinput'
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+
+!      printParticleVectors=.true.
+$end
+
+
+$initRandom
+      SEED=45678                ! Seed for the random number
+$end
+
+$initDensity
+      densitySwitch=2           ! 1=dynamic, 2=analytic
+$end
+
+$initPauli
+      pauliSwitch=2             ! 1=dynamic, 2=analytic
+$end
+
+$propagation
+      coulomb=.false.           ! Whether to use coulomb in propagation
+      predictorCorrector=.false. ! Whether to use a predictor/corrector algorithm
+$end
+
+!************************************************************
+!	Input for potentials
+!************************************************************
+
+$Coulomb
+      CoulombFlag=.false.
+$end
+
+$mesonPotential
+      noPerturbativePotential=.true. ! perturbative mesons feel no potential
+$end
+
+$baryonPotential
+      noPerturbativePotential=.true. ! perturbative baryons feel no potential
+$end
+
+$Yukawa
+      yukawaFlag=.false.        ! whether Yukawa is switched on/off
+$end
+
+$formfactors_pion
+      which_MAidVersion=2       ! 1=MAID 2003, 2=MAID 2007
+$end 
+
+
+
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target
+      target_Z=  1, target_A=  1 ! deuterium (proton,neutron)
+$end
+
+!************************************************************
+
+$HiPhotonNucleus         ! EVENTTYPE = 13
+      shadow=.false.
+!      FRITIOF=.true.
+!      nu = 1.75
+!      Q2 = 0.1
+!      eps = 0.99
+!      eps = 0.55
+!      srts = 3.32
+!      W  = 2.01
+!      W  = 1.99
+!      Q2   = 0.1
+!      W = 4.76
+!      srts = 7.26
+!      nu =  8.8
+!      nu = 13.8
+!      nu = 18.8
+!      Q2 = 2.37
+
+!      eps = 0.99, W  = 2.01, Q2   = 0.1
+!      eps = 0.99, W  = 1.79, Q2   = 1.1
+
+!      eps = 0.99, W  = 1.3, Q2   = 1.0 ! testing 2pi (no 2pi)
+!      eps = 0.99, W  = 1.45, Q2   = 1.0 ! testing 2pi (full 2pi)
+
+!      eps = 0.99, W  = 1.3, Q2   = 0.001 ! testing 2pi (no 2pi)
+      eps = 0.1, W  = 1.95, Q2   = 1.001 ! testing 2pi (no 2pi)
+
+
+      minimumMomentum =  0.0
+$end
+
+$HiGammaNucleus
+!      DoToyModel = .true.
+$end
+
+!************************************************************
+!          The collision term
+!************************************************************
+
+$hadronFormation
+      useJetSetVec = .FALSE.
+$end
+
+$collisionTerm
+      energyCheck=0.1           ! accuracy of energy check in GeV
+      oneBodyProcesses=.true.
+      twoBodyProcesses=.true.
+      threeBodyProcesses=.true.
+!      oneBodyProcesses=.false.
+!      twoBodyProcesses=.false.
+!      threeBodyProcesses=.false.
+      twoBodyProcessesRealReal = .FALSE.
+$end
+
+$insertion
+      minimumEnergy=0.000       ! minimal kinetic energy of produced nucleons (GeV)
+$end
+
+
+
+$master_2Body
+      correctEnergy_message=.false.
+!      usePythia = 0
+!      doPythiaReweight = .FALSE.
+$end
+
+!************************************************************
+! Temperature and thermodynamics
+!************************************************************
+$initThermoDynamics
+      temperatureSwitch=1 ! 1=groundstate calculations (T=0,mu=E_F)
+$end
+
+!************************************************************
+! Collision Statistics
+!************************************************************
+$collReporter
+      UseCollReporter=.FALSE.
+$end
+
+!************************************************************
+! Additional Pythia Parameters
+!************************************************************
+$pythia
+      PARP( 91)=0.44            ! width intrinsic kT
+!      PARP(104)=0.0
+$end
+
+

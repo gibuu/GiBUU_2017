@@ -1,0 +1,2 @@
+SUBDIREXCL :=testRun
+FILEEXCL := COLL_GammaN_Fr.f COLL_GammaN_Py.f 

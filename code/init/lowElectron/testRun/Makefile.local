@@ -1,0 +1,6 @@
+SUBDIREXCL :=
+FILEEXCL := test_CM_MonteCarlo.f90 createDatatable.f90 testElementar.f90 testFF.f90 test_med.f90 test_res.f90 testBosted.f90 test.f90 test_flux.f90 testQE.f90 TryTransform.f90 PhaseSpace2p2h.f90 testQE2.f90
+#EXEFILE :=test_CM_MonteCarlo.f90
+#EXEFILE :=PhaseSpace2p2h.f90
+#EXEFILE :=testQE2.f90 createDatatable.f90
+EXEFILE :=testBosted.f90

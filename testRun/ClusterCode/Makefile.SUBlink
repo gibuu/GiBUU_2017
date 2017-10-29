@@ -1,0 +1,88 @@
+#******************************************************************************* -*- Makefile -*-
+#****e* /Makefile.SUBlink
+# NAME
+# Makefile.SUBlink
+# PURPOSE
+# Sub-Makefile for the ClusterCode, used in all directories besides 'objects'
+# and 'ClusterRuns'.
+#
+# This is a template, which is copied as a local "Makefile" 
+# into every directory in the "code" tree besides the 
+# ClusterRuns directory.
+# NOTES
+# Copied from the GiBUU workingCode.
+#*******************************************************************************
+
+.SUFFIXES:            # Delete the default suffixes
+
+export SHELL = /bin/bash
+
+### LOCAL VARIABLES:
+
+ifeq ($(wildcard Makefile.local),)
+  include $(shell pwd)/Makefile.local   # generate error message with full path if Makefile.local is missing
+else
+  include Makefile.local
+endif
+
+### FILES:
+
+SRCf90 := $(wildcard *.f90)
+SRCF90 := $(wildcard *.F90)
+SRCf77 := $(wildcard *.f)
+SRC := $(SRCf90) $(SRCF90) $(SRCf77)
+SRC := $(filter-out $(FILEEXCL), $(SRC))
+SRC := $(filter-out $(EXEFILE), $(SRC))
+
+OBJEXCL := $(patsubst %.f90, %.o, $(FILEEXCL))
+OBJEXCL := $(patsubst %.F90, %.o, $(OBJEXCL))
+OBJEXCL := $(patsubst %.f, %.o, $(OBJEXCL))
+
+### SUBDIRS:
+
+SUBDIR := $(sort $(notdir $(shell find -maxdepth 1 ! -name  ".*" -type d)))
+SUBDIR := $(filter-out $(SUBDIREXCL), $(SUBDIR))
+
+### RULES:
+
+# This is the target called without any arguments:
+# (empty target in order to ensure clean programming)
+all: ;
+
+iterate: subdirs linking unlinking
+
+objects: $(OBJ)
+
+# this creates softlinks for all source files:
+linking:
+	@for X in $(SRC); do\
+	(ln -sf $(CURDIR)/$$X $(OBJDIR)/$$X;)\
+	done
+
+# this deletes softlinks to all non-used source files:
+unlinking:
+	@for X in $(FILEEXCL); do\
+	(rm -f $(OBJDIR)/$$X;)\
+	done
+	@for X in $(OBJEXCL); do\
+	(rm -f $(OBJDIR)/$$X;)\
+	done
+	@for X in $(EXEFILE); do\
+	(rm -f $(OBJDIR)/$$X;)\
+	done
+
+print:
+	@echo "!!! CURDIR     =" $(CURDIR)
+	@echo "!!! SUBDIR     =" $(SUBDIR)
+	@echo "!!! SRC        =" $(SRC)
+
+subdirs:
+	@for X in $(SUBDIR); do\
+	(cd $$X && $(MAKE) $(noPrintDirectory) iterate;)\
+	done
+
+
+MAKEFILE: #print
+	@for X in $(SUBDIR); do\
+	(cp $(ROOTDIR)/Makefile.SUBlink $$X/Makefile; cd $$X && $(MAKE) MAKEFILE;)\
+	done

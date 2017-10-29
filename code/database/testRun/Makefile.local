@@ -1,0 +1,3 @@
+SUBDIREXCL :=F2PY
+FILEEXCL :=test.f90 printTable.f90
+EXEFILE :=printTable.f90

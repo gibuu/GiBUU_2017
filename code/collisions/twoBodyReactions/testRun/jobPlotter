@@ -1,0 +1,125 @@
+!************************************************************
+! Input for xsection test
+!************************************************************
+
+$Plotter
+  ! Important: Id's must be integers (e.g. not pion or nucleon)
+  ! These ID-numbers can be found in the tex-files which are 
+  ! generated in each run
+
+  ! projectile:
+  id1   = 101
+  q1    = -1
+  anti1 = .false.
+  
+  ! target:
+  id2   = 1
+  q2    = 1
+  anti2 = .false.
+
+  srts_max = 100.
+$end          
+
+
+!************************************************************
+! General Input :
+!************************************************************
+
+$input
+      eventtype   = 14          ! HiLepton
+      numEnsembles= 20000         ! number of ensembles
+      numTimeSteps= 100         ! number of time steps
+!      numTimeSteps= 0         ! number of time steps
+      delta_T     = 0.1         ! time step size
+
+      length_perturbative = 1
+!      length_perturbative = 2000 ! ..., Xe
+!      length_perturbative = 4000 ! Pb
+
+      length_real = 100 ! 
+!      length_perturbative = 4000 ! Pb
+
+!      num_runs_SameEnergy= 500  ! number of runs per energy
+      num_runs_SameEnergy= 100000
+
+!      localEnsemble = .TRUE.
+!      freezeRealParticles = .TRUE.
+
+      path_To_Input = '~/GiBUU/buuinput'
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      printParticleVectors = .true.
+$end
+
+
+$initDensity
+      densitySwitch=2           ! 1=dynamic, 2=analytic
+$end
+
+$initPauli
+      pauliSwitch=2             ! 1=dynamic, 2=analytic
+$end
+
+$propagation
+      coulomb=.false.           ! Whether to use coulomb in propagation
+      predictorCorrector=.false. ! Whether to use a predictor/corrector algorithm
+$end
+
+!************************************************************
+!	Input for potentials
+!************************************************************
+
+$Coulomb
+      CoulombFlag=.false.
+$end
+
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target
+!      fermiMotion = .FALSE.
+      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  2, target_A=  4, densitySwitch_Static=4 ! He
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 16, target_A= 32 ! S
+!      target_Z= 26, target_A= 56 ! Fe 
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+$end
+
+
+!************************************************************
+!          The collision term
+!************************************************************
+
+$collisionTerm
+      energyCheck=0.100         ! accuracy of energy check in GeV
+$end
+
+$insertion
+!      minimumEnergy=0.100       ! minimal kinetic energy of produced nucleons (GeV)
+      minimumEnergy=0.0       ! minimal kinetic energy of produced nucleons (GeV)
+$end
+
+$master_2Body
+!      HiEnergyThresholdBarBar = 3.4
+!      HiEnergyThresholdBarBarDelta = 0.1
+      correctEnergy_message=.false.
+$end
+
+!************************************************************
+! Additional Pythia Parameters
+!************************************************************
+
+$pythia
+      PARP( 91)=0.44            ! width intrinsic kT
+$end

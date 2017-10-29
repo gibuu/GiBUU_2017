@@ -1,0 +1,84 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for nucleons in a box
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          33 ! Deltas in a BOX of nucleons
+      numEnsembles    =         100
+      numTimeSteps    =          10
+      delta_T         =  0.25    ! time step size [fm]
+
+      continousBoundaries     = T
+
+      printParticleVectors    = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initInABox.f90
+&initInABox
+      fermiMotion=.true.
+      proton_Density=0.08
+      neutron_Density=0.01
+!      energy_Density = 0.2
+!      energy_Density = 0.5
+!      energy_Density = 1.0
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 1         ! 1=dynamic density according to testparticle density
+
+      gridsize(1)=10. ! size of the box [fm]
+      gridsize(2)=10.
+      gridsize(3)= 8.
+
+      gridPoints(1)=8
+      gridPoints(2)=8
+      gridPoints(3)=8
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./database/particleProperties.f90
+&initDatabase
+      propagationSwitch = 0 ! 0=all resonances with more than 1 star
+/
+
+! file: ./width/baryonWidthMedium.f90
+&width_Baryon
+      mediumSwitch       = T ! use in medium width for all baryons
+      mediumSwitch_Delta = T ! use in medium width for Delta
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      EQS_TYPE  = 0
+      DeltaPot  = 0
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      oneBodyProcesses = F ! switch off decays
+/
+
+! file: ./collisions/threeBodyReactions/masterThreeBody.f90
+&master_3body
+      radiusNukSearch =   5.90
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

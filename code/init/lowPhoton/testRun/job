@@ -1,0 +1,17 @@
+!***************************************************
+! General Input :
+!***************************************************
+
+$input
+  path_to_Input = '../../../../buuinput'
+$end
+
+$baryonWidthVacuum
+  use_cutoff = .true.
+  baryon_cutoff = 2.0
+$end
+
+$input_FF_ResProd
+  ! W_cutOff_lambda=1.071
+  W_cutOff_switch=.true. ! Switch on W-dependence in form factors
+$end

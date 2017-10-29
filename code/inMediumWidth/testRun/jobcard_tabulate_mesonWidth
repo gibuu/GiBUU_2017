@@ -1,0 +1,37 @@
+
+$inMediumWidth
+  minMes = 103
+  maxMes = 103
+  writeLocal = .true.
+$end
+
+$mesonWidthMedium_tables
+  minMes = 103
+  maxMes = 103
+$end
+
+$input
+  path_to_input = "~/GiBUU/buuinput"
+$end
+
+
+! The following switch is important to avoid errors with Pythia 6.4.
+! "DoColl_Manni: itry = 100"
+
+$pythia
+  PARP(91) = 0.44
+$end
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+$initDensity
+  densitySwitch = 0         ! 0=no density,1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+  pauliSwitch = 2           ! 1=dynamic, 2=analytic
+$end
+
+$Coulomb
+  coulombFlag = .false.
+$end

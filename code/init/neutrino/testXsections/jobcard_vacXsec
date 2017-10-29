@@ -1,0 +1,24 @@
+$testnuVac
+skipdifferential=.true.
+$end
+
+$input_FF_Delta    	!in case matrixelement=0	
+FF_Delta=1		!0: MAID, 1: Paschos
+$end
+
+$input_FF_ResProd  	!in case matrixelement=1
+FF_ResProd=3		!0: MAID CM, 1: Lala fit, 2: MAID Lab
+MA=1.
+$end
+
+$neutrino_matrixelement_RS !in case matrixelement=2
+MARS=1.032
+$end
+
+$ff_QE
+parametrization=3
+$end
+
+$input
+path_to_input='/home/leitner/PhD/GiBUU/buuinput'
+$end

@@ -1,0 +1,3 @@
+SUBDIREXCL := 
+FILEEXCL :=
+EXEFILE := testSpline.f90 d104m.f

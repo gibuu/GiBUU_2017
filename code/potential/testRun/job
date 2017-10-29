@@ -1,0 +1,37 @@
+!*************************************************** -*- fortran -*-
+! General Input :
+!***************************************************
+$input
+path_to_input='~/GiBUU/buuinput/'
+$end
+
+$initDatabase
+propagationSwitch=0        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+                           ! used to initialize the resonances' database
+$end
+
+$baryonPotential
+EQS_Type=5,  ! Switch for equation of state for nucleon resonances spin=1/2
+             !     Parameters for nucleon potentials:
+             !  1=soft mom-dep  lambda = 2.130
+             !  2=hard mom-dep  lambda = 2.126
+             !  3=soft  non-mom-dep
+             !  4=hard  non-mom-dep
+             !  5=medium  mom-dep
+DeltaPot=1,  ! Switch for potential of spin=3/2 resonances
+             ! 1=nucleon (spin=1/2) potential times  3/5   [according to ericson/Weise book]
+             ! 2= 100 MeV *rho/rhoNull
+p_0=0.45
+U_0=-0.11
+rho_0=0.16
+bindingEnergy=-0.016
+compressibility=0.220
+$end
+
+
+$mesonPotential
+pionPot_Switch=4        ! 1=Oset, 2=Kapusta, 3=Delta Hole, 4=Smooth transition between 1 and 3, else=no pion potential
+vectormesonPot=0
+noPerturbativePotential=.false.
+$end
+

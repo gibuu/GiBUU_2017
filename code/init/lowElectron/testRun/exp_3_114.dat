@@ -1,0 +1,15 @@
+# CHRISTY 04   NUCL-EX/0401030
+# Measured values of the electron-proton elastic cross section for beam energy 3.114 GeV.
+# E- P --> E- P
+# E(P=1) IN GEV   3.114
+# x = Q**2 IN GEV**2
+# y = D(SIG)/DOMEGA IN MB/SR
+# x         y        +- dy      +- dsys
+0.4241    896.8       2.5       9.6)0040
+0.6633    189.2       0.80      2.0)0040
+0.9312     48.02      0.12      0.49)040
+2.0354      1.017     0.0026    0.0099)0
+2.6205      0.2125    0.00074   0.0020)0
+3.1685      0.05568   0.00028   0.00053
+3.7261      0.01487   0.00010   0.00014
+4.2330      0.004260  0.000049  0.000040

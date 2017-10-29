@@ -1,0 +1,2396 @@
+                  ****************************
+                  *                          *
+                  *       Update notes       *
+                  *                          *
+                  *    PYTHIA version 6.4    *
+                  *                          *
+                  ****************************
+ 
+                   (Last updated 05 Sep 2013)
+ 
+PYTHIA version 6.4 is a direct continuation of version 6.3;
+actually 6.400 is identical with 6.327. Therefore it should not 
+be a big operation for the normal user to run the program.
+  
+PYTHIA 6.4 comes with an updated big manual, reflecting the status
+as of version 6.400. These update notes document what is new in 
+each subsequent subversion.
+  
+-----------------------------------------------------------------------
+
+TUNES OF FRAGMENTATION, UNDERLYING-EVENT, AND MINIMUM-BIAS PARAMETERS
+
+  - From PYTHIA version 6.408, several sets of widely used PYTHIA parameter 
+    settings ('tunes') have been collected and made more easily available 
+    through the auxiliary routine PYTUNE(ITUNE), which should be called 
+    before the call to PYINIT. Alternatively, since version 6.413, the 
+    desired tune number can just be given in MSTP(5), in which case PYINIT
+    will call PYTUNE automatically. 
+  - In general, newer tunes are more reliable than older ones. To help 
+    comparing the dates of different tunes, a rough date of first appearance
+    or publication is given for each tune below. 
+  - The following values of MSTP(5) / PYTUNE(ITUNE) are recognized (note that
+    some of the newest tunes are only available in later PYTHIA versions. See
+    the detailed update notes below or the printout from PYTUNE to see if a 
+    specific tune is implemented in your PYTHIA version):
+   
+    ITUNE    NAME 
+    ---------------------------------------------------------------------
+        0 Default : No settings changed => PYTHIA defaults.
+    =====================================================================
+
+  - 100-199 : Old UE, Q2-ordered showers 
+    ---------------------------------------------------------------------
+     1st generation: Rick Field's CDF tunes and a few more
+    ---------------------------------------------------------------------
+     100       A : Rick Field's CDF Tune A                     (Oct 2002)
+     101      AW : Rick Field's CDF Tune AW                    (Apr 2006)
+     102      BW : Rick Field's CDF Tune BW                    (Apr 2006)
+     103      DW : Rick Field's CDF Tune DW                    (Apr 2006)
+     104     DWT : As DW but with slower UE ECM-scaling        (Apr 2006)
+     105      QW : Rick Field's CDF Tune QW using CTEQ6.1M        (date?)
+     106 ATLAS-DC2: Arthur Moraes' (old) ATLAS tune ("Rome")      (date?)
+     107     ACR : Tune A modified with new CR model           (Mar 2007)
+     108      D6 : Rick Field's CDF Tune D6 using CTEQ6L1         (date?)
+     109     D6T : Rick Field's CDF Tune D6T using CTEQ6L1        (date?)
+    ---------------------------------------------------------------------
+     2nd generation: The same with Professor's LEP tune
+    ---------------------------------------------------------------------
+     110   A-Pro : Tune A, with LEP tune from Professor        (Oct 2008)
+     111  AW-Pro : Tune AW, -"-                                (Oct 2008)
+     112  BW-Pro : Tune BW, -"-                                (Oct 2008)
+     113  DW-Pro : Tune DW, -"-                                (Oct 2008)
+     114 DWT-Pro : Tune DWT, -"-                               (Oct 2008)
+     115  QW-Pro : Tune QW, -"-                                (Oct 2008)
+     116 ATLAS-DC2-Pro: ATLAS-DC2 / Rome, -"-                  (Oct 2008)
+     117 ACR-Pro : Tune ACR, -"-                               (Oct 2008)
+     118  D6-Pro : Tune D6, -"-                                (Oct 2008)
+     119 D6T-Pro : Tune D6T, -"-                               (Oct 2008)
+    ---------------------------------------------------------------------
+     3rd generation: Complete Q2-ordered Tune by Professor
+    ---------------------------------------------------------------------
+     129 Pro-Q20 : Professor Q2-ordered tune                   (Feb 2009)
+    =====================================================================
+
+  - 200-299 : Intermediate and Hybrid Models
+    ---------------------------------------------------------------------
+     200    IM 1 : Intermediate model: new UE, Q2-ord. showers, new CR
+     201     APT : Tune A w. pT-ordered FSR                    (Mar 2007)
+     211 APT-Pro : Tune APT, with LEP tune from Professor      (Oct 2008)
+     221 Perugia APT  : "Perugia" update of APT-Pro            (Feb 2009)
+     226 Perugia APT6 : "Perugia" update of APT-Pro w. CTEQ6L1 (Feb 2009)
+    =====================================================================
+
+  - 300-399 : New UE, interleaved pT-ordered showers, annealing CR
+    ---------------------------------------------------------------------
+     1st generation: Sandhoff-Skands CDF Min-Bias tunes and a few more
+    ---------------------------------------------------------------------
+     300      S0 : Sandhoff-Skands Tune using the S0 CR model  (Apr 2006)
+     301      S1 : Sandhoff-Skands Tune using the S1 CR model  (Apr 2006)
+     302      S2 : Sandhoff-Skands Tune using the S2 CR model  (Apr 2006)
+     303     S0A : S0 with "Tune A" UE energy scaling          (Apr 2006)
+     304    NOCR : New UE "best try" without col. rec.         (Apr 2006)
+     305     Old : New UE, original (primitive) col. rec.      (Aug 2004)
+     306 ATLAS-CSC: Arthur Moraes' (new) ATLAS tune w. CTEQ6L1    (date?)
+    ---------------------------------------------------------------------
+     2nd generation: The same with Professor's LEP tune
+    ---------------------------------------------------------------------
+     310   S0-Pro : S0 with updated LEP pars from Professor    (Oct 2008)
+     311   S1-Pro : S1 -"-                                     (Oct 2008)
+     312   S2-Pro : S2 -"-                                     (Oct 2008)
+     313  S0A-Pro : S0A -"-                                    (Oct 2008)
+     314 NOCR-Pro : NOCR -"-                                   (Oct 2008)
+     315  Old-Pro : Old -"-                                    (Oct 2008)
+     316 ATLAS MC08: 2008 ATLAS tune w. CTEQ6L1                    (2008)
+    ---------------------------------------------------------------------
+     3rd generation: The Perugia, MC09, and Professor pT-ordered Tunes
+    ---------------------------------------------------------------------
+     320 Perugia 0 : "Perugia" update of S0-Pro                    (2009)
+     321 Perugia HARD : More ISR, More FSR, Less MPI, Less BR, Less HAD
+     322 Perugia SOFT : Less ISR, Less FSR, More MPI, More BR, More HAD
+     323 Perugia 3 : Alternative to Perugia 0, with different ISR/MPI
+                     balance & different scaling to LHC & RHIC     (2009)
+     324 Perugia NOCR : "Perugia" update of NOCR-Pro               (2009)
+     325 Perugia * : "Perugia" Tune w. (external) MRSTLO* PDFs     (2009)
+     326 Perugia 6 : "Perugia" Tune w. (external) CTEQ6L1 PDFs     (2009)
+     327 Perugia 2010: Alternative to Perugia 0, with more FSR off ISR,
+                     more Nch at lower Ecm and more strangeness    (2010)
+     328 Perugia K : Alternative to Perugia 2010, with a K-        (2010)
+                     factor applied to MPI cross sections
+     329 Pro-pT0   : Professor pT-ordered tune w. S0 CR model      (2009)
+     330 ATLAS MC09  : 2009 ATLAS tune w. LO*                      (2009)
+     331 ATLAS MC09c : 2009 ATLAS tune w. LO*, retuned CR          (2009)
+     334 Perugia NOCR : Perugia 2010 variant of NOCR               (2010)
+     335 Pro-PT*   : Professor pT-ordered tune w. LO* PDFs         (2009)
+     336 Pro-PT6   : Professor pT-ordered tune w. CTEQ6L1 PDFs     (2009)
+     339 Pro-PT**  : Professor pT-ordered tune w. LO** PDFs        (2009)    
+    ---------------------------------------------------------------------
+     4th generation: tunes incorporating 7- and 8-TeV data
+    ---------------------------------------------------------------------
+     340 AMBT1       : 1st ATLAS tune incl 7 TeV, w. LO* PDFs      (2010)    
+     341 Z1          : Retune of AMBT1 by Field w CTEQ5L PDFs      (2010)
+     342 Z1-LEP      : Retune of Z1 by Skands w CTEQ5L PDFs        (2010)
+     343 Z2          : Retune of Z1 by Field w CTEQ6L1 PDFs        (2010)
+     344 Z2-LEP      : Retune of Z1 by Skands w CTEQ6L1 PDFs       (2010)
+     345 AMBT2B-CT6L : 2nd ATLAS MB tune, vers 'B', w CTEQ6L1      (2011)
+     346 AUET2B-CT6L : UE tune accompanying AMBT2B                 (2011)
+     347 AUET2B-CT66 : AUET2 with CTEQ 6.6 NLO PDFs                (2011)
+     348 AUET2B-CT10 : AUET2 with CTEQ 10 NLO PDFs                 (2011)
+     349 AUET2B-NN21 : AUET2 with NNPDF 2.1 NLO PDFs               (2011)
+     350 Perugia 2011 (P11) : Retune of Perugia 2010 incl 7-TeV data (2011)
+     351 P11-radHi   : Variation with alphaS(pT/2) 
+     352 P11-radLo   : Variation with alphaS(2pT)
+     353 P11-mpiHi   : Variation with more semi-hard MPI
+     354 P11-noCR    : Variation without color reconnections
+     355 P11-LO**    : Perugia 2011 using MSTW LO** PDFs           (2011)
+     356 P11-C6      : Perugia 2011 using CTEQ6L1 PDFs             (2011)
+     357 P11-T16     : Variation with PARP(90)=0.16 away from 7 TeV
+     358 P11-T32     : Variation with PARP(90)=0.32 awat from 7 TeV
+     359 P11-TeV     : Perugia 2011 optimized for Tevatron         (2011)
+     360 S Global    : Schulz-Skands Global fit                    (2011)
+     361 S 7000      : Schulz-Skands at 7000 GeV                   (2011)
+     362 S 1960      : Schulz-Skands at 1960 GeV                   (2011)
+     363 S 1800      : Schulz-Skands at 1800 GeV                   (2011)
+     364 S 900       : Schulz-Skands at 900 GeV                    (2011)
+     365 S 630       : Schulz-Skands at 630 GeV                    (2011)
+     370 Perugia 2012 (P12) : Retune of Perugia 2011 w CTEQ6L1     (2012)
+     371 P12-radHi   : Variation with alphaS(pT/2) 
+     372 P12-radLo   : Variation with alphaS(2pT)
+     373 P12-mpiHi   : Variation with more semi-hard MPI -> more UE
+     374 P12-loCR    : Variation using lower CR strength -> more Nch
+     375 P12-noCR    : Variation without any color reconnections
+     376 P12-FL      : Variation with more longitudinal fragmentation
+     377 P12-FT      : Variation with more transverse fragmentation
+     378 P12-M8LO    : Variation using MSTW 2008 LO PDFs     
+     379 P12-LO**    : Variation using MRST LO** PDFs     
+     380 P12-MB2     : same as Perugia 2012, with PARP(87)=0D0     (2013)
+     381 P12-ueHi    : Variation with higher UE (lower pT0)        (2013)
+     382 P12-ueLo    : Variation with lower UE (higher pT0)        (2013)
+     383 P12-IBK     : Perugia 2012 with IBK ee fragmentation parameters
+     390 IBK-CTEQ5L  : Innsbruck ee+pp tune with CTEQ5 LO PDFs     (2013)
+     391 IBK-CTEQ6LL :       with CTEQ6LL LO PDFs
+     392 IBK-MSTW08LO:       with MSTW08 LO PDFS
+     393 IBK-CTEQ66NLO:      with CTEQ66 NLO PDFs
+     394 IBK-CT10NLO :       with CT10 NLO PDFs
+     395 IBK-MSTW08NLO:      with MSTW08 NLO PDFs
+     396 IBK-MSTW08LO*:      with MSTW07 LO* PDFs
+     397 IBK-MRSTLO**:       with MRSTMCal (LO**) PDFs
+     398 IBK-CT09MC2 :       with CTEQ09MC2 PDFs  
+    =====================================================================
+
+  - 1200-1499 : The Uppsala SCI and GAL models
+    ---------------------------------------------------------------------
+    1201 SCI 0 : Soft-Colour-Interaction model Org pars.           (1998)
+    1202 SCI 1 : SCI 0. Tevatron MB retuned (Skands)               (2006)
+    1401 GAL 0 : Generalized area-law model. Org pars              (1998)
+    1402 GAL 1 : GAL 0. Tevatron MB retuned (Skands)               (2006)
+    =====================================================================
+    
+-----------------------------------------------------------------------
+
+NOTE ON CHANGING THE SIZE OF THE EVENT RECORDS IN PYTHIA
+
+  Concerns the common blocks: /HEPEVT/, /PYJETS/, /PYCTAG/
+
+  For very high energies, or to include pile-up, it may be expedient
+  to increase the size of PYTHIA's event records. In order to avoid
+  internal inconsistencies, it is important that this be done in the
+  right way. In the PYTHIA 6.4 manual, the description of the
+  necessary steps only fully applies to the so-called old MPI
+  framework. Here, we give the full set of steps that allow to change
+  the size of the event record consistently, also for the new
+  framework. 
+
+  There are essentially 2 ways of doing this. 
+
+    1. The most stable (and hence recommended) method is to avoid
+    tampering with the internal PYTHIA common blocks at all, and
+    instead only change the size of the /HEPEVT/ common block that is
+    used to interface external programs.  In this mode, PYTHIA will
+    generate each event using its normal size-4000 event record, but
+    several such events can be added, one after the other, in the
+    larger /HEPEVT/ common block, e.g. to simulate pile-up. This is
+    the solution adopted by GENSER for the modified PYTHIA versions it
+    provides to CERN users. 
+
+    2. A more far-reaching change is to change the internal size of
+    all the size-4000 arrays in the /PYJETS/ common block everywhere
+    in the code. In this case, also MSTU(5) has to be updated 
+    to the new value, as described in the manual. If one wishes to
+    interface external programs using /HEPEVT/, obviously the size of
+    the arrays in this common block will also have to be changed. This
+    is sufficient to use the old MPI framework with the modified
+    event-record size. In order to use the new MPI framework as well,
+    the size-4000 arrays in the /PYCTAG/ common block also have to be
+    changed, and the local size-4000 arrays defined in the routine
+    PYFSCR likewise have to be changed to the new event-record size,
+    in order to eliminate any possibility for out-of-bounds crashes. 
+
+-----------------------------------------------------------------------
+
+THE UNIVERSAL EXTRA DIMENSIONS SCENARIO
+
+Starting with version 6.4.17 Pythia includes an implementation of the
+UED model. This implementation is courtesy of  M.Elkacimi, D.Goujdami,
+H.Przysiezniak, see [hep-ph/0602198] (Les Houches 2005). The following
+gives a rough physics and user's manual.
+
+Theories with extra dimensions offer a description of the gravitational
+interaction at low energy, and thus have received considerable attention.
+One very interesting incarnation was formulated by T. Appelquist, H.-C.
+Cheng and B.A. Dobrescu in Phys. Rev. D64 (2001) 035002, the Universal
+Extra Dimensions (UED) model, where "Universal" comes from the fact that
+all Standard Model (SM) fields propagate into the extra dimensions.
+
+From version 6.4.17, the UED model has been implemented in PYTHIA
+in its "minimal"  formulation, with one small extra dimension and with
+the additional possibility of gravity mediated decays as described by
+C. Macesanu, C.D. McMullen and S. Nandi in Phys. Lett B546 (2002) 253.
+
+In the UED model, the SM lives in (4 + delta) space-time dimensions. This
+effective theory is valid below some scale Lambda (cutoff scale). The 
+compactification scale is 1/R < Lambda for the delta extra dimensions.
+In Minimal UED, delta = 1. To avoid fine-tuning of the  parameters in the 
+Higgs sector, 1/R should not be much higher than the electroweak scale.
+The default values in Pythia are 1/R = 1 TeV and Lambda = 5 TeV.
+
+In Minimal UED, each SM particle has n=1,2,3,... KK excitations, of 
+squared mass m_n^2 = n^2/R^2 + m_SM^2 . Pythia so far only incorporates the
+lowest-lying of these excitations. 
+
+Momentum is conserved in the delta=1 extra dimension. In 3D, this implies 
+conservation of the KK number, hence there is never a vertex with only one 
+KK excitation, and KK particles are always produced in pairs.
+
+To each fermionic chiral state corresponds a KK tower. Hence there are two
+towers per quark flavour and per massive lepton and one tower per massless 
+neutrino. Each EW boson has an associated KK tower, and the bosons mix 
+within each level as in the SM. Also, each Higgs boson KK level is 
+composed of one charged, one scalar CP-odd and one scalar CP-even Higgs bosons.
+The interactions between the Higgs field, the gauge bosons and the fermions 
+are described by the same couplings as the SM ones.
+
+These new excitations have been defined following the PDG UED particle 
+coding notation, although with a slight twist to it. Indeed, the PDG 
+denotes the KK particles in the following manner (for the first level 
+excitations only):
+
+\begin{tabular}{lr@{\protect\rule[1mm]{0mm}{4mm}}}
+$d_L^{(1)}$              & 5100001 \\
+$u_L^{(1)}$              & 5100002 \\
+$e_L^{(1)-}$             & 5100011 \\
+$\nu_{eL}^{(1)}$         & 5100012 \\
+$g^{(1)}$                & 5100021 \\
+$\gamma^{(1)}$           & 5100022 \\
+$Z^{(1)0}$               & 5100023 \\
+$W^{(1)+}$               & 5100024 \\
+$d_R^{(1)}$              & 6100001 \\
+$u_R^{(1)}$              & 6100002 \\
+$e_R^{(1)-}$             & 6100011 \\
+\end{tabular}
+
+where for the fermions, "L" and "R" are meant to reflect weak interaction 
+quantum numbers of the lowest level SM particles associated to the KK
+excitations, and denote whether the fermion is respectively a doublet or
+a singlet under SU(2)_W. 
+
+In Pythia, to avoid any confusion with helicity states, we use the 
+the notation "D"oublet and "S"inglet instead of "L" and "R", and we
+use * rather than ^(1) to denote that the state is an excitation, 
+as follows (for the first level excitations only):
+
+\begin{tabular}{lr@{\protect\rule[1mm]{0mm}{4mm}}}
+$d*_D$			 & 5100001 \\
+$u*_D$			 & 5100002 \\
+$e*_D-$			 & 5100011 \\
+$nue*_D$		 & 5100012 \\
+$g*$			 & 5100021 \\
+$gamma*$		 & 5100022 \\
+$Z*0$			 & 5100023 \\
+$W*+$			 & 5100024 \\
+$d*_S$			 & 6100001 \\
+$u*_S$			 & 6100002 \\
+$e*_S$			 & 6100011 \\
+\end{tabular}
+
+In either case (PDG or Pythia notation), both the doublet and singlet
+UED excitations are ordinary Dirac fermions, which have both left and
+right handed chiral spinor components. 
+
+If there is no mixing between the doublets and singlets, then these are 
+also the mass eigenstates. One can safely neglect mixing for all but the
+top quark. In Pythia 6.4.17, mixing has been neglected for all
+quarks. Top mixing matrices are foreseen to be added in a later version.
+
+* RADIATIVE CORRECTIONS TO THE UED PARTICLE EXCITATION MASSES
+
+The mass spectrum at each KK level is highly degenerate except for 
+particles with large zero mode masses (t, W, Z, h). First order
+radiative corrections are included in the implementation and are
+usually of order 20% for strongly interacting particles (the heaviest
+being the gluon), and less than 10% for leptons and EW bosons (the
+lightest being the photon). With these mass splittings, the SM quark
+and gluon KK excitations will cascade decay down to the "Lightest KK
+Particle" (LKP), unless there is another mechanism through which the
+particles can decay. See the article by H.-C.Cheng, K.T.Matchev and
+M.Schmaltz in Phys.Rev. D66 (2002) 036005 for the radiative
+corrections to the masses. 
+
+* GRAVITY MEDIATED DECAYS
+
+If the 4+1-dimensional "UED" space is embedded into a larger space of
+(4+1+N) dimensions, with N a number of additional extra dimensions 
+of size eV^{-1} into which only gravity propagates, then gravity
+mediated decays also become possible.  
+ 
+The graviton field appears as a massless graviton with an infinity of 
+excited modes whose masses differ by O(eV). The graviton couples to all 
+KK particles which can decay through KK number violating interactions
+mediated by gravity, by emitting a graviton e.g. gamma* -> gamma + G .
+See the article by A.DeRujula, A.Donini, M.B.Gavela and S.Rigolin in
+Phys.Lett. B482(2000) 195 for the gravity mediated decay widths 
+expressions. These widths depend on 1/R as well as on N.
+
+In this scenario, an interplay occurs between the mass splitting decay 
+widths and the gravity mediated decay widths. If 
+       Gamma(mass splitting) > Gamma(gravity mediated)
+then the gluon and quark excitations will cascade down to the excited
+photon gamma*, which in turn will decay into a photon and graviton.
+See the article by C.Macesanu, C.D.McMullen and S.Nandi in Phys.Lett. B546
+(2002) 253 for the decay widths plots versus 1/R. One can see from these
+plots that for N=6 large extra dimensions (the default in Pythia),
+this type of cascade occurs for 1/R <= 2TeV. 
+
+In Pythia 6.4.17, we enable the gravity mediated decays only for the
+level 1 excited photon. Gravity mediated decays  for all particles
+is foreseen to be included in a future version, and the routine to
+compute the relevant widths is already present in the code, but
+presently can only be called standalone. 
+
+* FEATURES OF THE UED IMPLEMENTATION
+
+The UED free parameters are 1/R, N, Lambda, the number of quark flavours 
+and m_H. In the code, the switches and parameters are stored in the
+new common block:
+
+      COMMON/PYPUED/IUED(0:99),RUED(0:99)
+
+with the following switches and parameters so far defined
+
+     IUED(1) UED ON(=1)/OFF(=0) switch 
+             Default value = 0
+     IUED(2) ON(=1)/OFF(=0) switch for gravity mediated decays
+             Default value = 0
+     IUED(3) NFLAVOURS Number of KK excitation quark flavours
+             Default value = 5
+     IUED(4) N the number of non-universal large extra dimensions
+             Default value = 6
+     IUED(5) Selects whether the code takes Lambda (=0)
+             or Lambda*R (=1) as input.
+             Default value = 0
+     IUED(6) Radiative corrections to the masses ON (=1) or OFF (=0)
+             Default value = 1
+
+     RUED(1) RINV (1/R) the curvature of the extra dimension
+             Default value = 1000 GeV
+     RUED(2) XMD the (4+N)-dimensional Planck scale
+             Default value = 5000 GeV
+     RUED(3) LAMUED (Lambda cutoff scale), used for IUED(5)=0
+             Default value = 20000 GeV
+     RUED(4) LAMUED/RINV (order of 10-20), used for IUED(5)=1
+             Default value = 20     
+
+       N.B. The Higgs mass is also a free parameter
+       of the UED theory but is set through PMAS(25,1).
+
+Note: level-1 KK excitations of all Standard Model fermions and gauge
+bosons are present, but the additional Higgs bosons are not present in
+the current implementation.
+
+Nine new production processes have been added:
+
+ISUB  production process (ref: hep-ph/0201300 and Azuelos-Beauchemin)
+---- ---------------------------------
+ 311 g   + g      -> g*    + g*
+ 312 g   + q      -> g*    + q*_D/q*_S
+ 313 q_i + q_j    -> q*_Di + q*_Dj
+                  -> q*_Si + q*_Sj
+ 314 g   + g      -> q*_D  + q*_Dbar
+   	          -> q*_S  + q*_Sbar
+ 315 q   + qbar   -> q*_D  + q*_Dbar
+	 	  -> q*_S  + q*_Sbar
+ 316 q_i + q_barj -> q*_Di + q*_Sbarj
+ 317 q_i + q_barj -> q*_Di + q*_Dbarj
+		  -> q*_Si + q*_Sbarj
+ 318 q_i + q_j    -> q*_Di + q*_Sj
+ 319 q_i + q_bari -> q*_Dj + q*_Dbarj
+
+
+The following mass-splitting decay modes for n=1 are also included 
+(ref: hep-ph/0205314):
+     l*_S  -> l   + gamma*
+     q*_S  -> q   + gamma*
+     q*_S  -> q   + Z*
+     l*_D  -> l   + gamma* 
+     nu*_D -> nu  + gamma*
+     q*_D  -> q   + gamma*
+     q*_D  -> q   + Z*
+     q*_Di -> q_j + W*
+     W*+-  -> l+- + nu*_D
+	   -> nu  + l*_D+-
+     Z*    -> nu_bar + nu*_D
+	   -> l-+ + l*_D+-
+     g*    -> q   + q*_Dbar
+	   -> q   + q*_Sbar
+
+The only gravity mediated decay which is turned is is the excited photon:
+
+     gamma*-> gamma + Graviton
+
+Four new subroutines have been added to handle UED-specific tasks:
+
+      SUBROUTINE PYXDIN   to initialize Universal Extra Dimensions  
+      SUBROUTINE PYUEDC   to compute UED mass radiative corrections
+      SUBROUTINE PYXUED   to compute UED cross sections      
+      SUBROUTINE PYGRAM   to generate UED graviton mass spectrum 
+
+In addition, several Pythia routines have been modified to include the
+UED implementation. These modified routines include
+
+      SUBROUTINE PYGIVE   now accepts input also for IUED and RUED  
+      SUBROUTINE PYINIT   added call to PYXDIN to initialize UED 
+      SUBROUTINE PYMAXI   small extension for UED overestimates
+      SUBROUTINE PYPTFS   small extension for showering KK gluons
+      SUBROUTINE PYRAND   extended to choose flavours in UED processes
+      SUBROUTINE PYRESD   added call to PYGRAM to choose graviton mass
+                          from continuous spectrum in UED decays to
+                          gravitons 
+      SUBROUTINE PYSCAT   extended to include UED processes
+      SUBROUTINE PYSIGH   small extension to call PYXUED for UED
+      SUBROUTINE PYWIDT   extended to compute KK decay widths
+
+-----------------------------------------------------------------------
+ 
+CHANGES IN CONSECUTIVE SUBVERSIONS
+
+6.4.00 : 25 March 2006
+  - This version is identical with Pythia 6.327. Readers should therefore
+    turn to the Pythia 6.3 update notes to trace the evolution of the
+    program.
+  - The only changes are updates of character strings, 6.3 -> 6.4.
+
+6.4.01 : 16 April 2006
+  - Bug fix in PYRAND: when the Les Houches Accord interface is used 
+    with more than 50 processes, some of them would be mapped into 
+    a range of PYTHIA process numbers assigned to SUSY processes, 
+    where KFPR(ISUB,1) and KFPR(ISUB,2) would be overwritten. 
+  - Modification of string fragmentation, introducing new tolerance
+    parameter.
+    PARU(14): (D=2.) when passing string corners, the (mis)match of
+        transverse momentum directions may need to be compensated
+        by using momentum fractions x outside the allowed range 
+        0 < x < 1, by having a slightly negative x. Occasionally 
+        the x can become quite negative, and then rarely give strange 
+        results. The new parameter sets limits how far outside the
+        allowed range one may go before rejecting the current try
+        and restarting the fragmentation of the current string.
+  - The size of the /PYPART/ commonblock has been expanded, by 
+    replacing the current MAXNUP size parameter by a new MAXNUR one
+    with size 1000. This should avoid some problems with overflows.
+  - Bug correction: for the MSTP(95) > 3 options the colour 
+    reconnection in PYFSCR was not called from PYEVNW.
+
+6.4.02 : 2 May 2006
+  - PYFSCR: bugfix and updates (performing colour reconnections in the
+    new underlying-event framework). A bug for MSTP(95)=2,3 caused an 
+    unintended suppression of connections between free colour octets. 
+    This has now been fixed, so the scenario works as described in the 
+    manual. In addition, a new option has been added, by MSTP(95)=6,7, 
+    where only partons with one and only one free colour tag are allowed 
+    to initiate a string piece. This amounts to saying that the string 
+    collapse is driven by free triplet charges. Finally, the parameter 
+    PARP(78) now also works for MSTP(95)>1, and controls the strength of 
+    the colour reconnections. In addition, the reconnection probability 
+    grows as a function of the number of multiple interactions, to reflect
+    the possibility of a higher amount of reconnections occurring in  
+    collisions with a higher amount of strings. The full description of 
+    the PYFSCR parameters is thus now:
+    MSTP(95) : CR Type
+             = 1  : old cut-and-paste reconnections, handled in PYMIHK
+             = 2  : Type I(no gg loops); hadron-hadron only
+             = 3  : Type I(no gg loops); all beams
+             = 4  : Type II(gg loops)  ; hadron-hadron only
+             = 5  : Type II(gg loops)  ; all beams
+             = 6  : Type S             ; hadron-hadron only 
+             = 7  : Type S             ; all beams
+    Types I and II are described in Sandhoff+Skands, in hep-ph/0604120.
+    Type S is driven by starting only from free triplets, not octets.
+    PARP(78) : CR Strength 
+           The probability to keep a given colour-dipole pair depends 
+           on PARP(78) and the number of interactions, MINT(31):
+                  PKEEP = (1D0-PARP(78))**(MINT(31)) ;
+           PARP(78) -> 1D0 : Full strength. 
+           PARP(78) -> 0D0 : Zero strength. No reconnections.    
+    NOTE: New min-bias/UE tunes with these new models are also available 
+    from the web page.
+  - Sped-up machinery for minimum-bias events, ISUB = 95.
+    Specifically, the simultaneous choice of impact parameter b and
+    pT for the hardest interaction has been optimized. The key trick 
+    is to split the b range in two, roughly where the probability for
+    an interaction of two hadrons passing through each other has 
+    dropped to 1/2. With such a split it is feasible to pick b once
+    and for all, and then to use two different formalisms for the pT 
+    selection. At small b, one includes the "Sudakov" exponent to
+    generate a trial sequence of falling pT's until accepted. If the
+    sequence reaches pT = 0 the generation is restarted at maximum.
+    At large b the trial pT's are selected unordered over the whole
+    pT range, and then the "Sudakov" exponent is used as (part of) 
+    the acceptance weight. This technical change should not affect 
+    physics.   
+    Internally, two new variables are used:
+    MINT(39) : region of b value in current event.
+        = 0 : not defined (e.g. for MSTP(82) = 1 or 2).
+        = 1 : low-b region.
+        = 2 : high-b region.
+    VINT(139) : current b value. Note that no rescaling to physical
+        units is performed, but only to an average b of 1 in 
+        minimum-bias events, and thereby below 1 for high-pT events.
+        (Related to the jet pedestal effect.) Thus it only has a 
+        relative meaning in the context of comparing different events 
+        inside the same sample (i.e. generated with the same parameter 
+        values).  
+  - Initialization of multiple interactions did not take into account
+    that the old and new multiple interactions scenarios use somewhat
+    different factorization scale choices. This gave partly misleading
+    initialization information for the new scenarios, but hardly affects 
+    the events actually generated for Tevatron or LHC applications. It
+    could be more visible if tunes are extended to lower energies 
+  - PYSLHA: update. When reading in SLHA decay tables for Higgs bosons, a
+    message is printed to alert the user to the fact that the h/H/A->gg
+    decay width is also used to compute the cross section for the inverse 
+    process: gg -> h/H/A
+  - PYFEYN: update. The previous interface to FeynHiggs became obsolete 
+    with FeynHiggs version 2.3, where a number of parameters in the
+    relevant FeynHiggs call routines were changed from DOUBLE PRECISION
+    to DOUBLE COMPLEX. The corresponding change has now been introduced
+    in PYFEYN as well, so that earlier Pythia versions are compatible 
+    with FeynHiggs 2.2, while Pythia versions from 6.402 onward are 
+    compatible with FeynHiggs 2.3.
+  - PYSUGI: small bug fix, removed a CLOSE statement that could lead to
+    crashes if no file had previously been opened.
+  - Production channels g g  and gamma gamma -> Higgs rely on knowledge
+    of the Higgs -> g g and gamma gamma partial widths. If SLHA is 
+    used to replace the internal decay tables the program would be 
+    looking in the wrong place. This has now been corrected. Note,
+    however, that it is not possible to study e.g. g g -> Higgs if the
+    new decay tables do not provide the Higgs -> g g decay channel.      
+
+6.4.03 : 7 June 2006
+  - The Pythia 6.4 Physics and Manual is now published in 
+    T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 
+    [hep-ph/0603175]. 
+    From now on, this is the only correct reference to the Pythia 6
+    program.
+  - PYFEYN: further bug correction in this interface.
+  - Typo in the sped-up multiple-interactions treatment in 6.402 
+    may affect results for the impact-parameter profile MSTP(82) = 5
+    when PARP(83) < 2, and is now corrected.
+  - Insert Planck scale in PYSUGI in appropriate units:
+    AMPL = 2.4 E18 GeV = {8 pi G_newton}^{1/2}.
+  - Remove superfluous comma in PYSUGI printout statement. 
+  - Move default initialization of the PYLH3P and PYLH3C commonblocks
+    to BLOCK DATA PYDATA for consistency with Fortran standard.
+ -  PYSIGH: An additional possible classification of basic scattering
+    processes now exists, for the special case of Weak Boson Fusion 
+    and g g or q qbar -> Q Qbar Higgs processes:
+    ISJETS = 2: Processes for which the matrix element does contains jets
+      at leading order, but which are not included in ISJETS=1 since they
+      are not of a QCD origin, as for instance the forward jets in
+      WW/ZZ fusion to Higgs, qq -> qqH. The processes classified as 
+      ISJETS=2 are currently ISUB=121-124, 173, 174, 178, 179, 181, 182, 
+      186, 187. The maximum scale for initial state radiation in these 
+      processes is set equal to the factorisation scale, see MSTP(32) 
+      and MSTP(39).
+
+6.4.04 : 10 August 2006
+  - Changes to handle the new proposed Les Houches Event Files (LHEF) 
+    format [hep-ph/0609017].
+    1) The existing two sample routines UPINIT and UPEVNT, which read 
+    the PYTHIA old separate initialization and event files, have been
+    commented out (so the code is still there, just in case...).
+    2) The new (uncommented)  UPINIT and UPEVNT routines handle an LHEF, 
+    for initialization and event read-in. As before, the file to be used 
+    must be opened by the user in the main program, and the file number 
+    set in MSTP(161) and MSTP(162). Previously, with two separate input
+    files, MSTP(161) and MSTP(162) were different. Now they are the same, 
+    but both must still be set.
+    (As before, the routines that come with  PYTHIA are only suggestions. 
+    You are free to supply your own routines and link them instead. The 
+    difference is that now there will be default code that eventually will 
+    work right away with several different parton-level generators.)
+    3) A new routine PYLHEF has been added to produce an LHE file from 
+    a parton-level PYTHIA run output. Recall that, previously, PYUPEV
+    had to be used instead of PYEVNT to produce parton-level-only events
+    and write them to file MSTP(161), and a call to PYUPIN had to be added 
+    at the end to write initialization information to file MSTP(162),
+    both files to be opened by the user. (The PYUPIN call has to come 
+    at the end, since it is only then that cross sections are known.)
+    By adding a call to PYLHEF after the PYUPIN call, the two files
+    will be combined into one single LHE file.
+    MSTP(163) : (D=0) file unit number on which the LHE file will be 
+        written. The corresponding file must be opened by the user in 
+        the main program.
+    MSTP(164) : (D=0) fate of input files when an LHE file is created by
+        PYLHEF.
+        = 0: the input files, associated with units MSTP(161) and
+           MSTP(162), are removed.
+        = 1: the input files are kept unchanged, although the information
+           is now duplicated in the new file.
+    4) Note: it would have been possible to avoid the use of two
+    intermediate files, by a judicious use of dummy cross sections
+    when the beginning of the file is first written, with the correct 
+    ones substituted after a REWIND. This seemed like overkill, given the 
+    small use of PYTHIA as a parton-level-only generator. The current
+    facility to write LHE files is mainly intended to test the LHEF 
+    structure. 
+    5) The precision with which lifetime and spin are written in PYUPEV
+    has been reduced, in particular since spin is not assigned by PYTHIA 
+    and thus always defaults to 9. = unassigned,. and lifetime is 
+    usually assumed 0. = vanishing.
+  - The processes 381-388 for QCD processes modified by technicolor
+    interactions are reclassified as being QCD processes in PYSIGH
+    (except for top production), i.e. multiple interactions and 
+    initial-state radiation are restricted to be softer than the 
+    hard process itself.
+  - The colour octet wavefunction-at-the-origin default values for 
+    charmonia and bottomonia in PARP(141)-PARP(150) are now set 
+    according to the values in 
+      P. Nason et al., in "Standard model physics (and more) at the LHC",
+      eds. G. Altarelli and M.L. Mangano, CERN 2000-004, p. 231
+      [hep-ph/0003142]
+    as described in talk by M. Bargiotti in the HERA4LHC workshop,
+    CERN, 8 June 2006. 
+  - The values of the parton densities, xf(x,Q2) of the two incoming 
+    partons to the hard interaction (if any) are now stored in PARI(29) 
+    and PARI(30), respectively. (And internally also in VINT(39) and 
+    VINT(40). The XSFX array, which contains this kind of information,
+    is overwritten for each new multiple interaction, and is therefore
+    not so useful.) Since before the related flavours are stored in
+    MSTI(15), MSTI(16), the x values in PARI(33) and PARI(34), and the
+    Q scale in PARI(23). 
+  - The size NMXHEP of the HEPEVT commonblock is now stored in MSTU(8)
+    (for informational purposes).
+  - The two dummy subroutines FHSETPARA and FHIGGSCORR have been updated
+    to take complex variables, cf. update note 6.402 for PYFEYN.
+    Irrelevant in practice, but introduced for consistency. 
+
+6.4.05 : 31 August 2006
+  - Mistake in 6.404 when processes 381-388 were to be classified as 
+    QCD processes (an .OR. instead of an .AND.) lead to all processes
+    being classified as QCD-type, and thereby, in some cases, to the 
+    maximum scale for ISR and MI being set incorrectly.
+  - Several processes involving photons in the initial, intermediate 
+    or final state have been assigned ISJETS=3 in PYSIGH. This mean 
+    that the maximum shower scale is set equal to the hard-process 
+    scale, typically pT, rather than the full energy. Thereby (in most
+    cases) the old behaviour from Pythia 6.2 should be recovered for 
+    these processes. The ones relevant for hadron colliders are 10, 18, 
+    19, 20, 83, 106 and 114. The ones for incoming photon beams are 
+    33 - 36, 54, 58, 69, 70, 80, 84, 85, 107, 108, 110 and 131 - 140. 
+  - A few processes have been added to the ISJETS = 2 class introduced 
+    in 6.403, i.e. WW/ZZ fusion: 5, 8, 71, 72, 73, 76, 77, 351 and 352.
+  - Showering and PDF scales for elastic and diffractive processes 
+    explicitly set zero, for cosmetics reasons only.  
+  - New option MSTP(123) = 3 gives same behaviour as = 2 but does not
+    print out warnings.    
+
+6.4.06 : 14 September 2006
+  - In 6.402 a bug was fixed, where previously an incorrect PDF scale 
+    choice was used at initialization of the new multiple interactions 
+    scenario: intended to have pT^2 but got pT^2 + pT_0^2, as in the 
+    old scenario. The mistake did not have so dramatic consequences, 
+    since the intended scale was used during event generation, so it
+    mainly affected the initialization of the impact-parameter picture.
+    When the bug was fixed in 6.402, unfortunately the fix came to 
+    overwrite the initialization of the old scenario, which therefore 
+    came to suffer from the opposite problem, of being initialized with
+    a PDF scale of pT^2 instead of the pT^2 + pT_0^2 intended for this 
+    scenario. This is now fixed.
+  - Second-order matching formulae for alpha_strong at flavour 
+    thresholds introduced, following W.J. Marciano, Phys. Rev. D29 
+    (1984) 580.
+
+6.4.07 : 25 September 2006
+  - New option for Les Houches Event Files.
+    MSTP(165) : (D=0) writing or not of an extra line with parton 
+        density information for each event, using the format suggested
+        in the LHEF writeup:
+        #pdf id1 id2 x1 x2 scalePDF xpdf1 xpdf2
+        which here translates into
+        #pdf MSTI(15) MSTI(16) PARI(33) PARI(34) PARI(23) PARI(29) PARI(30)
+        = 0 : no.
+        = 1 : yes, provided that MSTP(162) > 0.
+        Note: currently such information is not read back in when the
+            UPEVNT routine is used. It is read by Pythia8, however. 
+
+6.4.08 : 24 October 2006
+  - Colour Reconnections: 
+    The new colour annealing models described in the 6.402 update notes 
+    above were previously only available with the new interleaved 
+    underlying-event framework (MSTP(81)=21). To help extricate genuine 
+    colour-reconnection effects from changes in the shower and other 
+    underlying-event aspects, the colour annealing models can now also be  
+    used as an 'afterburner' to the old underlying-event framework (i.e. 
+    with MSTP(81)=1). The models are switched on, as before, using MSTP(95),
+    with values between 2 and 6 currently valid. The strength is regulated 
+    with 0D0 < PARP(78) < 1D0. Since the models do increase the time it
+    takes to generate an event, it may be of interest to note that MSTP(95)=6 
+    is somewhat faster than the other models. In order not to 'double count' 
+    colour reconnections, we also recommend setting the colour connection 
+    parameter PARP(85)=0D0 when using the old framework with these models.
+  - Pythia Tunes for Underlying Event (UE) and Min-Bias (MB):
+    Several sets of widely used PYTHIA parameter settings ('tunes') have 
+    been collected and made more easily available through the auxiliary 
+    routine PYTUNE(ITUNE), which should be called before the call to 
+    PYINIT. At this time, the following values of ITUNE are recognized:
+    ITUNE    NAME 
+        0 Default : No settings changed => linked Pythia version's defaults.
+    ====== Old UE, Q2-ordered showers ========================================
+      100       A : Rick Field's Tune A 
+      101      AW : Rick Field's Tune AW
+      102      BW : Rick Field's Tune BW
+      103      DW : Rick Field's Tune DW
+      104     DWT : Rick Field's Tune DW with slower UE energy scaling
+      105      QW : Rick Field's Tune QW (NB: needs CTEQ6.1 pdfs externally)
+      106   ATLAS : Arthur Moraes' ATLAS tune
+      107     ACR : Tune A modified with annealing CR
+    ====== New UE, Q2-ordered showers ========================================
+      200    IM 1 : Intermediate 1: new UE, Q2-ordered showers, annealing CR
+    ====== New UE, interleaved pT-ordered showers, annealing CR ==============
+      300      S0 : Sandhoff-Skands Tune 0 
+      301      S1 : Sandhoff-Skands Tune 1
+      302      S2 : Sandhoff-Skands Tune 2
+      303     S0A : S0 with "Tune A" UE energy scaling
+      304    NOCR : New UE "best try" without colour reconnections. 
+      305     Old : New UE, original (primitive) colour reconnections
+    Note 1: care should be taken when interpreting results obtained with these
+    tunes. They have not all been tuned to the same data, and not to the same
+    level of sophistication. For more details about each tune / model, see 
+    the list of parameters and useful references printed by PYTUNE for
+    each specific model. (This printout can be switched off with MSTU(13)=0.) 
+    Note 2: care has been taken so that these parameter settings should
+    also work when used 'in sequence', i.e. when several different models 
+    are initialized one after the other during a single Pythia run, but we 
+    have not explicitly verified this for all possible combinations. If 
+    running multiple models in sequence you are therefore advised first 
+    to make a few quick sanity checks first, comparing e.g. <Nch> to what 
+    you get when initializing only one model in each Pythia run.
+    Note 3: the PYTUNE routine also contains tune parameters for the GAL and
+    SCI scenarios of the Uppsala group. These options can only be run with a
+    modified version of PYTHIA 6.215, however, as described in the routine.
+    If you want to use those, you therefore have to extract PYTUNE and link
+    it together with the modified PYTHIA version on the Uppsala web site.
+    The GAL and SCI models cannot be used in sequence with other PYTUNE calls.
+  - SLHA Decay Tables. Bug fix in PYSLHA. When reading in SLHA decay tables 
+    for 3-body decays, erroneous behaviour could occur since Pythia expects 
+    a specific ordering in the list of decay products while the SLHA standard 
+    does not impose such ordering. There were a few cases (e.g. sparticle in 
+    SLHA file appearing as decay product 2, with absolute KF code of number 
+    3 larger than that of number 1, or coloured particle appearing as decay
+    product 2) where PYSLHA failed to correctly reorder the decay products. 
+    This has now been amended.
+  - External particles, QNUMBERS, PARTICLE. Improvements in the read-in 
+    of external particles. PYSLHA is now more intelligent when forming the 
+    name of antiparticles, replacing '+' by '-' etc for charged states, 
+    rather than just appending 'bar'. PYSLHA now also deals better with 
+    reading mass spectra for completely generic external states. Finally, 
+    to test out alternative naming schemes (QNUMBERS may be included in  
+    SLHA2 but the standard has not yet been agreed upon), Pythia will 
+    understand BLOCK PARTICLE to mean the same thing as BLOCK QNUMBERS.
+
+6.4.09 : 13 November 2006
+  - Division in DATA statements in PYALPS removed, owing to problems 
+    for some compilers.
+  - PYTIME modified so no time information at all by default, again
+    owing to problems for some compilers.
+
+6.4.10 : 30 January 2007
+  - Bug corrected in initialization of Les Houches colour tags in /PYCTAG/. 
+    The number of colour tags, NCT, was not consistently reset to zero 
+    for each new event, leading to a possible slowing-down and eventually 
+    crashing of the program for certain specific settings, e.g. for 
+    Tune ACR (using the PYTUNE preset 107). NCT is now explicitly reset 
+    to zero at the beginning of each event.
+  - Added warning in PYINOM to clarify the treatment of chargino and
+    neutralino masses in extreme cases.  When the internal PYTHIA code
+    is used to calculate the Supersymmetric neutralino and chargino masses,
+    it is prohibited for the lightest chargino to be lighter than the
+    lightest neutralino.  When this would otherwise happen, the lightest
+    chargino mass is forced to be larger than the lightest neutralino mass 
+    plus two times the pion mass.  This choice is based on the fact that 
+    gauge boson loop corrections dominate over Supersymmetric corrections 
+    for many cases (see Nucl. Phys. B543: 47-72,1999 for a discussion).
+    To avoid  confusion about this, an explicit warning is now printed whenever 
+    this happens. We stress that the calculation of sparticle masses
+    and mixing angles from input soft Supersymmetry breaking parameters
+    is (for the most part) treated at only the tree level in PYTHIA.   
+    Currently, a large number of dedicated (external) codes exist to
+    calculate the Supersymmetric spectrum at higher orders.  These
+    can be interface with PYTHIA using the SLHA interface.  With these tools,
+    the interested user can study, for example, the case of chargino decays 
+    to a single pion or a quasi-stable chargino. 
+  - An additional warning statement is added to PYAPPS to remind the
+    user whenever highly approximate formulae are used to calculate
+    the Supersymmetric particle spectrum.  This code was and is only
+    intended for debugging purposes.
+  - Change in PYSLHA, for read-in of particle masses via the SLHA.
+    Earlier, PYSLHA would only read the mass given in BLOCK MASS 
+    for particles either unknown to PYTHIA or relevant to the (N)MSSM. 
+    Now, the mass of any particle can be read from BLOCK MASS. For 
+    instance the mass of a Z' (KF=32) could not previously be read in
+    via SLHA. This is now possible.
+  - Change in PYSLHA, for read-in of BSM states via the SLHA.
+    The introduction of new states via the proposed SLHA
+    BLOCK QNUMBERS (or, alternatively, BLOCK PARTICLE) has been made
+    more general and especially particle names are formed in a more 
+    stable way.
+  - Changes in PYSLHA, for read-in of decay tables via the SLHA.
+    1) Behaviour made more stable against inconsistent inputs.
+    DECAY statements without accompanying explicit decay channels 
+    are ignored, unless the WIDTH is zero, in which case the particle 
+    in question is set stable. Previously, if a DECAY line contained 
+    a non-zero width for a particle but no explicit decay channels 
+    were given, errors would be printed and program execution adversely 
+    affected. 
+    2) For a known resonance, DECAY entries are now simply placed
+    at the end of the internal decay table, and MDCY(KC,2) and 
+    MDCY(KC,3) updated accordingly. Previously, the existing decays 
+    were first removed and all other particle decays moved down. This
+    had the advantage of optimizing memory usage, but also meant that the 
+    decay channels of all particles following the modified one were 
+    renumbered, which could lead to problems for some applications. 
+  - An event that fills up and tries to overflow the whole PYJETS 
+    commonblock can enter a loop (possibly at times infinite) where many 
+    unsuccessful tries are made, especially for the new PYEVNW machinery.
+    Therefore both PYEVNW and PYEVNT have been modified so that such 
+    overflow problems leads to the current event being thrown away and 
+    a new one generated. 
+ 
+6.4.11 : 30 March 2007
+  - Further changes in PYSLHA, for read-in of decay tables via the
+    SLHA. Decay modes which contribute to the total width but which are
+    not desired active for the purpose of the present run
+    can now be switched off simply by commenting out (or deleting)
+    the corresponding line in the SLHA file.
+    PYTHIA will then add an inactive dummy mode containing the sum of
+    switched-off branching fractions, such that cross sections etc
+    will scale correctly as the effective branching fraction
+    decreases.
+    Previously, PYTHIA would force a rescaling so that the
+    sum of active branching fractions would be equal to unity - that
+    rescaling is now only applied if the sum of active branching
+    fractions is larger than unity.
+    Note that, alternatively, the same thing can be done by giving a
+    negative sign to the branching fraction for the mode(s) to be
+    switched off. Such a mode will then still appear explicitly in
+    PYTHIA's decay listing (with a branching fraction equal to the
+    absolute value of the one in the file), but it will be switched off
+    for the event generation run.
+  - PYSLHA: Eliminated leading space in particle names when reading in 
+    QNUMBERS/PARTICLE blocks
+  - Update in PYSGSU. New parameter RMSS(42) allows possibility to set
+    the SUSY-QCD Yukawa (quark-squark-gluino) coupling to be different
+    from the corresponding gauge (quark-quark-gluon) coupling. In softly 
+    broken supersymmetry, these two couplings must be identical (at tree 
+    level), but it can be phenomenologically interesting (see e.g. 
+    hep-ph/0703160) to investigate the consequences of allowing them to be 
+    different. The default value of RMSS(42) has been set to 1, which
+    corresponds to the ordinary SUSY conserving relation. If the user
+    sets RMSS(42) different from unity, the following relation obtains:
+    alpha_s' = RMSS(42) alpha_s  ,
+    where alpha_s' is the coupling of the squark-quark-gluino vertex 
+    (squared), and alpha_s is the QCD gauge coupling (squared).
+  - New routine PYONOF, callable directly or more commonly called
+    indirectly from PYGIVE, to allow decay channels to be switched
+    on and off based on their decay-product content. Thereby the
+    more error-prone addressing by absolute decay-channel number
+    can be avoided.
+    When called, the routine loops through all the decay channels
+    of the intended particle, checks whether each matches the
+    criteria, and then individually switches them on or off. It
+    only works for simple on/off cases, however, see notes below.
+    The argument to PYONOF is a CHARACTER string of the format
+        KF:PROPERTY = LIST
+    Here
+    * KF is the PDG code of the decaying particle
+      PROPERTY tells which action to take
+        = ALLON, ALLOFF means that all decay channels are  switched
+            on or off; expects no list (or equal sign).
+        = ONIFANY, OFFIFANY means that a decay channel is switched
+            on or off if one of its decay products matches one of
+            the particles in the list. 
+         = ONIFALL, OFFIFALL means that a decay channel is switched
+            on or off if each of the particles in the list is matched
+            to one particle in the channel. The channel may well
+            contain more particles than the list, but cannot contain
+            fewer. If the same code is repeated in the list then it
+            must also occur (at least) the same number of times in
+            the decay channel.   
+         = ONIFMATCH, OFFIFMATCH works as ONIFALL, OFFIFALL, with the
+            difference that there must be a perfect match, i.e. the
+            number of particles in the channel and in the list must
+            agree.
+      LIST is a list of PDG particle codes, at most 10 of them,
+            with the particles separated either by blanks or by
+            commas. It is expected that all codes are positive, and
+            are compared with the absolute value of the products
+            in the decay channel.
+    Examples:
+        CALL PYONOF("23:alloff")
+        CALL PYONOF("23:onifany = 1 2 3 4 5")
+    first switches off all Z0 decay and then switches back on those
+    to quarks.
+        CALL PYONOF("15:offifany = 311 321 310 130 313 323")
+        CALL PYONOF("15:onifmatch = 16 323")
+        CALL PYONOF("15:offifall = 211 211")
+    first switches off all decay modes of the tau that contains a K
+    or K* meson, then switches back on the specific nu_tau K*- channel,
+    and finally switches off all channels with at least two charged
+    pions.
+    Note 1: the method only works to set values MDME(IDC,1) = 0 or 1,
+        corresponding to off or on. Non-existing channels, i.e. those
+        with negative MDME(IDC,1) values, are never changed. Values
+        above unity, used e.g. to denote different behaviour for a
+        particle and its antiparticle, cannot be set by this routine,
+        but existing such values will be changed by the commands above.    
+    Note 2: the whole string cannot be longer than 100 characters.
+    Note 3: an exclamation mark (!) can be used to denote the
+        beginning of a comment.
+    Note 4: the PROPERTY can be written in upper- or lowercase,
+        or mixed, as desired.
+    Note 5: the routine echoes back the command it believes it has
+        been told to execute, and prints a warning if it failed to
+        interpret it.
+    Note 6: obviously the final outcome depends on the order in which
+        commands are carried out. Always use CALL PYLIST(12) to check
+        that you got it right. Recall that MSTU(1) and MSTU(2) can be
+        used to restrict the range of KF codes that are actually listed.
+  - PYGIVE has been modified to that if the input string begins with
+    a digit the command is sent on to PYONOF for processing there,
+    as described above.
+  - Update to PYLOGO to reflect current author bio information.
+  - Bug fix in PYSGSU for the treatment of Supersymmetry process 276 (the
+    production of q_L q_Rbar or q_Lbar q_R).  Previously, when branching
+    fractions were controlled by the user, the overall rate was reduced
+    as if a q_R q_Rbar pair was produced.
+  - Bug fix in PYTBDY to correct a problem where an undefined particle code 
+    would sometimes arise in the decay of a gaugino to a gaugino and a
+    fermion-antifermion pair.
+ 
+6.4.12 : 23 July 2007
+  - Update of PYTUNE. The value of the switch MSTP(68) is now included
+    in the printed list of parameters, together with a statement that
+    this parameter is not being (re-)set by PYTUNE. The reason for
+    including this parameter is that the shower phase space for
+    processes without ME matching and which contain no QCD jets is
+    affected by it. Since no such processes were included in tuning
+    exercises so far, its value is not fixed, hence PYTUNE leaves it
+    at the current default, MSTP(68)=3 ('power showers').
+  - Correction in PYKLIM for the case when cuts on pTHat (CKIN(3), CKIN(4))
+    and asymmetric cuts on cos(thetaHat) (CKIN(27), CKIN(28))
+    conspire to close one of the two regions with cos(thetaHat)
+    > 0 and < 0, but not both.
+  - PYMEWT expanded to include a matrix element correction to the parton
+    shower in PYSSPA for processes of the type f fbar -> h0 (A0, H0),
+    similar to the corrections made for W and Z boson production.
+    This is mainly of interest for the production of Higgs bosons that
+    have an enhanced coupling to heavy quarks, and ensures that b bbar
+    -> h0 matches smoothly onto b g -> b h0 + h.c.  This includes
+    processes ISUB=3, 151, and 156. 
+  - PYSIGH modified to treat processes described above (3, 151, and 156)
+    with ISMECR=1.
+  - In version 6.410 a bug was corrected in PYEVNT for Tune ACR [PYTUNE(107)] 
+    concerning resetting the number of Les Houches colour tags for each new 
+    event. However, the common block /PYCTAG/ was not declared in the header 
+    of PYEVNT. This is now remedied.
+  - MSTP(98) (D=0): treatment of beam remnant in PYSPLI when a photon is 
+    extracted from an incoming baryon beam.
+     = 0 : the baryon is split up into a quark and a diquark as usual.
+     = 1 : the baryon is assumed to radiate the photon coherently, 
+            i.e. without breaking up. 
+  - PYSTOP subroutine added to handle all instances when, previously, a
+    Fortran STOP occurred in the code.  The default behavior of PYSTOP is to
+    execute a Fortran STOP, but the user may modify this routine.
+  - PYVETO can now be called for pT ordered showers.  
+  - MSTP(152) (D=0): treatment of final state radiation for the additional
+    interactions produced in the old multiple interaction model.
+    = 0 : no showering
+    = 1 : PYSHOW is called with the scale SQRT(PARP(71)) times the pT of the
+           interaction in PYMULT.
+  - PYEVNW modified to correct a problem with color tags for external events of
+    the type e+e -> multiple colored partons.  Also, the time sequence
+    for showering external events is changed to follow the treatment in PYEVNT.
+    This means that showering parameter PARJ(81) is now set to PARP(72) before 
+    performing final state radiation on external events. 
+  - PYRESD modified to handle a problem with a particle mother of 0
+    in external events producing colored particles with multi-body decays 
+    which also parton shower.
+  - Problem with negative KF codes fixed in PYTBDY, affecting (slightly) three
+    body decays of sparticles.  This problem was partially fixed in 6.411.
+  - Correction of showering options in PYSHOW available for colour-octet
+    charmonium and bottomonium production, as regulated by the
+    MSTP(148) and MSTP(149) switches. In particular, MSTP(148) = 0
+    did not switch off radiation as claimed, but allowed it with
+    a reduced colour factor, as for q -> qg, as opposed to the normal
+    g -> gg one. This has now been corrected, and MSTP(149)=-1 has
+    been added as a new option to allow backwards compatibility.
+    Furthermore the description of the MSTP(149)=0 option was not
+    quite correct and is clarified below. The options now read:
+    MSTP(148) (D=0) : radiation off onium states.
+        = 0 : off.
+        = 1 : on.
+    MSTP(149) (D=0) : form for this radiation when MSTP(148) = 1.
+        = 0 : use the same splitting description as for g -> gg
+            (corrected by mass effects) but trace the
+            "on the average" harder gluon by letting
+            1/(z(1-z)) = 1/z + 1/(1-z) -> 2/(1-z)
+            in the splitting kernel.
+        = 1 : use the same splitting description as for g -> gg
+            (corrected by mass effects), i.e. allow the onium to
+            take a smaller fraction in the splitting than with = 0.
+        = -1 : as = 0 but use a smaller colour factor as for
+            q -> qg.
+        Note: it is not clear what is the "correct" behaviour.
+           One reasonable approach to explore uncertainties would
+           be to view MSTP(148)=1, MSTP(149)=0 as a central value
+           and MSTP(149)=+-1 as two outliers.
+  - Typo found in the Pythia 6.4 manual: in section 8.5.3 towards
+    the end it should read that RMSS(11) sets the right sbottom
+    mass parameter and RMSS(12) the right stop one, not the
+    reverse. The parameter listing in section 9.5 is correct. 
+  - Changes to PYCTTR to make it more stable against being called to trace 
+    "garbage" particles, i.e. entries with K(I,1)<=0 or PYCOMP(K(I,2))=0. 
+    In such cases the routine now just returns without doing anything.
+  - PYPTFS: removed unsafe colour tracing which produced crashes with the 
+    new models, e.g. PYTUNE(300).  Made the determination of IANNFL safer.
+    Corrected a spelling mistake and introduced zeroing of irrelevant MCT 
+    tags in addition the KCS ones. 
+  - Handle case of small negative partial widths in PYH2XX.
+  - Changes to PYPTIS to prevent crash for lepton beams.
+  - Minor bug fix in PYSLHA to prevent out-of-range problems for CPRO and CVER.
+
+6.4.13 : 12 September 2007
+  - Bug corrected for processes 174 and 179, WW vector boson fusion
+    of a H0 or A0, respectively, where the H0 is the heaviest, CP
+    even Higgs boson and A0 is a CP odd Higgs boson in an extended
+    Higgs sector. Incorrectly the Z mass instead of
+    the W mass was used to describe the kinematics, giving too small
+    a cross section by about a factor 1.5 - 2. Process 124, the
+    corresponding process for h0, the Standard Model Higgs boson or 
+    the lightest, neutral CP event Higgs boson in an extended model,
+    production, is not affected.
+  - PYTUNE updated with three new tunes using CTEQ6: 
+        108 D6  : Rick Field's CDF Tune D6 
+        109 D6T : Rick Field's CDF Tune D6T 
+        306 ATLAS-CSC: Arthur Moraes' (new) ATLAS tune
+    Note: PYTUNE can now also be called automatically during PYINIT by
+      setting MSTP(5). See separate comments on introduction of
+      MSTP(5) also in this version
+    Note 2: since the CTEQ6 family is not included with the Pythia
+      code, they must be interfaced manually for these tunes to give
+      proper results. See MSTP(51) and MSTP(52).
+    Note 3: more elaborate comments are included inline in PYTUNE 
+  - New switch MSTP(5) introduced to set UE/ISR/FSR 'tune'. If MSTP(5)
+    is set non-zero by the user, the routine PYTUNE will automatically
+    be called during PYINIT with the tune number indicated by the
+    value of MSTP(5).
+    MSTP(5) : (D=0) specification of global parameter set, if any, for
+       underlying event, min-bias, bremsstrahlung (ISR and FSR), beam
+       remnants, primordial kT, etc. Current available 'tunes' are:
+        = 0 Default : No settings changed.
+        = 100 A   : Rick Field's CDF Tune A
+        = 101 AW  : Rick Field's CDF Tune AW
+        = 102 BW  : Rick Field's CDF Tune BW
+        = 103 DW  : Rick Field's CDF Tune DW
+        = 104 DWT : DW with alternative (default) UE energy scaling
+        = 105 QW  : Rick Field's CDF Tune QW 
+                    Note! needs CTEQ6.1M pdfs externally
+        = 106 ATLAS-DC2: Old ATLAS tune (ATLAS DC2 / Rome)
+        = 107 ACR : Tune A modified with annealing CR
+        = 108 D6  : Rick Field's CDF Tune D6 
+                    Note! needs CTEQ6L pdfs externally
+        = 109 D6T : Rick Field's CDF Tune D6T 
+                    Note! needs CTEQ6L pdfs externally
+        = 200 IM1 : Intermediate model: new UE with Q2-ordered showers,
+        = 201 APT : Tune A modified to use pT-ordered final-state showers
+        = 300 S0  : Sandhoff-Skands Tune 0
+        = 301 S1  : Sandhoff-Skands Tune 1
+        = 302 S2  : Sandhoff-Skands Tune 2
+        = 303 S0A : S0 with "Tune A" UE energy scaling
+        = 304 NOCR: New UE "best try" without colour reconnections
+        = 305 Old : New UE, original (primitive) colour reconnections
+        = 306 ATLAS-CSC: Arthur Moraes' (new) ATLAS tune
+                         Note! needs CTEQ6L pdfs externally
+    Note: for the present, the call to PYTUNE is placed before the
+       call to UPINIT, so setting MSTP(5) as part of UPINIT will not
+       work. 
+  - Note on 'power' vs 'wimpy' showers: applies only to processes for 
+    which ME corrections are not implemented and which do not have any jets 
+    in the hard matrix element, i.e., most notably including ttbar and SUSY 
+    processes, but not e.g., Drell-Yan (has matrix-element corrections) or 
+    min-bias (has QCD jets).  Regulated by MSTP(68). In Pythia 6.2, the 
+    default was MSTP(68)=1  whereas it is currently MSTP(68)=3. Since no data 
+    used for tuning has so far been sensitive to this difference, PYTUNE does 
+    not explicitly (re)set this switch, even when selecting tunes that were 
+    originally done with 6.2, such as Tune A and friends.  If desiring to 
+    reproduce 6.2 results for all processes, the user should therefore 
+    manually set MSTP(68)=1. A warning about this has been included. 
+  - Parameters MSTU(1) and MSTU(2), which control the particles which
+    are rotated, boosted, edited or listed by Pythia routines, are 
+    now zeroed in PYEVNT and PYEVNW as an extra protection.
+  - Corrected error where the decay of a heavy Higgs boson H0 -> Z0 + A0 
+    was disabled.
+  - Two revisions of how information is stored to the event record by the 
+    pT-ordered, initial-state shower, PYPTIS. Should not affect physical 
+    behaviour. In the documentation lines, the incoming partons 5&6 are 
+    now left unmodified relative to the initial hard scattering, apart 
+    from the collective boosts and rotations received by the hard system 
+    as a consequence of initial-state radiation. The hard system final 
+    state(s), line(s) 7-... remain as before. This has the virtue of keeping 
+    the entire hard system unchanged, apart from an overall boost+rotation. 
+    In particular, 4-momentum is explicitly (and locally) conserved across 
+    the hard interaction and partons 5 & 6 remain on shell. In reality, 
+    of course, the initiator partons receive spacelike virtualities in the 
+    cascade. These are now kept track of during the parton evolution and so 
+    spacelike partons (denoted by P(I,5) negative) will now appear in the 
+    non-documentation part further down in the event record. Partons 5 and 6 
+    thus no longer correspond directly to any of the partons appearing in the 
+    non-documentation lines. 
+  - Added checks in PYTBDY to make sure that non-SUSY, three-body, resonance 
+    decays are treated separately.  Three-body decays of a resonance, added 
+    through the SLHA mechanism, for example, will be decayed according to
+    phase space, whereas the internally-defined decays of SUSY particles
+    are weighted by the squared matrix element.
+  - PYLOGO and PYDATA comments: added new CERN address for Skands.
+
+6.4.14 : 09 November 2007
+  - Bug corrected in PYRESD (already in 6.413, but the corresponding
+    update note was left out). Added check for Higgs -> ZZ/WW before
+    applying angular correlations 
+  - Bug corrected in PYPTFS. Affecting matrix-element matching for
+    pT-ordered final-state showers. After a trial branching had been
+    vetoed by the matching step, the evolution was restarted from the
+    original scale, rather than from the scale of the vetoed
+    branching, effectively nullifying the matching. The evolution is
+    now restarted from the vetoed scale, which should give the correct
+    matching. The previous recommended value of PARJ(81)=0.14 for
+    these showers was based on comparisons to LEP; this should now be
+    changed to roughly 0.23 (to be compared with 0.29 for the old
+    mass-order shower). Thanks to Nils Lavesson and Leif Lonnblad for
+    finding this bug.
+  - Update of PYTUNE. Affecting all tunes using pT-ordered final-state
+    showers. Lambda_QCD for final-state showers (PARJ(81)) changed
+    from 0.14 to 0.23 for tunes 201 and 300-306 (including the
+    ATLAS-CSC tune by A. Moraes). This change is necessary due to the
+    bug fix in PYPTFS. The previous Lambda_QCD value had been tuned
+    using the buggy shower (see above).
+  - Bug corrected in PYMEWT. Affecting the matching of initial-state
+    showers in the process q qbar -> V (V = W+- or gamma*/Z0) to the q
+    g -> q V matrix elements: a forgotten swap of tHat and uHat in the
+    numerator of the matrix element. This correction reduces the mean
+    pT of the gauge boson by order 10%, other things being the
+    same. It would require a retune to restore the old behaviour,
+    which has not been done so far.
+  - Bug corrected in PYMIRM. Affecting transverse phi coordinate of
+    scattering subsystems when using the new beam remnant
+    treatment. Previously, an unwanted rotation in phi was applied to
+    each scattering subsystem during the assignment of primordial
+    kT. The phi rotation has now been corrected, so that it goes
+    correctly to zero in the limit of small primordial kT. Thanks to
+    Johan Alwall for finding this bug.
+  - Added safety check in PYRAND. Affecting external processes. PYRAND
+    now explicitly checks the x fractions in external processes and
+    prints a warning together with an event listing if they are
+    greater than unity.
+  - Update in PYPTIS. Affecting error messages from PYPTIS, the
+    pT-ordered initial-state parton shower. The error reporting from
+    PYPTIS has been made slightly less fussy, with weighting problems
+    for low-pT radiation relegated to warnings rather than errors.
+  - Substantial updates of PYSLHA. Introduction of LHEF
+    interface. PYSLHA is now able to read QNUMBERS for new BSM states,
+    MASS entries, complete SLHA1 spectra, and SLHA DECAY tables
+    directly from the header of the LHEF file. Moreover, it looks for
+    this information automatically, without the necessity of
+    explicitly setting the usual IMSS switches. 
+  - Further generalizations of PYSLHA. Affecting functionality when
+    PYSLHA is used stand-alone to read in QNUMBERS, MASS, and DECAY
+    tables. Setting the second argument to PYSLHA equal to zero now
+    has the effect that PYSLHA reads everything in the file, e.g.:
+      CALL PYSLHA(0,0,IFAIL) ! read all BLOCK QNUMBERS
+      CALL PYSLHA(5,0,IFAIL) ! read all entries in BLOCK MASS
+      CALL PYSLHA(2,0,IFAIL) ! read all DECAY tables. 
+  - Update in PYMSIN. Changes to automate the new SLHA/LHEF interface.
+  - Update in PYRESD. A more robust algorithm to set color flows in
+    resonance decays has been introduced, to improve the capacity to
+    treat generic 2- and 3-body resonance decays, e.g., in conjunction
+    with the new SLHA/LHEF interface.
+  - Strawman Technicolor Model updated to include the effects
+    of a techni-"a" meson a_tc, the analog of the a0(980) from the PDG.  By 
+    convention, the particle code for the neutral and charged a_tc are
+    3000115 and 3000215, respectively.  In accord with much of the technicolor
+    simulation, the a_tc does not appear as a resonance in the particle record,
+    but its effect is included in the differential cross section formulae for
+    the production of a gauge boson in association with a technipion.  
+    Interference with rho_tc and omega_tc is included, where appropriate.
+    Five new parameters are introduced to specify the effective Lagrangian:
+    RTCM(47): (D=1.0) the ratio of the coupling g_a-pi-pi to g_rho-pi-pi 
+      in technicolor
+    RTCM(48-49): (D=200,200) vector and axial mass parameters (in GeV) for 
+      the a-G-pi interaction, where G is a SM gauge boson
+    RTCM(50-51): (D=200,200) vector and axial mass parameters (in GeV) for
+      the a-G-rho interaction, where rho includes the techni-rho and -omega
+    The masses of a_tc0 and a_tc+/- can be set through
+    PMAS(368,1) and PMAS(369,1), respectively.  The total width and
+    branching ratios are calculated by default.
+
+    The addition of the techni-a meson modifies most of the technicolor
+    processes (194,195,361-377), and requires the addition of three new processes:
+    378 (W+gamma), 379 (Z+gamma) and 380 (Z+Z).  Because of an ambiguity
+    in defining the connection between goldstone bosons and longitudinal
+    gauge bosons, the processes mix combinations of longitudinal and 
+    transverse polarizations.   All gauge bosons produced in the technicolor
+    simulation are decayed without spin information, as before.
+    Several routines used to calculate eigenvalues of propagator matrices have 
+    also been modified to account for the techni-a.  The sampling of kinematic
+    variables has also been improved.  The specific changes to the code are 
+    the following:
+    PYTECM is used to find the actual pole and width of the propagator matrix
+     for processes including gamma/Z/rho_tc0/omega_tc0/a_tc0 and W/rho_tc+-/a_tc+-.
+    PYSIGH, PYWIDT, and PYDATA are updated to include the techni-a meson in cross 
+     sections, decay widths, and to set default parameter values, respectively.
+    PYWIDX, and auxiliary routine for techni-particle width calculations, was 
+     reduced in size.
+    PYEICG, PYCBA2, PYCBAL, PYCMQ2, and PYCRTH are modified to find the 
+     eigenvalues of a NxN matrix, with N<=5.
+    PYMAXI, PYRAND, PYKMAP, and PYSIGH are modified in two ways:
+     1. To find more accurately the actual poles in technicolor processes and
+      use those for selecting the tau variable.
+     2. To allow a third Breit-Wigner resonance in the selection of the tau
+      variable.
+   -PYXXZ6, and auxiliary routine for calculating Supersymmetric decay widths,
+     was corrected so that, if a negative weight is found, the resulting 
+     warning message respects the bounds of an array.  This otherwise harmless
+     mistake can cause the code to abort with certain compiler options.
+   -PYINOM had a true bug fix for the calculation of the U and V matrices
+    which diagonalize the chargino mass matrix.  Since U and V are calculated
+    using the squared mass matrix, it is possible to miss a diagonal phase,
+    which can be re-absorbed into the definition of V.  Earlier versions of
+    PYINOM did not suffer from this problem.  Regardless, it appears that
+    only 3-body decays of charginos involving the third generation are 
+    sensitive to this error, and then at a several percent level. 
+
+6.4.15 : 25 February 2008
+  - Significant speed-up of PYFSCR algorithms. Affecting tunes S0 (300), S1
+    (301), S2 (302), S0A (303), ACR (107), and in general any model using the
+    new colour-annealing models for colour reconnections. Inspired by
+    FastJet, the annealing algorithm has been rewritten and substantially
+    optimized. The speed gain is most noticeable at the LHC. For typical
+    processes on a standard PC the speed gain is (for PYFSCR stand-alone
+    (approximately) and for generation of a complete event, respectively): 
+            Speed Gain             PYFSCR      Complete Event
+            -------------------------------------------------
+            ttbar @ LHC :         x 400.0          x 6.0
+            min-bias @ LHC  :     x 150.0          x 3.0
+            ttbar @ Tevatron :    x 100.0          x 2.5
+            min-bias @ Tevatron : x  20.0          x 1.3
+  - Bug corrected in PYFSCR, affecting Tune ACR (PYTUNE(107), see below) and
+    in general any tune that uses the old (non-interleaved)
+    multiple-interactions framework together with the new colour-annealing
+    model. Previously, the suppression of reconnections inside the same beam
+    remnant was incorrectly suppressing reconnections among UE partons from
+    the old model outside the beam remnant as well. 
+  - Update of Tune ACR (PYTUNE(107)), following the bug fix in PYFSCR
+    mentioned above. After the bug fix, the algorithm now allows more
+    reconnections when using the old MI model with the new CR algorithm, so
+    the overall strength of the color-reconnection parameter has been tuned
+    down to compensate; PARP(78) changed from to 0.25 to 0.12 for Tune
+    ACR. This retuning only takes into account <Nch> at generator-level in
+    min-bias at the Tevatron. Further retuning could be needed to restore
+    agreement with other distributions, such as <pT>(Nch).  
+  - Bug fix in PYSLHA, concerning the SLHA+LHEF interface for BSM
+    generators introduced in 6.4.14 and described in
+                    http://arxiv.org/abs/0712.3311
+    During SLHA read-in from an LHEF file, PYSLHA would continue down
+    to the first <event> tag. Between </slha> and <event>, however, it
+    risked crashing due to attempting SLHA read-in of non-SLHA
+    information. PYSLHA now exits when either </slha>, <init>, or the
+    first <event> tag is reached. Thanks to A. Belyaev for reporting
+    this.
+  - Bug corrected in PYMIRM, concerning the treatment of beam remnants with 
+    small invariant masses in the new interleaved framework. Previously, it 
+    was possible to find a solution in which each of the remnants separately 
+    had negative masses, but where their combination was timelike, 
+    corresponding to both of the beam remnants moving "in the wrong 
+    direction". Due to the lightcone nature of the calculations involved, 
+    this led to beam-remnant partons with negative energies and causing 
+    violations of energy and momentum conservation in the final events. 
+    A check has now been added requiring the sum of the individual beam 
+    remnant masses to be positive. Thanks to B. Kersevan for pointing to 
+    this problem.
+  - PYPTFS corrected for uninitialized IORD variable when matrix
+    element corrections switched off.
+  - Protect against potential division by zero in PYCLUS.
+  - String length corrected in PYDATA.
+  - Expanded usefulness of the Z' and W' to represent generic neutral
+    or charged resonances, when using the MWID(32)=2 and MWID(34)=2
+    options. Additionally, for Z', one must set MSTP(44)=3 so that
+    the contributions from gamma*/Z0 are off. You can set your own
+    total width and branching ratios for the respective decay channels,
+    and this information will then be used both to select decays and
+    to deduce the couplings to the different incoming beam partons.
+    Since the branching-ratio information does not fix the correct
+    angular distributions, the Z' and W' will decay isotropically
+    in these options. This could subsequently be reweighted by the
+    user, if required. 
+  - PYDATA and PYLOGO updated to reflect that it is now 2008.
+
+6.4.16 : 07 March 2008
+  - Correction to Manual for SUSY with RPV. In the current
+    documentation, it is claimed that when you initialize RPV with
+    IMSS(51)=1 for LLE, IMSS(52)=1 for LQD, and/or IMSS(53)=1 for UDD,  
+    Pythia sets all the couplings, independent of generation, to a common
+    value of 10^{-RMSS(51)}, 10^{-RMSS(52)}, and/or 10^{-RMSS(53)}, 
+    depending on which couplings are activated. In the code, however, 
+    the couplings are just set to RMSS(51), RMSS(52), and/or RMSS(53),
+    respectively, i.e., without taking the negative power of
+    ten. Thanks to K. Matchev for pointing out this discrepancy. 
+  - Revised PYSGHG routine for calculating gg->h,H,A cross sections as well as 
+    the equivalent gammagamma cross sections. Affects processes 
+      102,152,157: g + g -> h0/H0/A0
+      103,153,158: gamma + gamma -> h0/H0/A0
+      111,183,188: f + fbar -> g + h0/H0/A0 
+      112,184,189: f + g -> f + h0/H0/A0 
+      113,185,190: g + g -> g + h0/H0/A0
+    The h,H,A->gg/gammagamma branching ratio, which enters the calculation 
+    of the corresponding cross sections by crossing symmetry, had been 
+    fixed since v.6.402 to be the branching fraction evaluated at the 
+    pole mass of the respective Higgs. The pre-6.402 behaviour, computing 
+    the effective branching ratio at the actual mass scale of the reaction, 
+    has now been restored, with the fixed-width alternative only used 
+    in conjunction with SLHA decay tables. The main effect is to avoid 
+    an undesirable peaking of the cross section towards small Higgs masses, 
+    where the gluon density sharply increases, but where the effective 
+    branching fraction simultaneously should go to zero, due to the gg->H 
+    coupling vanishing for small m-hat.  
+  - In PYSGHF, for process 83, set width suppression factor correctly.
+  - In PYMAXI, modified the algorithm for solving a set of linear equations 
+    when optimizing the selection of phase space.   The current
+    implementation is less susceptible to round-off error, and does
+    not show a sensitivity to compiler optimization.
+
+6.4.17 : 04 June 2008 
+  - Introduction of UED spectrum, cross sections, and decays. See
+    detailed update notes at the beginning of this file. 
+  - Update of PYTUNE, affecting primordial kT for tunes 300-305 
+    (S0,S1,S2,S0A,NOCR,Old). The width of the primordial kT distribution is 
+    no longer set equal to a constant, but varies with the Q2 of the hard 
+    interaction according to the parametrization described in section 4.3 of 
+    hep-ph/0402078. This prevents the large primordial kT value needed 
+    in Drell-Yan to give large enhancements to the pT distributions in 
+    low-Q processes, such as minimum-bias. 
+  - Modified PYINOM. Changed message when forcing 
+    m(~chi+_1) > m(~chi0_1) + 2m(pi0) to give a warning instead of an error.
+  - NOTE: THIS VERSION REVOKED DUE TO COMPILATION PROBLEMS, SEE 6.4.18.
+
+6.4.18 : 09 June 2008
+  - Changes to address compilation problems in 6.4.17, as follows:
+  - Revised PYXDIN. Added missing IMPLICIT DOUBLE PRECISION statement.
+  - Corrected definition of PYSGCM common block in PYXUED.
+  - Corrected minor syntax problems in PYDATA and PYUEDC.
+ 
+6.4.19 : 21 October 2008
+  - Update of PYVETO. Due to modifications introduced in 6.4.12, the
+    interface to AlpGen was effectively broken. The order of the event 
+    record entries used in PYVETO has now been restored to that expected
+    by AlpGen. This applies to both the Q2- and pT2-ordered
+    showers. Matching with AlpGen should therefore now be working again.
+  - Bug fix in PYRESD, affecting the behaviour for pT-ordered
+    ISR. In the new shower, the incoming partons after ISR are stored
+    in a way which may result in inconsistent boosts when smearing 
+    decay angles in post-ISR resonance decays. However, the
+    corresponding partons in the documentation section (partons 5 and
+    6) have consistent on-shell momenta that can be used to derive
+    these boosts instead. Ultimately, the way the new shower stores
+    intermediate partons should be changed, but this would require a
+    major rewrite. For the time being, a provisional solution using
+    partons (5,6) to define the boost has therefore been
+    adopted. Thanks to Serguei Levonian for pointing to this problem.
+  - Changes in PYPTIS to introduce new coherence options for the first
+    emission in pT-ordered ISR. Previously, MSTP(67) only applied to
+    the old Q-ordered ISR showers. Now, the options described below
+    have been implemented for the pT-ordered showers. (The meaning of
+    MSTP(67) for the old showers, described in the manual, has not been
+    changed.) The changes are most significant for processes that
+    were previously "power showered" (that is, internal processes
+    without ME matching and no jets in the matrix element). The
+    default, which remains MSTP(67)=2, now corresponds to
+    "power-suppressed power showers" for those processes, since the
+    tail of very high-pT radiation becomes suppressed by
+    coherence. 
+    MSTP(67) = 0 : No coherence imposed (equivalent to pre-6.4.19
+                   behaviour). 
+             = 1 : Full coherence imposed. As =0, but a veto is
+	           imposed on the first ISR branching to impose 
+                            pTevol < m_dip/2 * PARP(67) , 
+                   where m_dip is the invariant mass of the ISR parton
+		   being evolved together with its final-state color
+		   partner (or the initial-state parton in the other
+		   beam, for annihilation color flows). For gluons, a
+		   random choice is made between its two color
+		   partners. Imposing this "coherence veto" should
+		   often give similar answers as wimpy showers, since
+		   the latter effectively veto emissions above the 
+		   factorization scale, and m_dip should often be
+		   close to that. 
+             = 2 : Hybrid (default). As =0, but ISR branchings with
+	           pTevol > m_dip/2 * PARP(67) are power suppressed,
+		   by a factor (m_dip/(2pTevol))**2. This
+		   automatically suppresses branchings with pT values
+		   far above the coherence scale, while still not
+		   leaving that part of phase space completely empty.
+    Note: PARP(67) was not previously used for anything in the new
+    shower, whereas in the old shower it was used to multiply the
+    starting scale of the shower by a fixed factor. As described
+    above, we now include this possibility to vary the upper scale of
+    the shower also here, allowing the coherence scale to be moved up
+    or down by PARP(67). The overall effect of PARP(67) in the new
+    shower should thus be similar to that of PARP(67) in the old
+    shower. The default value for PARP(67) is currently 4D0 (its tune
+    A value), such that coherence will not currently be very strictly
+    enforced by default, but the high-pT tail should still be slightly
+    more damped than for "pure power showers".
+  - Changes in PYPTIS to introduce new option to replace Lambda_MSbar
+    by Lambda_MC (see Catani, Marchesini, and Webber, NPB349(1991)635) 
+    in the pT-ordered ISR shower, via the switch MSTP(64): 
+    MSTP(64) = 1 : (not used for pT-ordered shower, equivalent to = 2)
+             = 2 : (Def) Use Lambda_MSbar for ISR evolution
+             = 3 : Use Lambda_MC for ISR evolution
+    Specifically, the CMW choice of Lambda is obtained by multiplying
+    the MSbar Lambda values by the following factors
+          Lambda_5^CMW = 1.569 * Lambda_5^MSbar ,
+          Lambda_4^CMW = 1.618 * Lambda_4^MSbar , 
+          Lambda_3^CMW = 1.661 * Lambda_3^MSbar ,
+    where the subscript on Lambda refers to the number of active
+    flavors (matched across thresholds in the evolution). The larger
+    values of Lambda implies a larger rate of shower activity,
+    with the largest increase at low scales, where the number of
+    active flavors is smallest. 
+  - New option MSTP(70)=3 in PYEVOL to extend the pT-ordered ISR down
+    to Lambda_QCD, regulated by an effective alpha_s, whose desired
+    value at Lambda should be given in PARP(73). This regulation is
+    implemented as an offset to the argument of alpha_s, shifting it
+    so that it attains the value PARP(73) at Lambda instead of going
+    to infinity.
+  - New option MSTP(95)=8 in PYFSCR for colour reconnections. Works as
+    MSTP(95)=6, but gluons contribute only half of their momenta in
+    the calculation of the Lambda measure, since gluons participate in
+    two string pieces. This slightly changes the relative Lambda
+    measures of string pieces ending on quarks versus those ending
+    on gluons.
+  - Bug fix in PYPTFS for processes MSUB=421-479. Prevents crashes for 
+    colour octet onium production with the new pT-ordered showers. 
+    Note that the non-default option to add showers off certain octet onia - 
+    see MSTP(148) - is still only available in the old, Q2-ordered framework. 
+    Thanks to Patrick Robbe for pointing to this bug.
+  - Bug fix in PYSSPA, affecting the special case when pT-ordered
+    final-state showers are used in conjunction with mass-ordered
+    initial-state showers (e.g., Tune APT). Previously, PYSSPA would
+    already add mass-ordered final-state showers to partons emitted
+    during the initial-state shower. This resulted in inconsistencies
+    when the pT-ordered shower later attempted to shower the
+    event. PYSSPA has now been modified so that, if pT-ordered
+    final-state showers are selected (see MSTJ(41)), all timelike
+    showering is handled by PYPTFS rather than PYSHOW. In particular,
+    this means that the ISR chain is defined with all outgoing partons
+    having zero virtuality. These partons are then later showered by
+    PYPTFS, using the dipole-style recoils of the pT-ordered shower
+    model. 
+  - Update of Tune ACR (PYTUNE(107)), following the bug fix in PYFSCR
+    mentioned in 6.4.15. The initial retune in 6.4.15 only took into
+    account <Nch> at generator-level in min-bias at the Tevatron. The
+    <pT>(Nch) distribution was still much too hard, however, so a
+    further reduction of the colour reconnection strength PARP(78)
+    from 0.12 to 0.09 has now been introduced in this tune.   
+  - Update of Tune S0 and cousins. Reverted to the pre-6.4.18
+    behaviour for primordial kT, since the change in 6.4.18 was based
+    on theoretical prejudice only and actually worsened the agreement
+    with some observables, such as the low-Nch tail of <pT>(Nch). It
+    remains to be understood why low-multiplicity minimum-bias events
+    appear to enjoy getting 2 GeV of primordial kT.
+  - Bug fix in PYEVNW. When the initialization of MPI/ISR evolution off
+    an event fails, a new event is now generated, rather than the same
+    event tried again. This prevents multiple occurrences of the same
+    warning from being printed when the evolution repeatedly tries and
+    fails to initialize on the same bad event. 
+  - Bug fix in PYSLHA, concerning sfermion mixing. The overall sign of
+    a row in the sfermion mixing matrices is not physical and hence,
+    in the SLHA convention, can be chosen freely. However, Pythia was
+    assuming a specific sign convention for these matrices (that the
+    diagonal elements have the same sign), which led to erroneous
+    answers for sfermion mixing matrices, S, with opposite-sign
+    diagonal entries, S(1,1) = - S(2,2). This is now fixed so that
+    Pythia correctly translates the input to its internal conventions
+    regardless of overall row signs. Thanks to M. Kramer, E. Popenda,
+    and P. Zerwas for pointing to this issue and to M. Muehlleitner
+    for counterchecks with SDecay. 
+  - Bug fix in PYMIHK, for "Lambda" ordering, MSTP(89)=2, with the new
+    UE framework. Affects tune NOCR. When using Lambda ordering,
+    PYMIHK attempts to compute string length measures for each
+    possible arrangement of the MPI scattering subsystems in colour
+    space, and then select the arrangement that produces the smallest
+    string length. This is not really color *re*-connections, since
+    the color lines involved had no connections to begin
+    with. Previously, it could happen in intermediate stages of the
+    algorithm, that attempts were made to compute string lengths
+    involving color lines that had not yet been connected, resulting
+    in crashes and/or inconsistencies. Such connections are now
+    skipped and returned to later, when all the relevant lines are 
+    well-defined. Thanks to Nathan Goldschmidt for finding this. 
+  - Relegated two error messages to warnings in PYMIRM: one when kinematics
+    makes it impossible to find a positive beam remnant mass squared and the
+    other when no consistent (x,kT) sets for beam remnants can be found. Both
+    result in a new parton-shower and underlying-event history being 
+    generated for the event in question. For most ordinary applications these
+    warnings can safely be ignored, as long as they do not occur frequently.
+  - Bug fix in PYSTRF for junction fragmentation. The fix prevents crashes 
+    that were due to a badly initialized variable. Affects fragmentation 
+    of systems containing baryon junctions, i.e., beam-remnant fragmentation 
+    in the new underlying-event framework as well as processes involving 
+    baryon number violation. Thanks to Amitabh Lath for pointing to this bug.
+  - Change in PYEVNW, for MSTP(125)<=1 (D=1), affecting how resonances
+    participating in or recoiling against showers are saved in the
+    event record in the new multiple-interactions and pT-ordered
+    shower framework. Previously, each time a resonance recoiled
+    against a shower emission, a new copy of that resonance, with
+    modified momentum, would be saved to the event record. This
+    resulted in multiple instances of the same resonance being
+    present, each with slightly different momenta. For MSTP(125)=2
+    (full event records), this is indeed the desired behaviour, but
+    for the shortened forms of the event record (MSTP(125)<=1), it is
+    more natural to collapse such a chain into one particle, as is
+    already done in the old framework. The behaviour of PYEVNW has
+    been changed so that the default form of the event record in the
+    new framework now more closely resembles that of the old. In both
+    cases, the single particle now present in the event record
+    corresponds to the resonance _after_ all shower corrections have
+    been generated. Thanks to Daniel Wicke for pointing to this issue. 
+  - Changes to PYSHOW and PYPTFS. Added new flag MSTJ(39) to switch
+    off final-state radiation entirely from a specific particle, with
+    PDG code KF = MSTJ(39). The default is MSTJ(39)=0, in which case
+    all particles are allowed to radiate as normal. To switch off
+    radiation from top quarks entirely, for instance, set MSTJ(39)=6. 
+    This is only intended for systematics studies, not to represent
+    physics. Applies to both the Q2-ordered and pT-ordered showers.
+  - Modifications to PYRVCH, PYRVGL, and PYRVGW, to protect
+    against divide-by-zero's. Affects SUSY with R-parity violation. 
+  - Bug fix in PYNJDC, corrects a problem in neutralino to gluino 
+    decays where some variables could be uninitialized.
+  - Minor corrections in PYUEDC. Should not affect physics. Removed a few 
+    variables that were declared but not used. Corrected indexing of WDTP 
+    (affects initial values only).
+
+6.4.20 : 20 February 2009
+  - Comprehensive updates to PYTUNE, with the addition of the
+    "Perugia" and "Pro" tunes, following the MPI workshop in Perugia 
+    in October 2008. The older tunes remain unaltered. The new
+    available tunes in PYTUNE are: 
+    ===== Old UE, Q2-ordered showers ====================================
+    --- Professor Tunes : 110+ (= 100+ with Professor's tune to LEP) ----
+     110   A-Pro : Tune A, with LEP tune from Professor        (Oct 2008)
+     111  AW-Pro : Tune AW, -"-                                (Oct 2008)
+     112  BW-Pro : Tune BW, -"-                                (Oct 2008)
+     113  DW-Pro : Tune DW, -"-                                (Oct 2008)
+     114 DWT-Pro : Tune DWT, -"-                               (Oct 2008)
+     115  QW-Pro : Tune QW, -"-                                (Oct 2008)
+     116 ATLAS-DC2-Pro: ATLAS-DC2 / Rome, -"-                  (Oct 2008)
+     117 ACR-Pro : Tune ACR, -"-                               (Oct 2008)
+     118  D6-Pro : Tune D6, -"-                                (Oct 2008)
+     119 D6T-Pro : Tune D6T, -"-                               (Oct 2008)
+    --- Professor's Q2-ordered Perugia Tune : 129 -----------------------
+     129 Pro-Q20 : Professor Q2-ordered tune                   (Feb 2009)
+    ===== Intermediate and Hybrid Models ================================
+     211 APT-Pro : Tune APT, with LEP tune from Professor      (Oct 2008)
+     221 Perugia APT  : "Perugia" update of APT-Pro            (Feb 2009)
+     226 Perugia APT6 : "Perugia" update of APT-Pro w. CTEQ6L1 (Feb 2009)
+    ===== New UE, interleaved pT-ordered showers, annealing CR ==========
+    --- Professor Tunes : 310+ (= 300+ with Professor's tune to LEP)
+     310   S0-Pro : S0 with updated LEP pars from Professor    (Oct 2008)
+     311   S1-Pro : S1 -"-                                     (Oct 2008)
+     312   S2-Pro : S2 -"-                                     (Oct 2008)
+     313  S0A-Pro : S0A -"-                                    (Oct 2008)
+     314 NOCR-Pro : NOCR -"-                                   (Oct 2008)
+     315  Old-Pro : Old -"-                                    (Oct 2008)
+    --- Peter's Perugia Tunes : 320+ ------------------------------------
+     320 Perugia 0 : "Perugia" update of S0-Pro                (Feb 2009)
+     321 Perugia HARD : More ISR, More FSR, Less MPI, Less BR, Less HAD
+     322 Perugia SOFT : Less ISR, Less FSR, More MPI, More BR, More HAD
+     323 Perugia 3 : Alternative to Perugia 0, with different ISR/MPI
+                     balance & different scaling to LHC & RHIC (Feb 2009)
+     324 Perugia NOCR : "Perugia" update of NOCR-Pro           (Feb 2009)
+     325 Perugia * : "Perugia" Tune w. (external) MRSTLO* PDFs (Feb 2009)
+     326 Perugia 6 : "Perugia" Tune w. (external) CTEQ6L1 PDFs (Feb 2009)
+    --- Professor's pT-ordered Perugia Tune : 329 -----------------------
+     329 Pro-pT0   : Professor pT-ordered tune w. S0 CR model  (Feb 2009)
+    =====================================================================
+    Note: The Perugia tunes all include data from multiple collider
+    energies (basically the Tevatron span: 630 - 1960 GeV). In
+    particular, the default energy scaling, PARP(90)=0.16, appears to
+    be too slow to get simultaneous agreement over the 630 - 1960
+    range, regardless of other parameter choices. This was also noted
+    by Rick Field and is the reason behind the non-default value of
+    PARP(90)=0.25 used in his nominal tunes (not the "T" variants). Of
+    the older pT-ordered tunes, only tune S0A, which uses the Tune A
+    energy scaling, can therefore be said to have an acceptable
+    scaling. Note that the new Perugia tunes still exhibit large
+    differences in PARP(90) among themselves, and thus the uncertainty
+    is still significant, but at least the new tunes have all been
+    tested to give reasonable agreement from 630 GeV to 1960 GeV.
+    Note: As before, these tunes can either be invoked by a call to
+    PYTUNE with the tune number as argument (must be done prior to
+    calling PYINIT) *or* by setting MSTP(5) = tune number. When
+    calling PYTUNE directly, make sure to set MSTP(5)=0.
+    Note: Since the tunes do not check whether untuned defaults are
+    left unaltered by previous calls or user modifications, these
+    tunes should in general not be called in sequence, but only once,
+    at the start of each run. 
+  - PYSLHA: protected some internal PYTHIA particles from read-in of 
+    SLHA mass and DECAY tables, in order to avoid incompatibilities with 
+    Pythia's hadronization and hadron decay machinery. The SLHA interface is
+    intended for read-in of non-SM physics, so we do not consider it a
+    strong restriction to protect Pythia's special internal codes and
+    all SM particles with masses less than 20 GeV from being
+    overwritten by SLHA read-in. People who do wish to alter, say,
+    the decay tables of B mesons, should not use the SLHA tables to
+    accomplish this, but rather use Pythia's internal updating routine
+    PYUPDA.  A modification of the b-quark mass, for example, would
+    need to be handled through the PMAS array.
+  - Change in PYPTIS for MSTP(67)=1, affecting coherence options for
+    the hardest emission in the pT-ordered shower. Previously, only
+    values of PARP(67)>1 were allowed. Now also values PARP(67)<1 
+    are possible. 
+  - Corrected warning message in PYPTMI. The pT-ordered UE model
+    requires heavy quarks to be produced at least 5% above threshold,
+    in order for there to be some phase space available for the
+    subsequent ISR evolution. When this condition failed, it was
+    previously reported as the heavy quarks being produced *below*
+    threshold. The warning has now been changed to say "too close to
+    threshold" instead, and will only be given if two successive
+    attempts both trigger this rejection criterion, since it is a
+    normal part of ordinary running that some fraction of the produced
+    heavy quarks will fail this criterion. 
+  - First tries to generate UE with LO* pdfs led to infinite loops in
+    PYPTMI. A check has now been added forcing the SEA and VAL
+    components to be treated as separately positive definite in the
+    code. Also in PYPDFU, a check has been included, forcing the
+    derived valence distribution to be positive definite. This was
+    observed to be violated at very small Q2 and x even for the
+    default CTEQ5L set, so some small changes in current tunes of the
+    new interleaved UE framework may result. 
+  - New option in PYFSCR to suppress the amount of color annealing in  
+    fast-moving string pieces. The amount of suppression is controlled 
+    by PARP(77). The default value is PARP(77)=0D0, which corresponds
+    to no suppression, i.e., the same behaviour as in previous
+    versions. If PARP(77) > 0, then a suppression factor 
+                       1/(1+PARP(77)**2*P2AVG)
+    is applied to suppress the colour reconnection probability for a
+    given string piece, where P2AVG is a measure of the average
+    squared momentum that hadrons produced by the string piece would
+    have. For hadron colliders, P2AVG is computed using only the
+    transverse components of the momenta of the string piece
+    endpoints (multiplied by 3/2), while for lepton colliders, also
+    the longitudinal component is used. The total momentum of the
+    string piece is then divided by the logarithm of the mass of the
+    string piece (cut off at 1) to give P2AVG, an estimate of the
+    average momentum of the hadrons it produces. Thus, the
+    reconnection probability for string pieces that produce
+    fast-moving hadrons will be suppressed compared to string pieces
+    producing slower-moving hadrons. The motivation for introducing
+    such a suppression is, on the theory side, that fast-moving string
+    pieces should be less likely to have time to reconnect, and on the
+    experimental side, that the pT spectra of charged particles
+    measured by CDF appear to become too hard if no such suppression
+    is applied. 
+  - New option for PYPTFS, can now be called with MODE=3, in which
+    case it will use (or create) MCT colour information to locate
+    colour partners for radiating partons. PYCTTR updated with 
+    possibility to trace a single colour partner rather than entire 
+    history.  
+  - Bug corrected for the special case when pT-ordered final state
+    showers are used in conjunction with the old UE framework. Affects
+    Tune APT. Previously, the partons emitted during the Q2-ordered
+    ISR phase were not showered correctly by PYPTFS. PYSSPA has now
+    been augmented to save the outgoing partons from ISR correctly for
+    passing to PYPTFS, and a dedicated call to PYPTFS has been
+    included in PYEVNT. Affects Tune APT. A related small bug in
+    PYPTFS has been corrected; when a dipole-recoiler of the "right"
+    (anti-) colour cannot not be found, the "wrong" partner is now
+    used instead. Before, it could sometimes happen that this partner
+    was taken to be zero, leading to possible segmentation faults. 
+  - Bug corrected in PYEVOL for MSTP(70)=0 and MSTP(70)=1. Affects 
+    tune S1, but none of the other tunes in PYTUNE. These options 
+    force the ISR evolution to cut off sharply, at a scale defined by
+    PARP(62) (for MSTP(70)=0) or at a scale determined by PARP(81) 
+    scaled to the current collider energy (for MSTP(70)=1). 
+    Previously, invoking these options would also cause the MPI
+    evolution to cut off at that scale. This has now been fixed, so 
+    that the MPI evolution proceeds independently of the ISR cutoff. 
+  - UED: some switches and parameters in IUED and RUED have been
+    moved, to make the enumeration more consistent, and to make the 
+    separation between the cases with and without gravity-mediated
+    decays more clear. In addition, some new possibilities and
+    parameters have been added, such as the possibility to give
+    Lambda*R instead of Lambda itself, and to switch off radiative
+    corrections to the KK masses (on by default). Apologies to current
+    users for the lack of backwards compatibility in this update. The
+    UED switches and parameters are now (see above for defaults):
+     IUED(1) UED ON(=1)/OFF(=0) switch 
+     IUED(2) ON(=1)/OFF(=0) switch for gravity mediated decays
+     IUED(3) NFLAVOURS Number of KK excitation quark flavours
+     IUED(4) N the number of non-universal large extra dimensions 
+     IUED(5) Selects whether the code takes Lambda (=0)
+             or Lambda*R (=1) as input.
+     IUED(6) Radiative corrections to the masses ON (=1) or OFF (=0)
+     RUED(1) RINV (1/R) the curvature of the extra dimension
+     RUED(2) XMD the (4+N)-dimensional Planck scale
+     RUED(3) LAMUED (Lambda cutoff scale), used for IUED(5)=0
+     RUED(4) LAMUED/RINV (order of 10-20), used for IUED(5)=1
+     PMAS(25,1) Higgs mass.
+  - UED: two new functions added: PYGRAW and PYWDKK are now used by
+    PYGRAM to perform a numerical integration of the the KK photon
+    decay width  to gravitons (when gravity-mediated decays are
+    switched on), correcting a numerical problem with the analytical 
+    form for IUED(4)=2. The analytical form is still used for
+    IUED(4)=4,6. 
+  - UED: corrected the d*_Sbar name in the CHAF array in PYDATA. 
+  - UED: bug corrected. Some decay channels for KK Z bosons involving
+    KK iso-singlets should have been off, but had been left with
+    non-zero widths. This is now corrected. Also added 9 new decay
+    channels for the KK Z boson.
+  - Bug corrected in the mass spectrum of GVMD states in the
+    description of photon beams. A square root operation had been
+    forgotten, meaning that what should have been the mass was
+    actually the squared mass. The intended allowed range
+    1 GeV < m < 2*pTmin, where pTmin approx 2 GeV is the multiple
+    interactions cutoff scale, thus became 1 GeV < m < 4*pTmin2.
+    Also the related kT2 scales in VINT(283) and VINT(284) have
+    been the square of what they should have been. Thanks to Kai
+    Gallmeister for pointing to this problem.
+  - In 6.4.12, the possibility was introduced to add showers off the
+    UE partons from MPI in the old UE model, via the switch
+    MSTP(152)=1 (default =0). (Note that showers off the MPI are on by
+    default in the new interleaved model, and are unaffected by this
+    switch.) Switching on such showers in conjunction with pT-ordered
+    final-state radiation, MSTJ(41)=11 or MSTJ(41)=12, produced
+    somewhat strange results, the origin of which are not yet fully
+    understood. Until the interface between the old UE model and
+    pT-ordered final-state showers can be checked in detail, the
+    showers off MPI in the old model will now default back to the
+    Q2-ordered algorithm, regardless of MSTJ(41). This appears to
+    produce more consistent results. To be followed up on. May affect
+    tunes using MSTJ(41)=11,12 if MSTP(152)=1 is switched on, but no
+    previous tunes we are aware of were using that particular combination. 
+  - Corrected bug in PYADSH. Changed which final state showering
+    routine is called when MINT(35)=2. It should be PYSHOW. 
+  - Protected PYFSCR against possible bug when using optimization (only
+    observed on Macs using the flags -O2 -fbounds-check). No change in
+    physics output should result.
+
+6.4.21 : 13 July 2009
+  - Bug corrected in PYRAND, for setting the starting scale for
+    multiple parton interactions (underlying event) in external
+    processes. For internal processes, PYRAND calls PYSIGH which sets
+    all relevant scales. This includes the MPI starting scale VINT(62)
+    which is determined by the nature of the process and by the value
+    of MSTP(86) (see manual). For external events (e.g., LHEF, HEPEVT,
+    etc.), however, PYSIGH is not called, which resulted in VINT(62)
+    not being properly initialized, in turn yielding a faulty
+    underlying-event evolution. This has now been addressed by making
+    sure VINT(62) is explicitly set by PYRAND whenever PYSIGH is not
+    called. Since there should normally not be any danger of double
+    counting between multiple parton interactions and external
+    processes, the default behaviour is to allow MPI evolution over
+    all the kinematically allowed phase space, i.e., potentially
+    allowing for a small tail of UE jets that could be even harder
+    than the scale of the external process. This should not be
+    confused with QCD jets due to initial state radiation (ISR) which
+    are still always restricted to be below the hard scale for
+    external events, and it is only the ISR jets which should be taken
+    into account in matching prescriptions - MPI jets should be
+    ignored in that context. The only exception to allowing MPI
+    evolution over all of phase space is when the external process is
+    itself of the same kind as the MPI, i.e., QCD jets. In this case,
+    and in this case only, the starting scale should be limited by the
+    scale of the hard process in order to avoid double counting. The
+    problem is that Pythia has no fail-safe way of knowing whether a
+    given external process is of the QCD jets type or not, and hence
+    the default, MSTP(86)=2, has been chosen to be to allow MPI
+    evolution over all of phase space, with no attempt to determine
+    whether the external process is QCD jets or not. When inputting
+    external QCD jets events, the non-default option MSTP(86)=1 must
+    therefore be used, which forces the multiple parton interactions
+    starting scale to be that of the hard processes. Note that top
+    pairs are not considered QCD jets in this context, since tops are
+    not produced by the multiple parton interactions, hence for top
+    production the default MSTP(86)=2 can be retained with no danger
+    of double counting. Thanks to L. Mijovic for reporting and helping
+    to fix this problem.
+  - Change in PYDATA to update the default value of PARP(90) from the
+    Pythia 6.2 default of 0.16 to the Tune A value of 0.25. This change 
+    does not modify Pythia's predictions for the Tevatron at 1800 GeV, 
+    but will change the default energy scaling away from that energy. 
+    Specifically, the new default predicts a lower activity in minimum-
+    bias events and a smaller underlying event at the LHC. Conversely,
+    the new default gives a larger activity at lower CM energies. The
+    decision to change this default was made following discussions at
+    the energy-scaling workshop at Fermilab, Apr 27-29 2009. 
+  - Bug corrected in PYTUNE for tune 329 (Pro-pT0). The value of
+    PARP(71) was 4D0, should have been 2D0. The change will slightly 
+    reduce the amount of hard FSR activity in umatched non-s-channel 
+    processes with this tune. Thanks to A. Buckley for finding this.  
+  - Hardcoded a few more default settings in PYTUNE to increase its
+    robustness against being called several times in sequence. This is
+    still strongly discouraged, however. The only advised way of using
+    PYTUNE remains to call it ONCE for each run.  
+  - Bug corrected in PYSLHA for automated read-in of QNUMBERS, MASS, 
+    and DECAY tables from the header part of LHEF files. The routine
+    now skips everything not explicitly inside the <slha>
+    tag. Previously, the routine would read everything down to the
+    </slha> end tag, leading to potential conflicts with unrelated
+    information above the <slha> tag. Thanks to A. Belyaev for
+    pointing to this bug.  
+  - Bug fix in PYDATA for the decay channels of Majorana neutrinos
+    where a charge conjugation was missing for some channels,
+    resulting in the same decay mode appearing twice.
+  - Bug fix in PYSCAT to handle the case when the incoming parton for
+    an external event has particle code >40 or <-40, of particular
+    interest for simulating exclusive hadron-hadron processes
+  - Bug fix in PYEVNW. Previously, an event vetoed by PYVETO was
+    classified as an error. Since Pythia normally stops automatically
+    after a small number of errors have been reported (default is 10),
+    this led to unintended 'crashes' when using PYVETO with the new
+    pT-ordered showers, e.g., in the context of matching with AlpGen. 
+  - Protected PYWIDT against possible out-of-bounds addressing caused
+    by dummy decay modes inserted by PYSLHA when the branching
+    fractions of a read-in DECAY table do not add up to unity.
+
+6.4.22 : 11 November 2009
+  - Bug fixes in PYPTIS for massive quark evolution close to threshold
+    in annihilation-type processes, for the special case where both
+    incoming massive quarks get so close to threshold that creation
+    has to be forced. Previously, the algorithm would then always pick
+    the Q on side 1 to start with, thus possibly creating an artificial
+    asymmetry. This choice has now been randomized to alternate
+    between sides 1 and 2. Also, when performing the creation for the
+    first Q, the algorithm did not check explicitly whether enough
+    phase space was still left for creation of the second Q. This is
+    now ensured as well. Thanks to H. Hoeth and S. Kama for pointing
+    to issues that led to the identification of this bug. 
+  - Change in PYINPR for MSEL = 39, SUSY production. The manual states 
+    that MSEL = 39 switches on all SUSY production processes except Higgs
+    production. However, previously MSEL = 39 would switch on the SUSY Higgs
+    pair production processes 297-301. The meaning of MSEL = 39 has now been
+    changed to correspond better to what is written in the manual, i.e., 
+    pair production of states with R-parity = -1, leaving out processes 
+    297-301. Thanks to M. Johansen for pointing this out. 
+  - Protected PYPTFS from compiler-dependent behavior regarding the
+    logical evaluation of an IF statement. Noticed by S. Kama. 
+  - Enforced initialization of NJN in PYPTIS and of NCHN in
+    PYPTMI. Added SAVE statement for NCHN in PYPTMI. Should prevent
+    problems experienced with some compilers, notably
+    gfortran. Noticed by S. Kama and E. Ozcan.
+  - Bug fix in PYEVNW to address problems with how particles point
+    back to their ancestors in the pT-ordered shower when
+    MSTP(125)<=1. In the new shower, each time a parton acts as a
+    "recoiler", it is saved as a new copy with modified
+    momentum. Previously, when using the options MSTP(125)<=1, Pythia
+    would attempt to compress this history down to a single parton,
+    but this gave rise to some inconsistent mother-daughter pointers
+    which in turn resulted in some problems in interpreting the event
+    history reported by users of the new framework. The "fix" is to
+    give up on saving space and instead retain each of the recoiler
+    copies separately, without compressing them down to a single
+    parton. For MSTP(125)=2 there should be no changes, since this
+    option is equivalent to keeping the entire branching history
+    without compression.  
+  - Updated PYLOGO, Skands now at CERN.
+
+6.4.23 : 09 Jun 2010
+  - Bug fix in PYSIGH for interactions after the first in the new 
+    interleaved multiple-interactions framework. Previously, the 
+    scattering cross sections for additional interactions did not,
+    in fact, take into account the PDF shape modifications caused by 
+    companion quarks and reduction of the valence content caused
+    by previous interactions. There were thus no correlations, e.g., 
+    between the signs of two strange quarks when two such were kicked
+    out, and the probability to kick out a u quark did not decrease
+    if a u quark had already been kicked out. After the bug fix, such
+    correlations now appear as expected. Note that this will also 
+    lead to changes in the underlying event for all tunes of the
+    new framework. In all cases we looked at in combination with the 
+    validation runs accompanying this bug fix, the result was < 10%
+    increase in the average charged multiplicity. For instance, after
+    the fix, the following changes were observed for the Perugia 0
+    tune, which is representative of the pT-ordered models:
+                               pp @ 7TeV | ppbar @ 2TeV | pp @ 0.2TeV 
+      <Nch> for 200-GeV dijets      + 6%           + 9%             -
+      <Nch> for 30-GeV dijets       + 4%           + 9%          +10%
+      <Nch> for Drell-Yan           + 6%           +11%             - 
+      <Nch> for ttbar               + 2%           +10%             -  
+      <Nch> for min-bias            + 2%           + 1%          + 2%
+    Thus, since the min-bias spectra do not change appreciably, and
+    since these were the primary tuning constraints, the tunings
+    should still be valid, but will give slightly different
+    predictions for other processes after the bug fix. 
+  - Added new ATLAS tunes in PYTUNE (see list at beginning of these
+    notes) 
+    ITUNE   NAME        
+      316 : ATLAS MC08 (2008 ATLAS tune of pT-ordered shower. Uses 
+            CTEQ6L1 PDFs. Warning: uses Peterson fragmentation
+	    function for heavy quarks.)
+      330 : ATLAS MC09 (2009 ATLAS tune of pT-ordered shower. Uses LO*
+            PDFs.)
+      331 : ATLAS MC09c (2009 ATLAS tune of pT-ordered shower. Uses LO*
+            PDFs and has retuned CR with respect to original MC09.)
+      340 : AMBT1 (2010 ATLAS tune of pT-ordered shower. Uses LO*
+            PDFs and agrees better with 7-TeV data.)
+    Note: none of these ATLAS tunes have yet been retuned to optimize 
+    agreement with LEP data. Their fragmentation properties may
+    therefore still not be optimal. 
+  - Added new Professor tunes  in PYTUNE (see list at beginning of
+    these notes) 
+      335 : Pro-PT* (variant of Pro-PTO using MRST LO* PDFs)
+      336 : Pro-PT6 (variant of Pro-PTO using CTEQ6L1 PDFs)
+      339 : Pro-PT** (variant of PRo-PTO using MRST LO** PDFs)
+    Warning: both these and Pro-PTO (329) use MSTP(72)=0, which
+    probably restricts the phase space for FSR off ISR too much in
+    comparison to both experimental and theoretical studies.
+  - Added new Perugia 2010 and Perugia K tunes in PYTUNE (see
+    hep-ph/1005.3457 and the list at beginning of these notes)
+      327 : Perugia 2010 (2010 update of Perugia 0, with more FSR off
+            ISR, more strangeness production, more baryon transport, 
+            and modified high-z fragmentation functions.)
+      328 : Perugia K (new Perugia variation with K-factor on UE)
+    Updated reference to Perugia tunes to new journal writeup.    
+  - Added printout in PYTUNE of more relevant parameters, also ones
+    that were just left at their default values, in order to
+    facilitate comparisons. 
+  - Hardcoded defaults in PYTUNE for MSTP(3), MSTP(51), MSTP(52), and 
+    MSTP(33) to make tune selections more robust against being called
+    in sequence. This is still not recommended and may lead to badly
+    initialized tunes. 
+  - Bug fixed in PYRVCH for R-parity violating chargino decay widths 
+    via the LLE couplings. Previously, each decay of charginos to
+    three charged leptons appeared twice with the same decay products 
+    but different orderings, thus double counting those modes. This
+    double counting has now been removed. Thanks to N.-E. Bomark for
+    finding (and correcting) this bug. 
+  - Fixed bug in PYSLHA warning statement issued when W, Z, or t
+    masses deviate substantially from their physical values. The
+    previous 'free' format risked generating crashes.
+  - Bug fix in PYPREP to prevent crashes due to free-format write 
+    into a character string. Thanks to M. Betancourt for pointing to
+    this problem. 
+  - Bug fix in PYFSCR. Previously, the algorithm only looked among
+    the reconnected partons when deciding where to insert a leftover
+    gluon at the end of the algorithm. It now looks among all color 
+    lines. This also helps to make the algorithm more stable,
+    preventing rare crashes that occurred when no viable insertion
+    could be found among the reconnected partons. 
+  - Bug fix in PYFSCR. Previously, the Seattle (and the new Paquis)
+    type CR models (MSTP(95)=6,7,8,9) would only start from free 
+    triplet color tags (either quarks or gluons which only had one
+    "side" free). This caused problems with rare events where the
+    entire reconnected system had been a gluon loop in the original 
+    unconnected topology. The algorithms have now been modified to
+    start from any gluon in such cases. 
+  - Introduced new color-reconnection (CR) algorithm in PYFSCR,
+    obtained with MSTP(95)=8 and =9. The full listing of options for
+    MSTP(95) is now:
+      MSTP(95) = 0 : No final-state color reconnections.
+      MSTP(95) = 1 : Old cut-and-paste style CR.
+      MSTP(95) = 2 : Annealing 1, applied to hadron-hadron only
+      MSTP(95) = 3 : Annealing 1, applied to all beams
+      MSTP(95) = 4 : Annealing 2, applied to hadron-hadron only
+      MSTP(95) = 5 : Annealing 2, applied to all beams
+      MSTP(95) = 6 : "S" Annealing, applied to hadron-hadron only
+      MSTP(95) = 7 : "S" Annealing, applied to all beams
+      MSTP(95) = 8 : "P" Annealing, applied to hadron-hadron only
+      MSTP(95) = 9 : "P" Annealing, applied to all beams
+    In the new "P" (Paquis) model, the reconnection probability for each
+    string piece is computed as follows: first, the Thrust axis for
+    the event is determined. (For hadron-hadron, this will normally
+    coincide with the beam axis.) The number of string pieces in each
+    rapidity interval along that axis is then computed, using a
+    segmentation of 100 bins in rapidity. The reconnection strength
+    PARP(78) is then interpreted as the reconnection probability per
+    unit rapidity per string-string overlap, and hence the naive
+    probability to keep the string piece unchanged is 
+      Pkeep = (1-PARP(78))**(Nbins*DeltaYperBin*<Nstrings-1>)
+    where the "-1" in the exponent comes from the string not being
+    able to reconnect with itself. In practice the algorithm is
+    actually slightly more refined, and the probability to keep the 
+    given string piece is constructed as an explicit product over 
+    bins, using the number of strings in each bin, rather than the 
+    average as shown above. Also, PARP(77) still gives a possibility 
+    to suppress CR among high-pT string pieces, similarly to the 
+    earlier algorithms.
+  - New options in PYSIGH to make it possible to apply a K-factor to
+    the QCD multiple-parton-interaction (MPI) cross sections in the
+    underlying-event framework independently of any K-factor used for
+    the hard trigger process. The new options are:
+      MSTP(33) = 10 : The UE QCD cross sections (ISUB=96) are
+                      multiplied by PARP(32). Other cross 
+		      sections are unchanged.
+      MSTP(33) = 11 : The UE QCD cross sections (ISUB=96) are
+                      multiplied by PARP(32). Other cross 
+		      sections are multiplied by PARP(31). 
+    Note: a new tune has been included in PYTUNE that explores this
+    possibility, Tune Perugia K, with tune number 328 (see above).
+  - Bug fix in PYPTIS, for MSTP(67)=1 and 2. Previously, the scale for
+    suppression of hard ISR radiation above the hard-process scale was 
+    calculated as SDIP = (p1 + p2)^2, where p1 and p2 are the two 
+    color-dipole ends. This is correct for annihilation-type color
+    flows, but to better reflect the acceleration of charge also for
+    color flows through the diagram, the expression has been changed 
+    to SDIP = abs((p1 - p2)^2), which still reduces to sHat for
+    massless incoming particles but becomes |tHat| for color flows
+    through the diagram. 
+  - Updated check for PYDATA linking in PYLOGO, to reflect change of decade
+  - Harmonized version numbers in update notes to 6.4.xx throughout
+    update notes.
+  - Fix to PYWIDX to select proper masses when KF != KC.   Used only by
+    technicolor particles.
+
+6.4.24 : 21 Oct 2010
+  - Included three new tunes:
+      334 : Perugia 10 NOCR (NOCR variant of Perugia 2010)
+      341 : Z1 (retune of AMBT1 by Field. Uses CTEQ5L PDFs)
+      342 : Z1-LEP (retune of Z1 by Skands. Uses CTEQ5L PDFs)
+  - New possibility to write out SLHA DECAY tables from Pythia, using 
+    the PYSLHA routine. The new capability can be used by calling
+        CALL PYSLHA(4,KF,IRETRN)
+    where the key 4 signifies DECAY table writeout, KF should be 
+    a PDG code for the particle for which DECAY table writeout is 
+    desired, and IRETRN is a return integer which is zero if the call 
+    succeeded and non-zero otherwise. Several calls can be issued in 
+    sequence, to write out several decay tables. The file onto which 
+    the output is written must already be opened by the user at the 
+    time PYSLHA is called, and the unit number, LUN, should be given to
+    Pythia by setting IMSS(24)=LUN. Many thanks to N.-E. Bomark for 
+    providing this new functionality. 
+  - Bug fix in PYSLHA regarding the output of the Higgs parameter 
+    alpha.  Previously, it would print out 1, instead of the value.
+  - Bug fix for SUSY ~t1~t2* production (ISUB=263) in PYSGSU. Removed 
+    an erroneous factor 2 in the cross section. 
+  - Bug fix in PYWIDT, for decays of W' to a pair of heavy fermions 
+    when gV != gA. A term 6(gV^2-gA^2)*Sqrt(m1*m2) was missing in the
+    decay width calculation. Thanks to M. Chizhov, see arXiv:0705.3944.
+  - Bug fix in PYTUNE, for the AMBT1 tune. Very minor changes
+    expected. PARP(77) changed to 1.016 instead of 1.000. PARP(62)
+    changed to 1.025 instead of 1.000. Thanks to J. Katzy. 
+  - Bug fix in PYFSCR, for MSTP(95)=8 (affecting the Perugia 2010
+    tune). Corrected an array-out-of-bounds problem that could
+    potentially lead to crashes and/or erroneous results. Thanks 
+    to L. Galtieri and D. Mietlicki for pointing to this problem. 
+  - Corrected bug in PYTUNE for Perugia SOFT tune (322). Previously,
+    PARP(67) was set to 0.5 for this tune, now corrected to 0.25 as in
+    arXiv:1005.3457. Thanks to L. Mijovic for pointing to this. 
+  - PYRESD: update.   Color flow for 3-body decays of the form
+    3 -> 3 + 3 + 3bar (where 3 is a color triplet) is now handled.
+    This could arise in a decay mode defined through an SLHA file.
+    The color of the mother flows to the first decay product, and
+    the remaining two are paired as a color singlet.  Other flows
+    involving four colored particles are not yet handled.
+  - Introduced "generic" processes of the kind 2->1->2 and 2->2,
+    with process codes 481 and 482, respectively.   These rely on
+    reading and interpreting an SLHA file.   The process initial
+    and final state is defined through the SLHA decay table of
+    a new particle KF=9900001.  This particle should have only
+    two decays modes, the first specifying the initial state of
+    Standard Model partons and the second the final state, which
+    may include particles defined through the SLHA file.  The
+    QNUMBERS definition of particle KF=9900001 determines the 
+    color flow, and the charge and color must be consistent with
+    the two decay modes.   For process 482, the cross section is
+    determined by a flat matrix element.   For process 481, a
+    Breit-Wigner propagator for particle KF=9900001 is included.
+    The reported cross section includes no couplings or
+    branching ratio factors, and is determined only by the 
+    parton distribution functions and particle masses.  
+  - Bug fix to PYSGSU to allow selection of incoming partons from
+    the PDF for gluino + ino production.   The default behavior
+    of including all relevant incoming partons is unchanged.
+  - Modification of PYPTFS to allow for final state showering of
+    any, heavy color octet particle in the pT-ordered shower.
+  - Modification of PYTBDY to allow the user to turn off matrix
+    element weighting in certain SUSY decays when MSTJ(47)=0.
+  - Bug fix to PYSCAT to allow simulation of processes 297-301,
+    which were inadvertently disabled in version 6.4.17.
+  - PYRESD modified to allow 4-body decays of resonances, as long as
+    one of the decay particles is inert (doesn't shower).
+  - PYPTIS modified PYPTIS to allow the option to turn off QED
+    ISR when MSTP(61)=0.
+
+6.4.25 : 23 Mar 2011
+  - Included 18 new tunes:
+      343 : Z2 (retune of Z1 by Field. Uses CTEQ6L1 PDFs)
+      344 : Z2-LEP (retune of Z2 by Skands. Uses CTEQ6L1 PDFs)
+      350 : Perugia 2011 (update of Perugia 2010. Uses CTEQ5L PDFs)
+      351 : Perugia 2011 radHi (with alphaS(pT/2))
+      352 : Perugia 2011 radLo (with alphaS(2*pT))
+      353 : Perugia 2011 mpiHi (with larger alphaS for MPI)
+      354 : Perugia 2011 noCR (without color reconnections)
+      355 : Perugia 2011 M (Uses LO** PDFs)
+      356 : Perugia 2011 C (Uses CTEQ6L1 PDFs)
+      357 : Perugia 2011 T16 (with PARP(90)=0.16 away from 7 TeV)
+      358 : Perugia 2011 T32 (with PARP(90)=0.32 away from 7 TeV)
+      359 : Perugia 2011 Tevatron
+      360 : S Global (Schulz-Skands Global fit. Uses CTEQ5L PDFs)
+      361 : S 7000   (Schulz-Skands optimized at 7 TeV)
+      362 : S 1960   (Schulz-Skands optimized at 1.96 TeV)
+      363 : S 1800   (Schulz-Skands optimized at 1.8 TeV)
+      364 : S 900    (Schulz-Skands optimized at 900 GeV)
+      365 : S 630    (Schulz-Skands optimized at 630 GeV)
+  - Bug fix in PYPTFS for QED and QCD final-state showers in systems
+    with color and/or charge flowing through the process. 
+      QED example: W+ -> l+ nu. 
+      QCD/QED examples: t -> b W or leptoquark decays. 
+    Since dipoles in resoance decays must be formed *within* the
+    resonant system (in order to preserve its mass and hence its
+    Breit-Wigner shape), any charge or color lines through the 
+    process cannot be totally correctly treated (a formal
+    initial-final type of dipole connection would be needed). In
+    previous versions, this ambiguity could lead to gluons using
+    leptons or photons as recoilers far down the shower, leading to
+    larger-than-expected momentum kicks being imparted to those
+    particles. The shower routine has now been updated so that colored
+    particles will always attempt to find colored recoilers,
+    preferably with the correct color charge sign. When there are
+    ambiguities between several such potential recoilers, the pairing
+    with the smallest dot product is made. The treatment of QED
+    dipoles has also been updated, so that a QED emitter keeps the
+    same recoiler all the way through the shower evolution. Thanks to 
+    H. Bachacou, V. Bansal, and several others for helping to chart
+    this bug.   
+  - PYSLHA:  Fixed typo when reporting W mass. Also changed several
+    write FORMAT statements to be compatible with gfortran.
+  - New feature in PYPTFS. Added a new QED dipole between the q and
+    qbar emerging from a g->qqbar splitting in the shower.
+  - Improved option in PYPTFS for switching radiation from a specific 
+    particle off via MSTJ(39), see update notes for 6.4.19. The flag 
+    is now also active for particles produced during the showering and   
+    not just for particles coming into the showering.
+  - New behaviour in the pT-ordered initial-state shower, for 
+    MSTP(67) = 0, i.e., when coherence is switched off for the first
+    emission. (This non-default setting is normally only used in
+    matching contexts, hence should not affect the default behaviour
+    of the code.) The phase space boundaries for the first parton
+    shower emission are now set as follows:                       
+    MSTP(67) = 0 : ISR: Step function at PARP(67)*QF**2
+                        (this was previously just QF**2) 
+                   FSR: Step function at PARP(71)*QF**2
+    Note: for external processes, QF = SCALUP. 
+    This allows an independent handle to adjust the shower starting
+    scale consistently for ISR and FSR which can be useful for testing
+    purposes. In cases where the factorization scale is clearly
+    interpretable as the pT scale of a QCD jet, we recommend setting
+    PARP(67) = PARP(71) = 1D0.
+ 
+6.4.26 : 16 Nov 2011
+  - Corrected bug in PYTUNE affecting calls of PYTUNE with a constant
+    argument. Previously, the argument was assumed to be non-constant
+    and could be modified by PYTUNE. This would result in compilation
+    problems and/or crashes if the argument being passes was
+    constant. This behaviour has now been corrected, so the argument
+    is never modified and instead a local copy of it is made inside
+    PYTUNE. Thanks to M. Wobisch for pointing to this bug.
+  - Fixed bug in PYEVOL causing potential inconsistencies for hard 
+    processes with 3 or more outgoing partons. Previously, if the
+    evolution failed so that PYEVOL had to restore the original hard
+    system and start over, only the two first partons of the hard
+    process would be restored correctly. This has now been corrected
+    so that hard systems of arbitrary size are treated correctly. 
+  - PYSGSU:  Fixed sign error in gluino contribution to squark-antisquark
+    production, process 274, to agree with Dawson, Eichten, and Quigg.
+  - PYSLHA:  Added flexibility to control decay modes from an SLHA file,
+    like internal decay modes.   By setting the MDME value of a particular
+    decay mode to a negative value, the effect of the positive value is
+    obtained.   For example, MDME(5001,1)=-4 will result in the setting
+    of MDME(5001,1)=4, where 5001 is a decay mode inserted from an SLHA
+    file.  
+  - PYUPIN:  Output cross section information to LHE file when using
+    internal processes.
+  - PYRESD:  Bug fix that allows gluino decay modes to be controlled
+    with MDME options. 
+    
+6.4.27 : 12 Dec 2012
+  - Included 10 new Perugia 2012 tunes, based on Perugia 2011 but with
+    the central tune based on CTEQ6L1 and some new variations. The
+    following PYTUNE/MSTP(5) numbers have been added:
+       370 P12       : Retune of Perugia 2011 w CTEQ6L1          (Oct 2012)
+       371 P12-radHi : Variation with alphaS(pT/2) 
+       372 P12-radLo : Variation with alphaS(2pT)
+       373 P12-mpiHi : Variation with more semi-hard MPI -> more UE
+       374 P12-loCR  : Variation using lower CR strength -> more Nch
+       375 P12-noCR  : Variation without any color reconnections
+       376 P12-FL    : Variation with more longitudinal fragmentation
+       377 P12-FT    : Variation with more transverse fragmentation
+       378 P12-M8LO  : Variation using MSTW 2008 LO PDFs     
+       379 P12-LO**  : Variation using MRST LO** PDFs     
+    In particular, the "loCR" variation is intended to give a less
+    extreme option for variation than the "noCR" one. Note that we
+    also include MSTW 2008 LO and LO** variants, and that tunes 376
+    and 377 represent variations of the string fragmentation a, b, 
+    and pT parameters. Tune 376 has a more "longitudinal"
+    fragmentation, with lower non-perturbative pT, and a harder long-
+    itudinal f(z), whereas tune 377 has the opposite. As in Perugia
+    2011, all shower alphaS parameters use the same LambaQCD values.
+  - Included 5 new ATLAS UE/MB tunes, from the A*T2B family, with
+    PYTUNE/MSTP(5) numbers
+        345 AMBT2B-CT6L : 2nd ATLAS MB tune, vers 'B', w CTEQ6L1 (Jul 2011)
+        346 AUET2B-CT6L : UE tune accompanying AMBT2B            (Jul 2011)
+        347 AUET2B-CT66 : AUET2 with CTEQ 6.6 NLO PDFs           (Nov 2011)
+	348 AUET2B-CT10 : AUET2 with CTEQ 10 NLO PDFs            (Nov 2011)
+	349 AUET2B-NN21 : AUET2 with NNPDF 2.1 NLO PDFs          (Nov 2011)
+    Note that tunes 347, 348, and 349 use NLO PDFs. Tunes using NLO
+    PDFs are not recommended for physics studies, hence these are
+    mostly for illustration purposes. 
+  - Updated PYFSCR to include two additional colour-reconnection models from 
+    the Uppsala group, the SCI and GAL models, which were previously only 
+    available as private modifications. They have now been included in the 
+    standard Pythia distrubution and are accessible via four new options 
+    in MSTP(95): CR Type
+               = 11 : Soft Color Interaction (SCI model)
+               = 12 : SCI without diffraction (no inter-remnant CR)
+               = 13 : Generalized Area Law (GAL model)
+               = 14 : GAL without diffraction (no inter-remnant CR)
+    The existing options 2-9 (for colour annealing, used eg by the Perugia 
+    tunes) remain unmodified. The new options are documented in 
+       SCI: hep-ph/9508386, by Edin, Ingelman, and Rathsman
+       GAL: hep-ph/9812423, by Rathsman
+    Thanks to Johan Rathsman for providing this implementation. 
+    Also included new highly preliminary tunes in PYTUNE,
+    with the following PYTUNE/MSTP(5) tune numbers:
+        1201   SCI 0 : Soft-Colour-Interaction model Org pars (Dec 1998)
+	1202   SCI 1 : SCI 0. Tevatron MB retuned (Skands)    (Oct 2006)
+        1401   GAL 0 : Generalized area-law model. Org pars   (Dec 1998)
+        1402   GAL 1 : GAL 0. Tevatron MB retuned (Skands)    (Oct 2006)
+  - Bug fix in PYWIDT for decay modes using tabulated branching
+    fractions. Previously, modes with zero partial width could 
+    contribute with a NaN via undefined secondary widths, producing
+    erroneous results with some compilers. The code has now been
+    protected by explicitly zeroing the partial width in such cases. 
+  - Bug fix in PYPTIS, for suppressed pT-ordered "power
+    showers". Previously, the scale at which the suppression would
+    kick in was only computed correctly for color-annihilation
+    channels, for t-channel exchanges, and for channels without
+    intermediate s-channel resonances. For more complicated topologies
+    in which the initial-state color flows to a final-state parton
+    through intermediate resonances, however, the suppression scale
+    could become extremely small, effectively killing ISR in such
+    topologies. This has now been addressed by letting the IF dipole
+    be defined by the incoming parton and the last final-state parton
+    to carry the matching color tag. If no such matching parton is
+    found, the default is to use the other incoming parton to define
+    the suppression scale.
+  - Bug fix in PYPTMI and PYPTIS to prevent heavy companion quarks
+    (b and c quarks) from being picked up by MPI and ISR evolution. 
+    This is necessary since perturbative intertwining (joining of two
+    chains) was never implemented in practice and heavy quarks have to
+    disappear from the remnant object before the perturbative cutoff
+    is reached. The consequence of the fix is that MPI are still
+    sensitive to heavy-quark companion PDFs, but such quarks are  
+    reclassified as sea quarks when assigning them. For ISR, the PDF
+    weight for backwards evolution to a heavy companion quark is
+    forced to zero. Thanks to O. Brandt for pointing to this issue. 
+  - Bug fix in PYSLHA for DECAY tables including decays to
+    gravitinos. Previously, the read-in of the gravitino mass into
+    RMSS(21) and the setting to allow gravitino decays, IMSS(11) > 0, 
+    were not handled automatically by PYSLHA, resulting in errors when
+    attempting to read SLHA files for scenarios in which the LSP can 
+    decay to X + gravitino. If a decay mode including a gravitino is
+    found, PYSLHA now sets IMSS(11) = 2, to indicate that decays to
+    gravitinos should be allowed, and the value of the mass (in eV) is
+    stored in RMSS(21). Thanks to M. Magro for pointing to this issue.
+  - Bug fix in PYSTRF to update MSTU(90) correctly when string
+    junctions are present in the event record and/or when infinite
+    loops are encountered (MSTU(90) is used for bookkeeping of the 
+    fragmentation of c and b hadrons). Thanks to M. Jaffre for
+    pointing to this problem.  
+
+6.4.28 : 05 Sep 2013
+  - Bug fix in the handling of final-state radiation in decays into a
+    gluon, specifically q* -> q g, where an incorrect handling of the
+    matrix element matching leads to a strong suppression of radiation
+    from the gluon. 
+  - Bug fix in PYUPEV to handle certain processes, such as VV->VV
+    scattering (MSUB=71-77), where a mother index would become negative.
+  - Included four new Perugia 2012 variations, one of which is
+    motivated by theory uncertainties on min-bias, two others having
+    been requested by the LHC experiments, and the last exploring a
+    different set of fragmentation parameters, obtained by the
+    Innsbruck group. Also included 9 new complete ee+pp tunes provided 
+    by G. Rudolph and N. Firdous (Innsbruck), 3 of which use LO PDFs,
+    3 using NLO ones, and 3 LO* ones. Note that we do not recommend
+    using NLO or LO* PDFs for serious soft-physics studies, but include 
+    them nonetheless to illustrate the results that one obtains with them. 
+    MSTP(5) = 
+      380 P12-MB2     : same as Perugia 2012, with PARP(87)=0D0    (2013)
+      381 P12-ueHi    : Variation with higher UE (lower pT0)       (2013)
+      382 P12-ueLo    : Variation with lower UE (higher pT0)       (2013)
+      383 P12-IBK     : Perugia 2012 with IBK ee fragmentation parameters
+      390 IBK-CTEQ5L  : Innsbruck ee+pp tune with CTEQ5 LO PDFs    (2013)
+      391 IBK-CTEQ6LL :       with CTEQ6LL LO PDFs
+      392 IBK-MSTW08LO:       with MSTW08 LO PDFS
+      393 IBK-CTEQ66NLO:      with CTEQ66 NLO PDFs
+      394 IBK-CT10NLO :       with CT10 NLO PDFs
+      395 IBK-MSTW08NLO:      with MSTW08 NLO PDFs
+      396 IBK-MSTW08LO*:      with MSTW07 LO* PDFs
+      397 IBK-MRSTLO**:       with MRSTMCal (LO**) PDFs
+      398 IBK-CT09MC2 :       with CTEQ09MC2 PDFs  
+    The variation with PARP(87)=0 (see manual) has a slightly improved 
+    behaviour at very low minimum-bias multiplicities. The new P12 UE 
+    variations are complementary to the existing mpiHi variation (373). 
+    Where the latter increases the amount of semi-hard MPI scatterings 
+    (i.e., the amount of MPI minijets) by increasing the alphaS associated 
+    with MPI, the new variations adjust the soft pT0 scale and hence affect 
+    the amount of soft MPI produced, without changing the rate of hard MPI. 
+    The energy-scaling of the new variations has also been chosen
+    conservatively, so that the activity of the "ueLo" variation scales 
+    slower with CM energy (i.e., pT0 scales up faster) than for "ueHi". 
+  - Extended PYSLHA to be able to handle more than 25 new particles
+    introduced via QNUMBERS blocks in SLHA files and/or LHEF
+    headers. By recycling previously unused space in the particle
+    arrays, the maximum number of QNUMBERS blocks that can be stored
+    is now at 130 new particles, at which point the code will advise
+    you to move to PYTHIA 8 instead. Thanks to A. Belyaev for
+    pointing to this problem and for help testing the updated PYSHLA.  
+  - Modification of PYPTFS for the case of interleaved showers, where
+    final state showers occur after initial state showers. In
+    the previous version, a soft parton from ISR could form a dipole
+    with a final state parton, leading to a suppression of hard final-
+    state radiation. In the corrected version, a final-final dipole is 
+    selected, using other hard partons in the final state, unless
+    the pT-scale is at or below the scale of the original initial-final
+    dipole. Thanks to Gavin Salam for noticing a problem in jet
+    masses for certain kinematic configurations. See also the study
+    reported in section 8.4 of Dasgupta et al., arXiv:1307.0007. 
+    Note that this correction slightly increases the average amount of
+    FSR in all tunes of the pT-ordered shower. Thus, for instance, the 
+    average multiplicity of minimum-bias events at LHC (7 TeV) increases 
+    by 1 - 2 per cent in this version relative to previous PYTHIA 6 versions. 
+  - Identified a bug in final states including exactly one vector boson
+    and one quark. This could be a native Pythia process or an
+    external LHE event. In this case, a matrix element correction is
+    applied to FSR assuming the decay q -> q V.   The effect appears
+    to be minimal, and no solution is implemented at this time.

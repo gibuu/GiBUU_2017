@@ -1,0 +1,42 @@
+!-------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for pions in a box
+!-----------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!-----------------------------------------------------------------------
+
+
+! file: code/inputOutput/input.f90
+&input
+      eventtype       =          41 ! PionBox
+      numEnsembles    =         100
+      numTimeSteps    =        52000
+      delta_T         =  0.1    ! time step size [fm]
+
+      length_real = 1200
+
+      continousBoundaries     = T
+
+!      printParticleVectors    = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+!      FileNameDecayChannels = '~/GiBUU/buuinput/DecayChannelsOnly2.dat'
+      FileNameDecayChannels = 'DecayChannelsOnly2.dat'
+/
+
+! file: code/width/mesonWidthVacuum.f90
+&mesonWidthVacuum
+!      omega_width=2
+/
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      mesMes_useWidth = T
+/

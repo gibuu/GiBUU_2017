@@ -1,0 +1,114 @@
+!*************************************************** 
+! General Input :
+!***************************************************
+
+$input
+numEnsembles	= 300	! number of ensembles
+eventtype	= 3	! 2=PionA, 3=photon A, 12=HiPion A
+numTimeSteps	= 25	! number of time steps
+delta_T		= 0.2	! time step size
+num_runs_SameEnergy = 50
+num_Energies=1
+set_length_perturbative=.true.
+length_perturbative=600
+freezeRealParticles=.true.
+! localEnsemble=.true.		! default: parallel ensemble
+path_to_input="~/WC/buuinput"
+LRF_equals_CALC_frame=.true.	! needed for offshell potential
+$end
+
+$dileptonAnalysis
+enable = .true.
+$end
+
+$initRandom
+SEED=68919         !Seed for the random number
+$end
+
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target
+target_Z = 20
+target_A = 40
+$end
+
+$low_photo_induced
+energy_gamma	= 1.5
+twoPi		= .false.
+vecMes		= .true.
+resonances	= .false.
+singlePi	= .false.
+$end
+
+!************************************************************
+!	In-Medium Stuff
+!************************************************************
+
+$width_Meson
+mediumSwitch       = .true.
+!mediumSwitch       = .false.
+mediumSwitch_rho   = .true.
+mediumSwitch_omega = .true.
+mediumSwitch_phi   = .true.
+$end
+
+$mesonWidthMedium_tables
+minMes = 103
+maxMes = 107
+$end
+
+$offShellPotential
+useOffShellPotentialMesons = .true.
+max_offshellparameter = 100.
+OffShell_debug = .true.
+$end
+
+$propagation
+delta_P = 1E-6
+delta_E = 1E-6
+! dh_dp0_switch = .false.
+$end
+
+$mesonPotential
+vectorMesonPot=0   ! Switch for medium-modification of vector mesons
+                   !    1=Brown-Rho-Scaling
+                   !    2=Brown-Rho-Scaling with momentum dependence 
+                   !     according to Kondtradyuk (page 162,effenberger dr.-thesis)
+                   !    else=no modification
+$end
+
+!************************************************************
+!	Collisions
+!************************************************************
+
+$collisionTerm
+oneBodyProcesses=.true.
+twoBodyProcesses=.true.
+threeBodyProcesses=.true.
+twoBodyProcessesRealReal=.false.
+$end
+
+$master_2Body
+usePythia=1
+useManni=.true.
+$end
+
+!******************************************************************
+! Temperature and thermodynamics
+!****************************************************
+
+$initThermoDynamics
+temperatureSwitch=1 
+! 1=groundstate calculations (T=0,mu=E_F)
+! 2=the full procedure according to testparticle density (real particles only!)
+$end
+
+$initDensity
+densitySwitch=2            !1=dynamic density according to testparticle density, 2=analytic density prescription, 0=no density
+$end 
+
+$initPauli
+pauliSwitch=2           !1=dynamic, 2=analytic, 0=no pauli blocking
+$end

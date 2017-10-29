@@ -1,0 +1,86 @@
+!***************************************************
+! General Input :
+!***************************************************
+
+$initDatabase
+!propagationSwitch=2        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+				!used to initialize the resonances' database
+$end
+
+$input
+  numEnsembles=10,   !number of ensembles
+  eventtype=2,       ! 2=pion
+  numTimeSteps=40,   !number of time steps
+  delta_T=0.5,       !time step size
+  fullensemble=.false.,
+  num_runs_SameEnergy=1,
+  num_Energies=1
+  path_To_Input = '~/GiBUU/buuinput'
+$end
+
+$initDensity
+  densitySwitch = 2,           ! 0= density=0., 1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+  pauliSwitch = 2         ! 0=no pauli blocking, 1=dynamic, 2=analytic
+$end
+
+!*********************************************************
+!          The collision term
+!**********************************************************
+
+$collisionTerm
+  oneBodyProcesses = .true.
+  twoBodyProcesses = .true.
+  threeBodyProcesses = .false.
+$end
+
+$master_2Body
+  usePythia = 1                         ! 0=Fritiof, 1=Pythia
+  HiEnergyThresholdBarBar      = 4.0
+  HiEnergyThresholdBarBarDelta = 0.0
+  debug = .false.
+$end
+
+&barBar_barBar
+!  mat_NR(03) = 70.
+!  mat_NR(10) = 17.
+!  mat_NR(26) = 14.
+!  mat_NR(27) = 14.
+!  mat_DR(02) = 210.
+!
+!  mat_DR(04) = 60. ! S11_1535, pi-eta
+!  !!! rho-pi production !!!
+!  mat_DR(05) = 12.
+!  mat_DR(07) = 12.
+!  mat_DR(14) = 12.
+!  mat_DR(16) = 12.
+!  mat_DR(19) = 21.
+!  mat_DR(21) = 21.
+!  mat_DR(30) = 21.
+!
+!  etafac = 6.5
+!  neufac_roper = 2.
+/
+
+&baryonBaryon
+  NNpi_BG = 3
+/
+
+&decayChannels
+  rhoDelta_is_sigmaDelta = .true.
+/
+
+!************************************************************
+!	Input for potentials
+!************************************************************
+
+$mesonPotential
+  pionPot_Switch=0
+  noPerturbativePotential=.true.
+$end
+
+$baryonPotential
+  noPerturbativePotential = .true.
+$end

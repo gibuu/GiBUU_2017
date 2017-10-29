@@ -1,0 +1,99 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+!* Jobcard for testing the propagation of particles using the off-shell potential.
+!*  - Uses the eventType initGivenParticle and initializes a lot of Deltas with fixed momentum and random mass.
+!*  - These propagate then out of the nucleus.
+!*  - Output of the spectral functions during the propagation.
+!*  - Collisions are switched off!
+!******************************************************************************
+
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles  = 1000,   ! number of ensembles
+  eventtype     = 200,    ! transport given particle
+  fullEnsemble  = T,
+  localEnsemble = T,
+  delta_T       = 0.25,   ! time step size
+  numTimeSteps  = 100,    ! number of time steps
+  num_energies  = 1,
+  num_runs_sameEnergy = 1,
+  length_perturbative = 1000,
+  freezeRealParticles = T,
+  LRF_equals_CALC_frame = T,   ! needed for offshell transport
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 223214,
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 40,
+  Target_Z = 20,
+  fermiMotion = T,
+  densitySwitch_static = 2,   ! 0: density=0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: code/potential/baryonPotential.f90
+&baryonPotential
+  symmetryPotFlag = 1,
+/
+
+! file: code/potential/coulomb/coulomb.f90
+&coulomb
+  coulombFlag = T,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,   ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2   ! 1=dynamic, 2=analytic
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  RungeKuttaOrder = 2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+! file: code/width/offShellPotential.f90
+&OffShellPotential
+  useOffShellPotentialBaryons = T,
+/
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+  mediumSwitch       = T,   ! Switch all medium switches off
+  mediumSwitch_Delta = T,   ! Use Oset broadening of the Delta (only relevant for mediumSwitch_coll=.false.)
+  mediumSwitch_coll  = T,   ! Use collisional broadening of all resonances
+/
+
+! file: code/width/baryonWidthMedium_tables.f90
+&BaryonWidthMedium_tables
+  deltaOset = T,   ! Switch on Delta modification according to Oset (sets mediumSwitch_Delta=.true. in $width_Baryon)
+/
+
+! file: code/init/initTransportGivenParticle.f90
+&TransportGivenParticle
+  particle_ID = 2,
+  charge      = 0,
+  position(1:3) = 0., 0., 0.,
+  threemomentum(1:3) = 0.5, 0.5, 0.5,
+  mass= -1.,
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+ minimumEnergy = 0.03,
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+  oneBodyProcesses   = F,
+  twoBodyProcesses   = F,
+  threeBodyProcesses = F,
+/

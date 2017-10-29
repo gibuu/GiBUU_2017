@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL := main.f90 testAssignCharge.f90 testEtaPrime.f90 test_decayParticle.f90 listDecayChannels.f90
+EXEFILE := listDecayChannels.f90

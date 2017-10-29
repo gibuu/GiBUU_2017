@@ -1,0 +1,17 @@
+!**************************************************** -*- fortran -*-
+
+
+!************************************************************
+! General Input :
+!************************************************************
+
+&input
+      eventtype = 0
+      path_To_Input = '~/GiBUU/buuinput'
+/
+
+&ColStat
+      flag_varirate = .T.
+      varirate_size = 100
+      varirate_chargeZero=.F.
+/

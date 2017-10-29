@@ -1,0 +1,70 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 20,    ! number of ensembles
+  eventtype    = 3,     ! photon+A
+  delta_T      = 0.25,  ! time step size
+  numTimeSteps = 10,    ! number of time steps
+  num_energies = 11,
+  num_runs_sameEnergy = 1,
+  length_perturbative = 200,
+  freezeRealParticles = T,
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 40,
+  Target_Z = 20,
+  fermiMotion = F,
+/
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+  energy_gamma = 0.4,
+  delta_energy = 0.01,
+  twoPi = T,
+  pascalTwoPi = T,
+  equalDistribution_twoPi = T,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,   ! 1=dynamic density according to testparticle density, 2=analytic density prescription, 0=no density
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2,   ! 1=dynamic, 2=analytic, 0=no pauli blocking
+/
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+ mediumSwitch       = T,   ! Switch on/off in-medium width of all baryons at once
+ mediumSwitch_Delta = T,   ! Switch on/off in-medium width of the delta
+/
+
+! file: code/width/mesonWidthMedium.f90
+&width_Meson
+  mediumSwitch = 1,   ! Switch on/off in-medium width of all mesons at once
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+  oneBodyProcesses = F,
+  twoBodyProcesses = F,
+  threeBodyProcesses = F,
+  twoBodyProcessesRealReal = F,
+  twoBodyProcessesRealPert = T,
+  energyCheck = 0.1,              ! accuracy of energy check in GeV
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.05,  ! minimal kinetic energy of a produced nucleon in GeV
+/

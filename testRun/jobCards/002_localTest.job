@@ -1,0 +1,85 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 100,  ! number of ensembles
+  eventtype    = 2,    ! pion+nucleus
+  delta_T      = 0.1,  ! time step size
+  numTimeSteps = 200,  ! number of time steps
+  num_energies = 1,
+  num_runs_sameEnergy = 3,
+  freezeRealParticles = T,
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed=     230899,   ! seed for the random number
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 16,
+  Target_Z =  8,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,    ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2,      ! 1=dynamic, 2=analytic
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  RungeKuttaOrder = 2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+! file: code/width/baryonWidthMedium.f90
+&width_Baryon
+  mediumSwitch       = T,   ! Switch on/off in-medium width of all baryons at once
+  mediumSwitch_Delta = T,   ! Switch on/off in-medium width of the delta
+/
+
+! file: code/width/mesonWidthMedium.f90
+&width_Meson
+  mediumSwitch = 1,   ! Switch on/off in-medium width of all mesons at once
+/
+
+! file: code/init/initPion.f90
+&pionNucleus                 ! EVENTTYPE = 2
+  distance =  8.8,           ! distance of pions to nucleus
+  impact_parameter = -0.1,   ! negative impact-parameter=>impact-parameter integration
+  charge = -1,               ! charge of pions
+  numberPions = 100,         ! number of pions per ensemble
+  ekin_lab = 0.1,            ! kinetic energy in system where nucleus rests
+  delta_ekin_lab = 0.01,
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+  twoBodyProcessesRealReal = F,
+  twoBodyProcessesRealPert = T,
+  energyCheck   = 0.03,           ! accuracy of energy check in GeV
+  useStatistics = T,
+/
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2body
+  baryonBaryonScattering = F,
+  baryonMesonScattering  = T,
+  mesonMesonScattering   = F,
+  usePythia    = 1,
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.07,  ! minimal kinetic energy of a produced nucleon in GeV
+/

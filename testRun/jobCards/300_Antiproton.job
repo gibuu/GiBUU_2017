@@ -1,0 +1,104 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! JobCard for antiproton-induced reactions with REAL particles.
+! The use of RMF is strongly recommended here, otherwise no warranty.
+!
+! Alexei Larionov: Alexei.Larionov@theo.physik.uni-giessen.de
+! Theo Gaitanos  : Theodoros.Gaitanos@theo.physik.uni-giessen.de
+!******************************************************************************
+
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles = 1000,   ! number of ensembles
+  eventtype    = 300,    ! hadron-nucleus
+  delta_T      = 0.2,    ! time step size
+  numTimeSteps = 500,    ! number of time steps
+  num_energies = 1,
+  num_runs_sameEnergy = 1,
+  timeForOutput = 140.,
+  timeSequence  = 30.,
+  path_To_Input="~/GiBUU/buuinput",
+/
+
+! file: code/database/particleProperties.f90
+&initDatabase
+  propagationSwitch = 0,   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+/
+
+! file: code/rmf/RMF.f90
+&RMF_input
+  RMF_flag     = T,   ! if .true. then use relativistic mean field
+  grad_flag    = T,
+  lorentz_flag = T,
+  N_set        = 2,   ! number of the parameter set
+  fact_pbar    = 0.22,
+  fact_hyp     = 0.666666,
+  fact_antihyp = 0.666666,
+  fact_Xi      = 0.333333,
+  fact_antiXi  = 0.333333,
+  fact_kaon    = 0.333333,
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 11111,
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 12,
+  Target_Z =  6,
+  densitySwitch_static = 8,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 1,         ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+  linearInterpolation = F,   ! Switch for linear interpolation for dynamically calculated density
+  gridsize(1:3) = 10., 10., 10.,   ! Size of density grid in x/y/z-direction [fm]
+  gridpoints(1:3) = 20, 20, 20     ! Number of grid points in x/y/z-direction
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 1   ! 1=dynamic, 2=analytic
+/
+
+! file: code/init/initHadron.f90
+&hadron
+  impactParameter = 0.1,
+  particleId = 1,
+  antiParticle = T,
+  particleCharge = -1,
+  ekin_lab = 0.969,
+  iniType = 2,
+  zChoice = 2,
+  width= 0.8,
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+  oneBodyProcesses   = T,
+  twoBodyProcesses   = T,
+  threeBodyProcesses = F,
+  twoPlusOneBodyProcesses = F,
+  maxOut = 30,
+/
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2body
+  correctEnergy = T,
+  baryonBaryonScattering = T,
+  baryonMesonScattering  = T,
+  mesonMesonScattering   = T,
+  usePythia_BaB = 0,
+  coarse(1:3) = 4.5, 4.5, 4.0,
+  bmax_nucleonNucleon = 4.5,
+  bmax_baryonMeson    = 4.5,
+/
+
+! file: code/collisions/phaseSpace/winkelVerteilung.f90
+&angular_distribution
+  deltaPWave = F,
+  rho_pipi_nonIsotropic = F,
+  pionNucleon_backward = F,
+/

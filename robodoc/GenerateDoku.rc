@@ -1,0 +1,66 @@
+#*********************************************************
+#****r* /GenerateDoku.rc
+#
+# NAME
+#
+# GenerateDoku.rc
+#
+# PURPOSE
+#
+# Configuration file for ROBODoc documentation tool for the code directory.
+#
+# SOURCE
+
+options:
+  --src ./code 
+  --doc ../Documentation/code
+  --multidoc 
+  --html 
+  --index 
+  --toc 
+  --sections
+  --nopre
+#  --nogeneratedwith
+  --nosort
+  --internal
+  --cmode
+  --css robodoc/robodoc.css
+  --syntaxcolors
+  --documenttitle "GiBUU documentation"
+ignore files:
+ Makefile*
+ *~
+ *.r*
+ *.mine*
+ *.svn
+ *.svn-base
+ ./objects
+ ./database/Manley/*.*
+ */oldCode*
+ */testRun*
+ test*
+ #*
+ test.*
+ *.old
+ *.css
+ *.pretty
+ *.NEW
+ *.DEBUG
+ *.ORIG
+header markers:
+ c****
+ !****
+end markers:
+ c***
+ !***
+source line comments:
+ !
+ c
+headertypes:
+ m "Modules" robo_modules
+ s "Subroutines" robo_subs
+ g "Global module-variables" robo_globals 
+ p "Program" robo_prog
+ n "Namelists" robo_namelist
+ o "Output files" robo_output
+#*********************************************************************************

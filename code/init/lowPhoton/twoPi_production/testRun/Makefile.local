@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL :=test.f90
+EXEFILE :=test.f90

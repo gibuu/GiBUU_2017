@@ -1,0 +1,226 @@
+program test
+use electronPionProduction_xSection
+use degRad_conversion, only : degrees, radian 
+
+implicit none
+real, parameter:: me=0.000510
+real, parameter:: mn=0.938
+real :: dummy
+real :: phi_k, theta_k,theta_lf
+real:: energy_li, energy_lf
+real :: qSquared, W,thetaCM,sigmaV
+integer :: switch
+real , dimension (0:3) :: q
+real :: sigmaT,sigmaTT, sigmaL,sigmaTL,  sigmaVirtual,eps,gamma
+NAMELIST /testing/ switch
+NAMELIST /Xsection/ energy_li,energy_lf,theta_lf,theta_k
+NAMELIST /virtual/ W, Qsquared
+
+rewind(5)
+read(5,nml=testing)
+write(*,*) 'switch=',switch
+If((switch.ne.1).and.(switch.ne.2).and.(switch.ne.3).and.(switch.ne.4)) then
+   write(*,*) 'This choice for switch is not valid'
+   stop
+end if
+
+call init_database
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+!! SWITCH:
+!!
+!! =1 : Calculate dSigma/dOmega_f/dE_f/dOmega_k in the CM-Frame of the hadronic vertex. Output to fort.11
+!! =2 : Evaluate virtual photon Xsections
+!! =3 : Evaluate virtual photon Xsec
+!! =4 : Calculate dSigma/dOmega_f/dE_f/dOmega_k in the CM-Frame of the hadronic vertex. Only for phi_k=30°
+!!
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+if(switch.eq.1) then
+   rewind(5)
+   read(5,nml=Xsection)
+
+   write(*,*)
+   write(*,*) 'Energy incoming:',energy_li
+   write(*,*) 'Energy outgoing:',energy_lf
+   write(*,*) 'Electron scattering angle (degree):', theta_lf
+   write(*,*) 'Pion scattering angle theta (degree) :', theta_k
+   write(*,*)
+   write(11,*) 'phi_k ,theta_k,theta_k (CM) ,dsigma/d(...)'
+   do phi_k=0,360,30
+      dummy=dSigmadOmega_fdE_fdOmega_k(me,me,mn,mn,energy_li,energy_lf,theta_lf,phi_k,theta_k,.true.,thetaCM)
+      sigmaV=dSigmadOmega_fdE_fdOmega_k_withVirtual(me,me,mn,mn,energy_li,energy_lf,theta_lf,phi_k,theta_k,.true.,thetaCM)
+      write(*,'(5E16.5)')  phi_k,theta_k,thetaCM,dummy,sigmaV
+      write(11,'(5E16.5)') phi_k ,theta_k,thetaCM,dummy,sigmaV
+   end do
+
+else if(switch.eq.2) then
+   rewind(5)
+   read(5,nml=Xsection)
+   write(*,*)
+   write(*,*) 'Energy incoming:',energy_li
+   write(*,*) 'Energy outgoing:',energy_lf
+   write(*,*) 'Electron scattering angle (degree):', theta_lf
+   write(*,*) 'Pion scattering angle theta (degree) :', theta_k
+   write(*,*)
+
+   q(0)=energy_li-energy_lf
+   q(1:2)=0.
+   q(3)=energy_li-energy_lf
+
+   W=sqrt((mn+q(0))**2-Dot_Product(q(1:3),q(1:3)))
+   QSquared=2.*energy_li*energy_lf*(1.-cos(radian(theta_lf)))
+
+
+   write(12,*) W,QSquared
+   do phi_k=0,360,30
+      call virtualPhotonXsection(sigmaT,sigmaL,sigmaTL, sigmaTT,sigmaVirtual,W,QSquared,theta_k,phi_k,theta_lf,eps)
+      gamma=1./137./2./3.14**2*energy_lf/energy_li*(W**2-mn**2)/2./mn/QSquared/(1.-eps)
+      write(999,*) phi_k, gamma, sigmaVirtual,gamma*sigmaVirtual*0.197**2.*10
+   end do
+
+else if(switch.eq.3) then
+   rewind(5)
+   read(5,nml=virtual)
+
+   write(*,*) 'W:', W
+   write(*,*) 'QSquared:', Qsquared
+
+   write(*,*) '#####################################################'
+   do phi_k=0,360,30
+   do theta_k=0,180,10
+      call virtualPhotonXsection(sigmaT,sigmaL,sigmaTL, sigmaTT,sigmaVirtual,W,QSquared,theta_k,phi_k,0.,eps)
+      write(*,*)
+      write(*,*)  'sigma_T=', sigmaT
+      write(*,*)  'sigma_L=', sigmaL
+      write(*,*)  'sigma_TL=', sigmaTL
+      write(*,*)  'sigma_TT=', sigmaTT
+      write(300+phi_k,'(6E22.10)')theta_k,phi_k, sigmaT,sigmaL, sigmaTT,sigmaTL
+   end do
+   end do
+
+else if(switch.eq.4) then
+   rewind(5)
+   read(5,nml=Xsection)
+
+   write(*,*)
+   write(*,*) 'Energy incoming:',energy_li
+   write(*,*) 'Energy outgoing:',energy_lf
+   write(*,*) 'Electron scattering angle (degree):', theta_lf
+   write(*,*) 'Pion scattering angle theta (degree) :', theta_k
+   write(*,*)
+   dummy=dSigmadOmega_fdE_fdOmega_k(me,me,mn,mn,energy_li,energy_lf,theta_lf,30.,theta_k)
+   write(*,*)  30.,dummy
+
+end if
+
+end program test
+
+
+
+  subroutine  virtualPhotonXsection(sigmaT,sigmaL,sigmaTL, sigmaTT,sigmaVirtual,W,QSquared,theta_k,phi_k,theta_lf,epsilon,energy_li,energy_lf)
+    use twoBodyTools, only : pcm
+    use idTable, only : nucleon, pion
+    use particleProperties, only : baryon, meson
+    use minkowski, only : pair => SP
+     use degRad_conversion, only : degrees, radian 
+     use hadronTensor_npi
+     use formFactors_A, only : getA
+    implicit none
+
+    real, intent(out) :: sigmaT, sigmaL, sigmaTL, sigmaTT,sigmaVirtual
+    real, intent(in)  :: W ! =sqrt(s)
+    real, intent(in)  :: QSquared, theta_k,phi_k
+    real :: theta_lf
+    real, dimension(1:3) :: k_unit
+    real, optional :: energy_li,energy_lf
+    real :: p_CM,kOverkGamma,Normalization,epsilon
+    real, dimension(0:3) :: q,pin,pout,k
+    complex, dimension(1:6) :: A
+
+    ! Define unit vector in direction of outgoing pion:
+
+
+    write(*,*) 'W', W
+    write(*,*) 'QSquared', QSquared
+
+    p_CM=pcm(W,baryon(nucleon)%mass,meson(pion)%mass)
+
+    k(1:3)=p_CM*(/sin(radian(theta_k))*cos(radian(phi_k)),sin(radian(theta_k))*sin(radian(phi_k)),cos(radian(theta_k))/)    
+    k(0)=sqrt(meson(pion)%mass**2+p_cm**2)
+
+    pout(1:3)=-k(1:3)
+    pout(0)=sqrt(baryon(nucleon)%mass**2+p_cm**2)
+
+    q(3)=sqrt((  ((W**2+QSquared-baryon(nucleon)%mass**2)**2)/4.+QSquared*baryon(nucleon)%mass**2)/W**2)
+    q(1:2)=0
+    q(0)=sqrt(-Qsquared+q(3)**2)
+
+
+
+    pin(3)=-q(3)
+    pin(1:2)=0
+    pin(0)=sqrt(baryon(nucleon)%mass**2+pin(3)**2)
+
+    write(*,*)
+    write(*,'(A)')'********** Incoming :'
+    write(*,'(A,4F9.5)') 'pi=',pin
+    write(*,'(A,4F9.5)') 'q=',q
+    write(*,'(A,4F9.5)') 'Total=' , q+pin
+    write(*,*)
+    write(*,'(A)')'***********Outgoing :'
+    write(*,'(A,4F9.5)') 'pf=',pout
+    write(*,'(A,4F9.5)') 'k=',k    
+    write(*,'(A,4F9.5)') 'Total=' , k+pout
+    write(*,*)
+    write(*,'(A,4F9.5)') 's        =' , pair(pin+q,pin+q)
+    write(*,'(A,4F9.5)') 't        =' , pair(k-q,k-q)
+    write(*,*)
+    write(*,'(A,4F9.5)') 'W=sqrt(s)=' , sqrt(pair(pin+q,pin+q))
+    write(*,'(A,4F9.5)') 'Q^2      =' , -pair(q,q)
+
+
+    A=getA(theta_k,w**2,QSquared)
+
+    !H_munu(mu,nu,pin,pout,k,q,B)
+
+    kOverkGamma=sqrt(dot_Product(k(1:3),k(1:3)))/ &
+         & ((w**2-baryon(nucleon)%mass**2)/2./w)
+
+    Normalization=(baryon(nucleon)%mass/(4.*3.14*W))**2
+
+    write(*,*) kOVerkGamma,Normalization
+
+    sigmaT=(H_munu(1,1,pin,pout,k,q,A)+H_munu(2,2,pin,pout,k,q,A))/2.*Normalization* kOverkGamma
+
+    ! sigmaT is in GEV**-2=0.197fm**2=10*0.197**2 mb=10000 * 0.197**2 mcb
+    sigmaT=sigmaT*0.197**2*10000.
+
+    sigmaL=H_munu(3,3,pin,pout,k,q,A)*kOverKGamma*Normalization
+    sigmaL=sigmaL*0.197**2*10000./q(0)**2*qSquared
+
+
+    sigmaTL=-1./cos(radian(phi_k))     *REAl(H_munu(1,3,pin,pout,k,q,A))*kOverKGamma*Normalization
+    sigmaTL=sigmaTL*0.197**2*10000./sqrt(q(0)**2/qSquared)
+
+
+    sigmaTT=1./cos(2*radian(phi_k))   *(H_munu(1,1,pin,pout,k,q,A)-H_munu(2,2,pin,pout,k,q,A))/2.*kOverKGamma*Normalization
+    sigmaTT=sigmaTT*0.197**2*10000.
+
+    write(*,*) 'num=', (1.+2.*Dot_product(q(1:3),q(1:3))/QSquared*tan(0.5*radian(theta_lf)))
+       epsilon=1.+2.*Dot_product(q(1:3),q(1:3))/QSquared*tan(0.5*radian(theta_lf))
+       epsilon=1./epsilon
+       sigmaVirtual=sigmaT+epsilon*sigmaL+sqrt(2.*epsilon*(1.+epsilon))*cos(radian(phi_k))*sigmaTL+epsilon*sigmaTT*cos(2.*radian(phi_k))
+
+!       sigmaVirtual=0.
+
+
+
+
+  end subroutine virtualPhotonXsection
+
+
+
+

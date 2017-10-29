@@ -1,0 +1,16 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! minimal jobcard (just for printing particle properties)
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+  eventtype           = 0  ! elementary interactions
+  numEnsembles        = 0
+  numTimeSteps        = 0
+  num_runs_SameEnergy = 0
+  num_energies        = 0
+  path_To_Input       = '~/GiBUU/buuinput'
+/

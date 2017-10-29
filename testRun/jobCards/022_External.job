@@ -1,0 +1,42 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for external particle source
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          22
+      numEnsembles    =          10
+      numTimeSteps    =         100
+      delta_T         =  0.1    ! time step size [fm]
+!      localEnsemble   = T !!! External does not work yet with this
+!      length_perturbative = 200 !!! Externel uses only real particles
+      printParticleVectors = T
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+!      TARGET_A        =  64 ! mass
+!      TARGET_Z        =  29 ! charge
+      densitySwitch_static    =   0 ! 0: density=0.0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: ./init/initExternal.f90
+&externalSystem
+      inputFile = 'ExternalSource.inp'
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91)=0.44
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

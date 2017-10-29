@@ -1,0 +1,10 @@
+SUBDIREXCL :=
+FILEEXCL := testFermiMom.f90 TestHiTail.f90 testNucD.f90 TestNucDLDA.f90 GlauberAbs.f90 testFermi.f90 SmearFermi.f90
+# EXEFILE:= testFermiMom.f90
+# EXEFILE:= TestHiTail.f90
+# EXEFILE:= testNucD.f90
+# EXEFILE:= TestNucDLDA.f90
+# EXEFILE:= GlauberAbs.f90
+# EXEFILE:= testFermi.f90
+# EXEFILE:= SmearFermi.f90
+EXEFILE:= OpticalGlauber.f90

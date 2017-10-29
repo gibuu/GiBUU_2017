@@ -1,0 +1,78 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+!* Electron and photon induced reactions: MasterJobCard
+!* O. Buss, 21.04.2008
+!******************************************************************************
+!* This JobCard serves as a template for
+!* electron (eventType=4) and photon (eventType=3) nucleus collisions with
+!* sqrt(s)<2 GeV and Q^2<2 GeV^2.
+!******************************************************************************
+
+! file: code/inputOutput/input.f90
+&input
+  numEnsembles  = 200,
+  eventtype     = 3,     ! 3 = Photon induced,  4 = VirtualPhoton induced
+  fullEnsemble  = T,
+  localEnsemble = T,
+  delta_T       = 0.25,
+  numTimeSteps  = 0,     ! use more time steps if you want to perform a non-inclusive run
+  num_energies  = 1,
+  num_runs_sameEnergy = 2,
+  length_perturbative = 200,
+  freezeRealParticles = T,
+  LRF_equals_CALC_frame = T,
+  path_To_Input = "~/GiBUU/buuinput",
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 223214,
+/
+
+! file: code/density/nucleus.f90
+&target
+  Target_A = 16,
+  Target_Z =  8,
+  densitySwitch_static = 2,   ! 0: density=0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+  energy_gamma = 0.4,             ! Energy of incoming photon in GeV
+  delta_energy = 0.2,             ! Increase of energy for energy scans
+  singlePi = T,                   ! Switch for including direct single pion production. If resonances=.true. then it's only a background, else the full cross section.
+  twoPi = T,                      ! Switch for the 2pi production: gamma N -> N pi pi
+  pascalTwoPi = T,                ! To switch on Pascal's event generator for the gamma N -> N pi pi reaction.  .true.=Pascal's prescription ; .false. = phase space
+  equalDistribution_twoPi = F,    ! All two pion production channels are populated with the same probability -> Higher statistics for pi^0 pairs. The perweights are readjusted.
+  noNucs_twoPi = F,               ! Do not propagate the nucleons which are produced in a 2Pi event.
+  resonances = T,                 ! Switch for including or excluding resonance production processes
+/
+
+! file: code/potential/baryonPotential.f90
+&baryonPotential
+  symmetryPotFlag = 1,
+/
+
+! file: code/potential/coulomb/coulomb.f90
+&coulomb
+  coulombFlag = T,
+/
+
+! file: code/density/density.f90
+&initDensity
+  densitySwitch = 2,   ! 1=dynamic density according to testparticle density, 2=analytic density prescription
+/
+
+! file: code/density/pauliBlocking.f90
+&initPauli
+  pauliSwitch = 2,   ! 1=dynamic, 2=analytic
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+  RungeKuttaOrder = 2,   ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+  minimumEnergy = 0.,
+/

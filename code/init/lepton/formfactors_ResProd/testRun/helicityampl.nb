@@ -1,0 +1,325 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     11027,        260]*)
+(*NotebookOutlinePosition[     11656,        282]*)
+(*  CellTagsIndexPosition[     11612,        278]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[BoxData[
+    StyleBox[\(P11 \((1440)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(eqnp11 = {A12 == \ \(\@N\) \(\@2\ qz\)\/\(ppr0\  + \ MR\)\ \((g1\/mu\^2\
+\ Qs\  + \ g2\/mu\ \((MR\  + \ mN)\))\), \ 
+        S12 == \ \(\@N\) 
+            qz\^2\/\(ppr0\  + \ MR\)\ \((g1\/mu\^2\ \((MR\  + \ mN)\)\  - \ 
+                g2\/mu)\)}\), "\[IndentingNewLine]", 
+    \(FullSimplify[Solve[eqnp11, \ {g1, g2}]]\), "\[IndentingNewLine]", 
+    \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A12 \[Equal] \(\@2\ \@N\ \((\(g2\ \((mN + MR)\)\)\/mu \
++ \(g1\ Qs\)\/mu\^2)\)\ qz\)\/\(MR + ppr0\), 
+      S12 \[Equal] \(\((\(g1\ \((mN + MR)\)\)\/mu\^2 - g2\/mu)\)\ \@N\ \
+qz\^2\)\/\(MR + ppr0\)}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{g1 \[Rule] \(mu\^2\ \((MR + ppr0)\)\ \((A12\ qz + \
+\@2\ \((mN + MR)\)\ S12)\)\)\/\(\@2\ \@N\ \((\((mN + MR)\)\^2 + Qs)\)\ \
+qz\^2\), g2 \[Rule] \(mu\ \((MR + ppr0)\)\ \((A12\ \((mN + MR)\)\ qz - \@2\ \
+Qs\ S12)\)\)\/\(\@2\ \@N\ \((\((mN + MR)\)\^2 + Qs)\)\ qz\^2\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(g1,(mu**2*(MR + ppr0)*(A12*qz + Sqrt(2)*(mN \
++ MR)*S12))/(Sqrt(2)*Sqrt(N)*((mN + MR)**2 + Qs)*qz**2)),
+     -   Rule(g2,(mu*(MR + ppr0)*(A12*(mN + MR)*qz - \
+Sqrt(2)*Qs*S12))/(Sqrt(2)*Sqrt(N)*((mN + MR)**2 + Qs)*qz**2))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(S11 \((1535)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(eqns11 = {A12 == \ \@\(2\ N\)\ \((g1\/mu\^2\ Qs\  + \ 
+                g2\/mu\ \((MR\  - \ mN)\))\), \ 
+        S12 == \ \(\@N\) 
+            qz\ \((\(-\(g1\/mu\^2\)\)\ \((MR\  - \ mN)\)\  + \ 
+                g2\/mu)\)}\), "\[IndentingNewLine]", 
+    \(FullSimplify[Solve[eqns11, \ {g1, g2}]]\), "\[IndentingNewLine]", 
+    \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A12 \[Equal] \@2\ \@N\ \((\(g2\ \((MR - mN)\)\)\/mu + \
+\(g1\ Qs\)\/mu\^2)\), 
+      S12 \[Equal] \((g2\/mu - \(g1\ \((MR - mN)\)\)\/mu\^2)\)\ \@N\ qz}\)], \
+"Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{g1 \[Rule] \(mu\^2\ \((A12\ qz + \@2\ \((mN - MR)\)\ \
+S12)\)\)\/\(\@2\ \@N\ \((\((mN - MR)\)\^2 + Qs)\)\ qz\), 
+        g2 \[Rule] \(mu\ \((A12\ \((MR - mN)\)\ qz + \@2\ Qs\ S12)\)\)\/\(\@2\
+\ \@N\ \((\((mN - MR)\)\^2 + Qs)\)\ qz\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(g1,(mu**2*(A12*qz + Sqrt(2)*(mN - \
+MR)*S12))/(Sqrt(2)*Sqrt(N)*((mN - MR)**2 + Qs)*qz)),
+     -   Rule(g2,(mu*(A12*(-mN + MR)*qz + \
+Sqrt(2)*Qs*S12))/(Sqrt(2)*Sqrt(N)*((mN - MR)**2 + Qs)*qz))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(D13 \((1520)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(eqnd13 = {A32 \[Equal] \ 
+          SqrtN\ \((C3\/mN\ \((MR - mN)\) + \ C4\/mN\^2\ qtimesppr\  + 
+                C5\/mN\^2\ qtimesp\ )\), \ \ \ \ A12 == \@\(\(\(1\)\(\ \
+\)\)\/3\)\ SqrtN\ \((C3\/mN\ \((MR - 
+                      mN - \(2\ mN\)\/MR\ qz\^2\/\(ppr0\  + \ MR\))\) + 
+                C4\/mN\^2\ qtimesppr\  + 
+                C5\/mN\^2\ qtimesp\ )\), \ \[IndentingNewLine]S12 == \ \(\@\(\
+\(\(2\)\(\ \)\)\/3\)\) SqrtN 
+             qz\/MR\ \((\(-\(\(C3\ MR\)\/mN\)\)\  + \ 
+                C4\/mN\^2\ \((Qs\  - \ 2\ mN\ q0\  - \ mN\^2)\)\  - \ 
+                C5\/mN\ \((q0 + mN)\))\)}\), "\[IndentingNewLine]", 
+    \(FullSimplify[Solve[eqnd13, \ {C3, C4, C5}]]\), "\[IndentingNewLine]", 
+    \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A32 \[Equal] \((\(C3\ \((MR - mN)\)\)\/mN + \(C5\ \
+qtimesp\)\/mN\^2 + \(C4\ qtimesppr\)\/mN\^2)\)\ SqrtN, 
+      A12 \[Equal] \(\((\(C5\ qtimesp\)\/mN\^2 + \(C4\ qtimesppr\)\/mN\^2 + \
+\(C3\ \((\(-\(\(2\ mN\ qz\^2\)\/\(MR\ \((MR + ppr0)\)\)\)\) - mN + \
+MR)\)\)\/mN)\)\ SqrtN\)\/\@3, 
+      S12 \[Equal] \(\@\(2\/3\)\ \((\(-\(\(C3\ MR\)\/mN\)\) - \(C5\ \((mN + \
+q0)\)\)\/mN + \(C4\ \((\(-mN\^2\) - 2\ q0\ mN + Qs)\)\)\/mN\^2)\)\ qz\ \
+SqrtN\)\/MR}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{C3 \[Rule] \(\((\@3\ A32 - 3\ A12)\)\ MR\ \((MR + \
+ppr0)\)\)\/\(2\ \@3\ qz\^2\ SqrtN\), 
+        C4 \[Rule] \(-\(\(mN\ \((3\ \@2\ A12\ MR\ \((MR + 
+                            ppr0)\)\ \((mN\ \((mN - MR)\)\ \((mN + q0)\) + 
+                            MR\ qtimesp)\) - \@6\ A32\ \((2\ mN\^2\ \((mN + 
+                                  q0)\)\ qz\^2 + 
+                            MR\ \((MR + 
+                                  ppr0)\)\ \((mN\ \((mN - MR)\)\ \((mN + 
+                                        q0)\) + MR\ qtimesp)\))\) - 
+                      6\ mN\ MR\ qtimesp\ qz\ S12)\)\)\/\(2\ \@6\ \((\((Qs - 
+                            mN\ \((mN + 2\ q0)\))\)\ qtimesp + 
+                      mN\ \((mN + q0)\)\ qtimesppr)\)\ qz\^2\ SqrtN\)\)\), 
+        C5 \[Rule] \((mN\ \((3\ \@2\ A12\ MR\ \((MR + 
+                          ppr0)\)\ \((\((mN - MR)\)\ \((mN\^2 + 2\ q0\ mN - 
+                                Qs)\) + 
+                          MR\ qtimesppr)\) - \@6\ A32\ \((2\ mN\ \((mN\^2 + 
+                                2\ q0\ mN - Qs)\)\ qz\^2 + 
+                          MR\ \((MR + 
+                                ppr0)\)\ \((\((mN - MR)\)\ \((mN\^2 + 
+                                      2\ q0\ mN - Qs)\) + 
+                                MR\ qtimesppr)\))\) - 
+                    6\ mN\ MR\ qtimesppr\ qz\ S12)\))\)/\((2\ \@6\ \((\((Qs - 
+                          mN\ \((mN + 2\ q0)\))\)\ qtimesp + 
+                    mN\ \((mN + 
+                          q0)\)\ qtimesppr)\)\ qz\^2\ SqrtN)\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(C3,((-3*A12 + Sqrt(3)*A32)*MR*(MR + \
+ppr0))/(2.*Sqrt(3)*qz**2*SqrtN)),
+     -   Rule(C4,-(mN*(3*Sqrt(2)*A12*MR*(MR + ppr0)*(mN*(mN - MR)*(mN + q0) + \
+MR*qtimesp) - 
+     -          Sqrt(6)*A32*(MR*(MR + ppr0)*(mN*(mN - MR)*(mN + q0) + \
+MR*qtimesp) + 2*mN**2*(mN + q0)*qz**2) - 6*mN*MR*qtimesp*qz*S12))/
+     -     (2.*Sqrt(6)*((-(mN*(mN + 2*q0)) + Qs)*qtimesp + mN*(mN + \
+q0)*qtimesppr)*qz**2*SqrtN)),
+     -   Rule(C5,(mN*(3*Sqrt(2)*A12*MR*(MR + ppr0)*((mN - MR)*(mN**2 + \
+2*mN*q0 - Qs) + MR*qtimesppr) - 
+     -         Sqrt(6)*A32*(MR*(MR + ppr0)*((mN - MR)*(mN**2 + 2*mN*q0 - Qs) \
++ MR*qtimesppr) + 2*mN*(mN**2 + 2*mN*q0 - Qs)*qz**2) - \
+6*mN*MR*qtimesppr*qz*S12)
+     -       )/(2.*Sqrt(6)*((-(mN*(mN + 2*q0)) + Qs)*qtimesp + mN*(mN + \
+q0)*qtimesppr)*qz**2*SqrtN))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(P33 \((1232)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(eqnd13 = {A32 \[Equal] \ \(-SqrtN\)\ qz\/\(ppr0 + MR\)\ \((C3\/mN\ \
+\((MR + mN)\) + \ C4\/mN\^2\ qtimesppr\  + C5\/mN\^2\ qtimesp\ )\), \ 
+        A12 == \ \@\(1\/3\)\ SqrtN\ \(qz\/\(ppr0 + 
+                  MR\)\) \((C3\/mN\ \((MR + 
+                      mN - \(2\ mN\)\/MR\ \((ppr0 + MR)\))\) + 
+                C4\/mN\^2\ qtimesppr\  + 
+                C5\/mN\^2\ qtimesp\ )\), \ \[IndentingNewLine]S12 == \ \(\@\(\
+\(\(2\)\(\ \)\)\/3\)\) SqrtN 
+             qz\^2\/\(MR\ \((ppr0 + MR)\)\)\ \((\(C3\ MR\)\/mN\  + \ 
+                C4\/mN\^2\ W\^2\  + \ 
+                C5\/mN\^2\ mN \((q0 + mN)\))\)}\), "\[IndentingNewLine]", 
+    \(FullSimplify[Solve[eqnd13, \ {C3, C4, C5}]]\), "\[IndentingNewLine]", 
+    \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A32 \[Equal] \(-\(\(\((\(C3\ \((mN + MR)\)\)\/mN + \
+\(C5\ qtimesp\)\/mN\^2 + \(C4\ qtimesppr\)\/mN\^2)\)\ qz\ SqrtN\)\/\(MR + 
+                ppr0\)\)\), 
+      A12 \[Equal] \(\((\(C3\ \((\(-\(\(2\ \((MR + ppr0)\)\ mN\)\/MR\)\) + mN \
++ MR)\)\)\/mN + \(C5\ qtimesp\)\/mN\^2 + \(C4\ qtimesppr\)\/mN\^2)\)\ qz\ \
+SqrtN\)\/\(\@3\ \((MR + ppr0)\)\), 
+      S12 \[Equal] \(\@\(2\/3\)\ qz\^2\ SqrtN\ \((\(C4\ W\^2\)\/mN\^2 + \(C3\ \
+MR\)\/mN + \(C5\ \((mN + q0)\)\)\/mN)\)\)\/\(MR\ \((MR + ppr0)\)\)}\)], \
+"Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{C3 \[Rule] \(-\(\(\((\@3\ A12 + 
+                      A32)\)\ MR\)\/\(2\ qz\ SqrtN\)\)\), 
+        C4 \[Rule] \(mN\ \((3\ \@2\ A12\ MR\ \((mN\ \((mN + MR)\)\ \((mN + \
+q0)\) - MR\ qtimesp)\)\ qz - \@6\ A32\ \((qtimesp\ MR\^2 + mN\ \((\((mN - MR)\
+\)\ MR + 2\ mN\ ppr0)\)\ \((mN + q0)\))\)\ qz - 6\ mN\ MR\ \((MR + ppr0)\)\ \
+qtimesp\ S12)\)\)\/\(2\ \@6\ qz\^2\ SqrtN\ \((mN\ \((mN + q0)\)\ qtimesppr - \
+qtimesp\ W\^2)\)\), 
+        C5 \[Rule] \(mN\ \((3\ \@2\ mN\ MR\ \((MR + ppr0)\)\ qtimesppr\ S12 + \
+3\ A12\ MR\ qz\ \((MR\ qtimesppr - \((mN + MR)\)\ W\^2)\) + \@3\ A32\ qz\ \
+\((qtimesppr\ MR\^2 + \((\((mN - MR)\)\ MR + 2\ mN\ ppr0)\)\ \
+W\^2)\))\)\)\/\(2\ \@3\ qz\^2\ SqrtN\ \((mN\ \((mN + q0)\)\ qtimesppr - \
+qtimesp\ W\^2)\)\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(C3,-((Sqrt(3)*A12 + A32)*MR)/(2.*qz*SqrtN)),
+     -   Rule(C4,(mN*(3*Sqrt(2)*A12*MR*(mN*(mN + MR)*(mN + q0) - \
+MR*qtimesp)*qz - Sqrt(6)*A32*(mN*((mN - MR)*MR + 2*mN*ppr0)*(mN + q0) + \
+MR**2*qtimesp)*qz - 
+     -         6*mN*MR*(MR + \
+ppr0)*qtimesp*S12))/(2.*Sqrt(6)*qz**2*SqrtN*(mN*(mN + q0)*qtimesppr - \
+qtimesp*W**2))),
+     -   Rule(C5,(mN*(3*Sqrt(2)*mN*MR*(MR + ppr0)*qtimesppr*S12 + \
+3*A12*MR*qz*(MR*qtimesppr - (mN + MR)*W**2) + 
+     -         Sqrt(3)*A32*qz*(MR**2*qtimesppr + ((mN - MR)*MR + \
+2*mN*ppr0)*W**2)))/(2.*Sqrt(3)*qz**2*SqrtN*(mN*(mN + q0)*qtimesppr - \
+qtimesp*W**2)))))\
+\>", "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{1220, 995},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 75, 2, 41, "Input"],
+
+Cell[CellGroupData[{
+Cell[1854, 57, 402, 7, 87, "Input"],
+Cell[2259, 66, 250, 4, 57, "Output"],
+Cell[2512, 72, 320, 4, 56, "Output"],
+Cell[2835, 78, 271, 5, 55, "Output"]
+}, Open  ]],
+Cell[3121, 86, 75, 2, 41, "Input"],
+
+Cell[CellGroupData[{
+Cell[3221, 92, 376, 7, 78, "Input"],
+Cell[3600, 101, 205, 4, 45, "Output"],
+Cell[3808, 107, 287, 4, 56, "Output"],
+Cell[4098, 113, 242, 5, 55, "Output"]
+}, Open  ]],
+Cell[4355, 121, 75, 2, 41, "Input"],
+
+Cell[CellGroupData[{
+Cell[4455, 127, 760, 13, 133, "Input"],
+Cell[5218, 142, 501, 8, 95, "Output"],
+Cell[5722, 152, 1579, 25, 156, "Output"],
+Cell[7304, 179, 827, 16, 130, "Output"]
+}, Open  ]],
+Cell[8146, 198, 75, 2, 41, "Input"],
+
+Cell[CellGroupData[{
+Cell[8246, 204, 768, 13, 175, "Input"],
+Cell[9017, 219, 550, 9, 78, "Output"],
+Cell[9570, 230, 792, 12, 155, "Output"],
+Cell[10365, 244, 646, 13, 100, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

@@ -1,0 +1,76 @@
+!************************************************************ -*- fortran -*-
+$datatable
+      eps = 0.95
+      nMC = 10000
+$end
+
+$input 
+      eventtype   = 14          ! HiLepton
+
+      path_to_input="~/buuinput"
+      numEnsembles= 10         ! number of ensembles
+$end
+
+$paramEP
+!      useParam=1
+$end
+
+$formfactors_pion
+      which_MAidVersion=2       ! 1=MAID 2003, 2=MAID 2007
+$end 
+
+$initDensity
+      densitySwitch=2           ! 1=dynamic, 2=analytic
+$end
+
+$initPauli
+      pauliSwitch=2             !1=dynamic, 2=analytic, 0=no pauli blocking
+$end
+
+$Coulomb
+      CoulombFlag=.false.
+$end
+
+$baryonPotential
+      EQS_Type=3
+      noPerturbativePotential=.false.
+$end
+
+$mesonPotential
+      noPerturbativePotential=.false.
+$end
+
+
+
+
+$target
+!      fermimotion=.false.
+!      target_Z=1, target_A=1
+      target_Z=6, target_A=12
+$end
+
+$width_Baryon
+      mediumSwitch_coll=.false.
+$end
+
+
+$baryonWidthVacuum
+      use_cutoff=.true.
+$end
+
+
+$initThermoDynamics
+      temperatureSwitch=1 
+$end
+
+$pythia
+!      MSTP(52) = 2              ! external PDF (PDFLIB !)
+!      MSTP(51) = 91234           ! dummy
+!      MSTP(51) = 4046           ! CTEQ 5L
+!      MSTP(51) = 5005           ! GRV94(LO)
+!      MSTP(51) = 5012           ! GRV98(LO)
+!      MSTP(51) = 1001           ! GRV98 LO (BODEK) ????
+!      MSTP(51) = 19070          ! LHAPDF, CTEQ 5L
+!      MSTP(51) = 10000          ! LHAPDF, CTEQ 6L, .LHpdf
+!      MSTP(51) = 10050          ! LHAPDF, CTEQ 6L, .LHgrid
+$end

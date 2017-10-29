@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL := dsdo.f gamabsper.f medrho.f
+EXEFILE := compton.f90

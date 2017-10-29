@@ -1,0 +1,3 @@
+SUBDIREXCL := 
+FILEEXCL :=plot.f90 testInMediumRealPart.f90 testScaPot.f90 testInMediumWidth.f90  
+EXEFILE := test.f90 

@@ -1,0 +1,27 @@
+!************************************************************ -*- fortran -*-
+
+
+$target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwitch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 13, target_A= 27 ! Al
+!      target_Z= 16, target_A= 32 ! S
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 50, target_A=119 ! Sn
+!      target_Z= 54, target_A=131 ! Xe
+      target_Z= 73, target_A=181 ! Ta
+!      target_Z= 82, target_A=208 ! Pb
+$end
+
+$Glauber
+      PartM = 0.770
+      PartG = 0.150
+      PartE = 1.50
+$end

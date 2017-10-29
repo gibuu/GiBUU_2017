@@ -1,0 +1,183 @@
+!################################################
+!init flags
+!################################################
+!################################################
+!init flags
+!################################################
+
+$transportGivenParticle
+mass=-1.
+threemomentum(1)=.5
+threemomentum(2)=.5
+threemomentum(3)=.5
+particle_ID=2
+$end
+
+
+!################################################
+! general input
+!################################################
+
+$target     
+target_Z=6,   
+target_A=12
+densitySwitch_Static=2 		! 0: density=0.0, 1: Woods-Saxon by Lenske, 2 : NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii, 
+				! 5: density distribution is a sphere with density according to the input value of "fermiMomentum_input".
+fermiMomentum_input=0.225 	! Input value of the fermi momentum for densitySwitch_static=5.
+fermiMotion=.true.
+$end
+
+$input
+numEnsembles= 1000      
+eventtype   = 200         	! 5=neutrino
+numTimeSteps= 200  
+delta_T     = 0.1 
+fullensemble=.true.
+localEnsemble=.true.
+num_runs_SameEnergy=1
+num_Energies=1
+printParticleVectors=.true.
+set_Length_perturbative=.false.
+LRF_equals_CALC_frame=.true.
+freezeRealParticles=.true. 
+path_to_input='/home/nucleus/leitner/buuinput/buuinput_ND_ND'
+$end
+
+$initDatabase
+propagationSwitch=3        	! 3=all resonances
+usageForXsectionSwitch=2   	! 2=Everybody besides I=1/2 1*
+$end
+
+$initRandom
+SEED=223214      
+$end
+
+$initDensity
+densitySwitch=2  		! 1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=2           	! 1=dynamic, 2=analytic
+$end
+
+
+!################################################
+! in-medium width
+!################################################
+
+$baryonWidthVacuum
+use_cutoff=.true.
+$end
+
+$width_Baryon
+mediumSwitch=.true.           	! Switch all medium switches off
+mediumSwitch_Delta=.false.     	! Use Oset broadening of the Delta (only relevant for mediumSwitch_coll=.false.)
+mediumSwitch_coll=.true.      	! Use collisional broadening of all resonances
+$end
+
+$baryonWidthMedium_tables
+minRes=-1000            
+maxRes=2
+deltaOset=.true.        	! Switch on Delta modification according to Oset (sets mediumSwitch_Delta=.true. in $width_Baryon)
+debugflag=.true.
+$end
+
+$spectralFunction
+nuclwidth=0.001         	! if mediumSwitch_coll=.false.: this parameter determines the "bare nucleon width"
+relativistic=.true.     	! if mediumSwitch_coll=.false.: relativistic or non-rel. spectral function
+$end
+
+$selfenergy_realPart
+noDispersion=.false.   		! If .true. dispersion relations are neglected
+$end
+
+!################################################
+! propagation
+!################################################
+
+$propagation
+delta_P=0.04            	! Delta Momentum for derivatives
+delta_E=0.04
+coulomb=.false.          	! Whether to use coulomb in propagation
+hadronic=.true.         	! Whether to use hadronic potentials in propagation
+DerivativeType=2        	! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+predictorCorrector=.false.  	! Whether to use a predictor/corrector algorithm to do the propagation
+$end
+
+$offShellPotential
+useOffShellPotentialBaryons=.true.  	! if inMediumSwitch=.false. also useOffShellpotential will be set to .false.
+offset=0.015            	! parameters for the fake potential which takes care that particles do not propagate to close to their minimalmass
+m1=-2.                  	! two straight lines of steepness m1 and m2, the first starting at minimalMass(part%id)+offset,
+m2=-4.                  	! then at massX = minimalMass(part%id)+offset*massXfactor, the steeper one takes over
+massXfactor=0.5
+add_Pot=.false.         
+OffShell_debug=.false.
+$end
+
+
+!################################################
+! potentials
+!################################################
+
+$baryonPotential
+EQS_Type=0 			! 1=soft mom-dep, 2=hard mom-dep, 3=soft non-mom-dep, 4=hard non-mom-dep, 5=medium mom-dep
+DeltaPot=1  			! 1=2/3 of nucleon potential, 2=100 MeV*rho/rhoNull
+$end
+
+$mesonPotential
+pionPot_Switch=0        	! 1=Oset, 2=Kapusta, 3=Delta Hole, 4=Smooth transition between 1 and 3, else=no pion potential
+vectormesonPot=0
+noPerturbativePotential=.false.
+$end
+
+
+!################################################
+! collision term
+!################################################
+
+$collisionTerm
+oneBodyProcesses=.true.
+twoBodyProcesses=.true.
+threeBodyProcesses=.true.
+$end
+
+$master_1Body
+correctEnergy=.true.
+$end
+
+$master_2Body
+baryonBaryonScattering=.true.
+baryonMesonScattering=.true.
+mesonMesonScattering=.false.
+$end
+
+$resonanceCrossSections
+fullPropagator=.true. 		! Use self energies in resonance propagators
+$end
+
+$barBar_barBar
+use_ND_ND_model=.true.   	! Switch for delta nucleon -> delta nucleon cross sections: false=old parametrization, true =one pion exchange model (Effenberger, Buss)
+new_NR_NR=.true.          	! .false.= Switch off the NR-> NR improvement (improvement= better NN<->NN fit is being used), only for debugging or comparing
+NR_NR_massSHIFT=.true.   	! .true.= Shift the srts in NR-> NR elastic collisions.
+oldOset_treatment=.false. 	! .true.= Use the old treatment for the Oset Delta width: no population of final state, only for debugging or comparing
+$end
+
+$master_3Body
+$end
+
+$angular_distribution
+deltaPWave=.true.
+pionnucleon_backward=.true.
+$end
+
+$insertion
+minimumEnergy=0.00
+$end
+
+!################################################
+! temperature and thermodynamics
+!################################################
+
+$initThermoDynamics
+temperatureSwitch=1     	! 1=groundstate calculations, 2=full procedure using testparticle density (real particles only!)
+$end

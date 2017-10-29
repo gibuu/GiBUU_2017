@@ -1,0 +1,60 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for real photon induced reactions
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+        eventtype           =       3 ! real photon induced
+        numEnsembles        =       1
+        num_runs_sameEnergy =       5
+
+        numTimeSteps        =       2 ! number of time steps
+
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+        path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: code/init/lowPhoton/initLowPhoton.f90
+&low_photo_induced
+      energy_gamma    =   1.9
+      twoPi           = F
+      vecMes          = T, F, F
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+!      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+!      target_Z=  4, target_A=  9, densitySwiytch_Static=4 ! Be
+!      target_Z=  6, target_A= 12, densitySwitch_Static=4 ! C
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! N
+!      target_Z= 10, target_A= 20 ! Ne
+!      target_Z= 16, target_A= 32 ! S
+      target_Z= 20, target_A= 40 ! Ca
+!      target_Z= 26, target_A= 56 ! Fe
+!      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+/
+
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+
+
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

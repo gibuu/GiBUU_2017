@@ -1,0 +1,124 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for C C => e+ e- X with HADES acceptance filtering
+!------------------------------------------------------------------------------
+! Variants of this jobcard were used to produce results shown in this paper:
+! * http://inspirehep.net/record/1322579
+!------------------------------------------------------------------------------
+
+!******************************************************************************
+!       General Input
+!******************************************************************************
+
+&input
+  numEnsembles        = 1000  ! number of ensembles
+  eventtype           = 1     ! HeavyIon collision
+  numTimeSteps        = 100   ! number of time steps
+  delta_T             = 0.2   ! time step size
+  num_runs_SameEnergy = 100
+  num_Energies        = 1
+  path_to_Input       = '~/GiBUU/buuinput'
+  checkGridSize_Flag  = T         ! check grid dimensions
+  length_real         = 100
+  length_perturbative = 0
+  !fullensemble = F               ! default: parallel ensemble
+/
+
+&initDatabase
+  rho_dilep = T
+/
+
+&DileptonAnalysis
+  enable           = T
+  binsz            = 0.01
+  filter           = 4               ! 1=KEK, 2=HADES(simple), 3=HADES(full,pair), 4=HADES(full,single)
+  massBinning(1:2) = 0.150, 0.500
+  brems            = 2               ! 1 = SPA, 2 = OBE, 3 = OBE+FF
+  DeltaDalitzFF    = 1               ! 1 = const, 2 = Dipole, 3 = MAID, 4 = VMD, 5 = Wan/Iachello, 6 = Ramalho
+/
+
+!******************************************************************************
+!       Heavy-Ion
+!******************************************************************************
+
+&projectile
+  projectile_Z=6, projectile_A=12   ! C
+/
+
+&target
+  target_Z=6, target_A=12           ! C
+/
+
+&heavyIon                        ! Eventype=1
+  impact_Parameter    = -5.
+  impact_profile      = 2        ! 0: min.bias (default), 1: HADES CC1, 2: HADES CC2, 3: HADES ArKCl
+  distance            = 0.
+  ekin_lab_Projectile = 2.0      ! kinetic energy/nucleon of Projectile in lab frame
+  ekin_lab_Target     = 0.       ! kinetic energy/nucleon of Target in lab frame
+  cmsFlag             = T
+  adjustGridFlag      = T
+/
+
+&HICanalysis_Input
+  flag_outputReal     = F
+  flag_outputPert     = F
+  flag_outputDetailed = F
+  pionAnalysis        = T
+/
+
+!******************************************************************************
+!       Misc
+!******************************************************************************
+
+&initDensity
+  densitySwitch = 1                ! 1 = dynamic density according to testparticle density, 2 = analytic density prescription
+  gridSize(1:3)   = 20., 20., 40.  ! Size of density grid in x/y/z direction [fm]
+  gridPoints(1:3) = 40, 40, 80     ! Number of grid points in x/y/z direction
+/
+
+&initPauli
+  pauliSwitch = 1                  ! 1=dynamic, 2=analytic
+/
+
+!******************************************************************************
+!       Potentials
+!******************************************************************************
+
+&baryonPotential
+  EQS_Type = 5
+    ! Equation of state for nucleon resonances spin=1/2:
+    !  0 = no potential
+    !  1 = soft mom-dep  lambda = 2.130
+    !  2 = hard mom-dep  lambda = 2.126
+    !  3 = soft  non-mom-dep
+    !  4 = hard  non-mom-dep
+    !  5 = medium  mom-dep
+  DeltaPot = 1
+    ! Potential of spin=3/2 resonances:
+    !  1 = nucleon (spin=1/2) potential times  2/3   [according to ericson/Weise book]
+    !  2 = 100 MeV *rho/rhoNull
+    !  3 = nucleon potential
+/
+
+!******************************************************************************
+!       Collision term
+!******************************************************************************
+
+&baryonBaryon
+  NNpi_BG = 3     ! (1=Teis, 2=Buss, 3=Weil)
+/
+
+&angular_distribution
+  NN_NR_noniso = T
+/
+
+&decayChannels
+  rhoDelta_is_sigmaDelta = T
+/
+
+&insertion
+  minimumEnergy = 0.
+/
+
+&collisionTerm
+  maxout = 10
+/

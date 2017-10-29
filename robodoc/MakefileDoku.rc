@@ -1,0 +1,59 @@
+#*********************************************************
+#****r* /MakefileDoku.rc
+#
+# NAME
+#
+# MakefileDoku.rc
+#
+# PURPOSE
+#
+# Configuration file for ROBODoc documentation tool for Makefile entries.
+#
+# SOURCE
+
+items:
+    NAME
+    PURPOSE
+    NOTES
+    SOURCE
+    AUTHOR 
+    UPDATES
+options:
+  --src ./ 
+  --doc ../Documentation/makefile_robodoc/
+  --multidoc 
+  --html 
+  --index 
+  --toc 
+  --sections
+  --nopre
+#  --nogeneratedwith
+  --nosort
+  --internal
+  --cmode
+  --css robodoc/robodoc.css
+  --syntaxcolors
+  --documenttitle "GiBUU documentation: Makefile"
+  --nodesc
+#  --one_file_per_header
+  --sectionnameonly
+#  --tell
+ignore files:
+accept files:
+    Makefile
+    Makefile.*
+    README.Makefile.txt
+    *.rc
+    */*.rc	
+headertypes:
+    e  "Makefile Entries"  robo_mk_entries
+    r  "Robodoc configuration"  robo_rob_entries
+#header markers:
+#    #****
+#remark markers:
+#    #
+#end markers:
+#    #****
+
+
+#*************************************************************************

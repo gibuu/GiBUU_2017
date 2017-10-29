@@ -1,0 +1,7 @@
+SUBDIREXCL :=
+FILEEXCL :=TryNuDIS.f90 PlotSigmaTot.f90 PlotEth.f90 TestIntegral.f90
+#EXEFILE :=TryNuDIS.f90 
+#EXEFILE :=PlotSigmaTot.f90
+#EXEFILE :=PlotEth.f90
+#EXEFILE :=TestIntegral.f90
+EXEFILE :=CompareDIS.f90

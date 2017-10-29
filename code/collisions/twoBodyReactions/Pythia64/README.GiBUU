@@ -1,0 +1,68 @@
+This directory contains an up-to-date version of PYTHIA, where parts are 
+modified according the needs of the GiBUU framework.
+
+You may update this directory via the SVN access of the PYTHIA project at 
+HEPFORGE to the newest version of PYTHIA. 
+
+A checkout of the PYTHIA trunk is done via
+  svn co http://pythia6.hepforge.org/svn/trunk .
+
+Please make sure that NO Makefile is put into the GiBUU svn repository!
+
+
+HOW TO UPDATE WITH PYTHIA SVN
+=============================
+
+first: get working copy of original Pythia code:
+
+aaa=`pwd`    (i.e. .../GiBUU/workingCode/code/collisions/twoBodyReactions/Pythia64)
+
+mkdir ~/pythia; cd ~/pythia
+svn co http://pythia6.hepforge.org/svn/trunk trunk
+
+
+OPTION #1: revert original Pythia code to old revision, apply GiBUU changes, update to newest revision
+------------------------------------------------------------------------------------------------------
+
+svn update -rXXX
+(Here you have to insert the revision number of the last checked out Pythia version)
+
+rsync -cPavz $aaa/* .
+svn update
+
+(Now you have to check for conflicts and other problems. 
+Changes in pystrf.f have to be done also in pystrf_modif.f --- by hand)
+
+rsync * -cPavz $aaa/
+
+cd $aaa
+
+(Maybe you have to `svn add` new files)
+
+svn commit .
+
+(Do not forget to mention the revision number of the Pythia trunk in your commit message!!!)
+
+
+
+OPTION #2: produce patch between old and new version of original Pythia code, apply to GiBUU repo
+-------------------------------------------------------------------------------------------------
+
+svn diff -r108:110 > update.diff
+(use correct revision numbers!!!)
+
+cd $aaa
+
+patch -p0 < update.diff
+
+(Now: Check for conflicts and other problems.)
+
+Changes in pystrf.f have to be done also in pystrf_modif.f (by hand):
+ * svn diff pystrf.f > pystrf.diff
+ * patch -p0 pystrf_modif.f pystrf.diff
+
+(Maybe you have to `svn add` new files.)
+
+svn commit .
+
+(Do not forget to mention the revision number of the Pythia trunk in your commit message!!!)

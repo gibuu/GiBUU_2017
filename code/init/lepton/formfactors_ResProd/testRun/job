@@ -1,0 +1,5 @@
+$input_FF_ResProd
+FF_ResProd=0  !0: MAID's helicity amplitudes (Luis' helicity expressions)  
+              ! * 1: fit of Lalakulich (PRD 74, 014009 (2006))
+              ! * 2: MAID's helicity amplitudes (Lalakulich's helicity expressions)          
+$end

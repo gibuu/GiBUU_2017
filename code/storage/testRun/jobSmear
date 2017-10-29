@@ -1,0 +1,8 @@
+! jobcard for smearHist.f90
+
+&smearHist
+  filename = "pi0gamma_dsigma_dm.dat"
+  sigma = 0.0174
+  tau   = -0.204
+  nPoints = 5
+/ 

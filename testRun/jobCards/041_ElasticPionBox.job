@@ -1,0 +1,57 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for pions in a box
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+
+! file: code/inputOutput/input.f90
+&input
+      eventtype       =          41 ! PionBox
+      numEnsembles    =         10
+      numTimeSteps    =        2000
+      delta_T         =  0.1    ! time step size [fm]
+
+      length_real = 1200
+
+      continousBoundaries = T
+
+      localEnsemble = T
+
+!      printParticleVectors    = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: code/init/initBox.f90
+&Box
+      thermalInit = T
+      Temp(101) =.170
+/
+
+! file: code/analysis/BoxAnalysis.f90
+&BoxAnalysis
+!      do_Tmunu = .FALSE.
+!      do_Cumulants = .TRUE.
+/
+
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      OverideSigma_PiPi = 20.0 ! [mb]
+/
+
+! file: code/density/density.f90
+&initDensity
+      densitySwitch = 0     ! 0: density = 0.0
+      gridsize = 5., 5., 5. ! +- size of the box [fm]
+/
+
+! file: code/numerics/random.f90
+&initRandom
+      SEED=296325840   ! Seed for the random number
+/

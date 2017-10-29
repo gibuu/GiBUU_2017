@@ -1,0 +1,104 @@
+$barbar_barbar
+use_nd_nd_model=.false.
+$end
+!****************************************************
+! Input for xsection test 
+$test
+!
+! Important: Id's must be integers (e.g. not pion or nucleon)
+! These ID-numbers can be found in the tex-files which are generated in each run
+!
+id1=1         ! Id of particle 1
+id2=2       ! Id of particle 2
+q1=1          ! charge of particle 1 
+q2=1          ! charge of particle 2
+anti1=.false.  ! if .true., then particle 1 is an antiparticle
+anti2=.false. ! if .true., then particle 2 is an antiparticle
+dens=0.       ! nuclear density
+$end          
+!****************************************************
+
+
+!***************************************************
+! General Input :
+!***************************************************
+
+$initDatabase
+propagationSwitch=0        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+				!used to initialize the resonances' database
+$end
+
+$input
+numEnsembles=300,  !number of ensembles
+numTimeSteps=20  !number of time steps
+delta_T=0.5 !time step size
+fullensemble=.false.
+num_runs_SameEnergy=1
+num_Energies=1
+path_To_Input='~/WC/buuinput'
+$end
+
+$initRandom
+SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=0,           !0= density=0., 1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=0         !0=no pauli blocking, 1=dynamic, 2=analytic
+$end
+
+!************************************************************
+!	Input specific for the reactions
+!************************************************************
+
+$target      !Only relevant for eventtypes 0,1,13 and 14
+target_Z=1,   
+target_A=1
+$end
+
+!*********************************************************
+!          The collision term
+!**********************************************************
+
+$hadronFormation
+tauForma=0.8 !formation proper time in restframe of hadron
+$end
+
+$collisionTerm
+energyCheck=0.1       ! accuracy of energy check in GeV
+minimumEnergy=0.030 ! minimal kinetic energy of a produced nucleon in GeV
+oneBodyProcesses=.true.
+twoBodyProcesses=.true.
+threeBodyProcesses=.false.
+$end
+
+$master_1Body
+debug=.false.
+correctEnergy=.true.
+$end
+
+$master_2Body
+fullEnergy=.true.
+baryonBaryonScattering=.true.
+baryonMesonScattering=.true.
+mesonMesonScattering=.false.
+debug=.false.
+$end
+
+!****************************************************************
+!   The widths of the particles
+!***************************************************************
+
+$width_Baryon
+mediumSwitch=.true. ! Switch on and off the in-medium width of all baryons at once -> The vacuum width are used.
+mediumSwitch_Delta=.false. ! Switch on and off the in-medium width of the delta. .false.=vacuum width
+$end
+
+$width_Meson
+mediumSwitch=.true. ! Switch on and off the in-medium width of all mesons at once -> The vacuum width are used.
+$end
+
+

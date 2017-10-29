@@ -1,0 +1,94 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! This jobcard was used to produce results for the code-comparison
+! project at the Transport2014 workshop in Shangai:
+! http://www.physics.sjtu.edu.cn/hic2014
+! The results published in http://inspirehep.net/record/1435092
+! are based on this jobard.
+!------------------------------------------------------------------------------
+! * Au+Au at 100 AMeV
+! * b = 7fm
+! * RMF potential
+! * constant isotropic elastic XS
+! * no ineastic collisions
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+  eventtype           =   1   ! heavy-ion collisions
+  numEnsembles        = 100
+  num_runs_sameEnergy =   1
+
+  delta_T             = 0.5
+  numTimeSteps        = 280
+
+  path_To_Input   = '~/GiBUU/buuinput'
+
+  printParticleVectorTime = T
+  timeForOutput           = 0.
+  timeSequence            = 20.
+/
+
+&heavyIon
+  impact_parameter    = 7.
+  distance            = 16.
+  coulomb             = F
+  ekin_lab_Target     = 0.000
+  ekin_lab_Projectile = 0.100
+  adjustGridFlag      = T
+  cmsFlag             = T
+/
+
+&projectile
+  projectile_Z         = 79   ! Au
+  densitySwitch_static = 8
+/
+
+&target
+  target_Z             = 79   ! Au
+  densitySwitch_static = 8
+/
+
+! file: ./density/density.f90
+&initDensity
+  densitySwitch = 1           ! 1=dynamic density according to testparticle density
+  gridSize      = 35, 35, 35  ! size of the box [fm]
+  gridPoints    = 35, 35, 35  ! Number of grid points
+  ! splineExtrapolation = F
+/
+
+! file: code/numerics/random.f90
+&initRandom
+  Seed = 45678,   ! seed for the random number
+/
+
+
+!!!!!!!!! potentials !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&RMF_input
+  RMF_flag  = T
+  N_set     = 9
+  grad_flag = T
+/
+
+&coulomb
+  coulombFlag = T
+/
+
+
+!!!!!!!!! collision term !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&collisionterm
+  oneBodyProcesses   = F
+  twoBodyProcesses   = T
+  threeBodyProcesses = F
+  maxOut             = 4
+  collisionProtocol  = T
+/
+
+&master_2body
+  flagElastBB = T
+/
+
+&angular_distribution
+  NNisotropic = T
+/

@@ -1,0 +1,60 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for external particle source
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          22
+      numEnsembles    =          10
+      numTimeSteps    =         100
+      delta_T         =  0.1    ! time step size [fm]
+      freezeRealParticles     = T
+!      localEnsemble   = T !!! External does not work yet with this
+      length_perturbative = 200
+      printParticleVectors = T
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+      TARGET_A        =  64 ! mass
+      TARGET_Z        =  29 ! charge
+!      densitySwitch_static    =   3 ! 0: density=0.0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: ./init/initExternal.f90
+&externalSystem
+      inputFile = 'ExternalSource.inp'
+      DoPerturbative =  T
+      NumberingScheme = 2
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91)=0.44
+/
+
+! file: ./analysis/EventOutputAnalysis.f90
+&EventOutput
+      WritePerturbativeParticles = T
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

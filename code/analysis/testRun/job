@@ -1,0 +1,16 @@
+&input
+  path_To_Input="~/GiBUU/buuinput"
+/
+
+&low_photo_induced
+  energy_gamma=0.4
+/
+
+&DileptonAnalysis
+  DeltaDalitz   = 2   ! 1 = Wolf, 2 = Krivoruchenko (default), 3 = HadronTensor, 4 = Ernst
+  DeltaDalitzFF = 1   ! 1 = constant (default), 2 = Dipole, 3 = MAID 2005, 4 = simple VMD, 5 = Wan/Iachello, 6 = Ramalho/Pena
+/
+
+&initDatabase
+  rho_dilep = T
+/

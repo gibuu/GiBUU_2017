@@ -1,0 +1,17 @@
+!-------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for a mesonic thermal model calculation
+!-----------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!-----------------------------------------------------------------------
+
+! file: code/inputOutput/input.f90
+&input
+   path_To_Input   = '~/GiBUU/buuinput'
+/
+
+
+! file: code/database/particleProperties.f90
+&initDatabase
+!   FileNameDecayChannels = 'DecayChannels.noPhotonicMeson.dat'
+/

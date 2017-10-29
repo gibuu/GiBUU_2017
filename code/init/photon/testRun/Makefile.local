@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL :=kinematics.f90 CalcPT.f90 PlotShadow.f90 TryShadowAnalyt.f90 TryFluxMC.f90 TryDIS.f90
+EXEFILE :=TryDIS.f90

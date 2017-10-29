@@ -1,0 +1,56 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for nucleons in a box
+! as in Bratkovskaya et al., Nucl.Phys. A675 (2000) 661-691
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          31 ! InAbox
+      numEnsembles    =          10
+      numTimeSteps    =         100
+      delta_T         =  0.1    ! time step size [fm]
+
+      continousBoundaries     = T
+
+      printParticleVectors    = T
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initInABox.f90
+&initInABox
+      fermiMotion=.true.
+!      proton_Density=0.08
+!      neutron_Density=0.01
+      energy_Density = 0.2
+!      energy_Density = 0.5
+!      energy_Density = 1.0
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 3         ! 3: density as given by input
+!      densityInput_Proton = 0.000 ! value is ignored !!!
+!      densityInput_Neutron= 0.000 ! value is ignored !!!
+
+!      gridsize(1)=10. ! size of the box [fm]
+!      gridsize(2)=10.
+!      gridsize(3)=10.
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 0 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

@@ -1,0 +1,134 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for heavy ion collisions
+! relevant, e.g.,  for the HypHI experiment
+! (production of hypernuclei in HIC)
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+! for details please contact:
+! * Alexei.Larionov@theo.physik.uni-giessen.de
+! * Theodoros.Gaitanos@theo.physik.uni-giessen.de
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+        eventtype           =       1 ! Heavy Ion Collisions (low energy)
+        numEnsembles        =     100
+
+        delta_T             =    0.10 ! [fm]
+        numTimeSteps        =     400
+        time_max            =   100.0
+
+        printParticleVectorTime = T
+        timeForOutput       =   2.00
+        timeSequence        =   2.00
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+        path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initHeavyIon.f90
+&heavyIon
+      impact_parameter    =   1.000
+!      impact_profile      = 0
+!      distance            =   12.5
+!      coulomb             = F
+!      ekin_lab_Target     =   0.000
+      ekin_lab_Projectile =   1.000
+      adjustGridFlag      = T
+!      cmsFlag             = T
+/
+
+! file: ./density/nucleus.f90
+&projectile
+!      fermiMotion = .FALSE.
+      projectile_Z= 79, projectile_A=197 ! Au
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+      target_Z= 79, target_A=197 ! Au
+/
+
+
+
+! file: ./database/particleProperties.f90
+&initDatabase
+      propagationSwitch = 0 ! 0=all resonances with more than 1 star
+/
+
+! file: code/numerics/random.f90
+&initRandom
+      SEED=11111                ! Seed for the random number
+/
+
+! file: code/rmf/RMF.f90
+&RMF_input
+      RMF_flag        = T
+      grad_flag       = T
+      N_set           = 2
+      fact_pbar       =  0.220000
+      fact_hyp        =  0.666666
+      fact_antihyp    =  1.000000
+      fact_Xi         =  0.333333
+      fact_antiXi     =  1.000000
+      fact_kaon       =  0.333333
+/
+
+! file: code/density/density.f90
+&initDensity
+      linearInterpolation = F
+      gridSize            = 20.0, 20.0, 100.0
+      gridPoints          = 20,   20,   100
+/
+
+! file: code/analysis/sourceAnalysis_Main.f90
+&SMM_input
+      SMM_Flag        = T
+      MaxTimePrinting = 1000 ! number of times output is written
+/
+
+! file: code/collisions/collisionTerm.f90
+&collisionterm
+      threeBodyProcesses = F
+      energyCheck        =  0.100
+      maxOut             =     30
+      annihilationTime   =  0.000
+/
+
+! file: code/collisions/twoBodyReactions/master_2Body.f90
+&master_2body
+      HiEnergyThresholdBarBar = 5.000
+      coarse                  = 4.500, 4.500, 4.000
+      bmax_nucleonNucleon     = 4.500
+      bmax_baryonMeson        = 4.500
+/
+
+! file: code/analysis/HeavyIonAnalysis.f90
+&HICanalysis_Input
+      flag_outputDetailed     = T
+/
+
+
+! file: code/collisions/phaseSpace/winkelVerteilung.f90
+&angular_distribution
+      deltaPWave              = F
+      rho_pipi_nonIsotropic   = F
+      pionNucleon_backward    = F
+/
+
+! file: code/propagation/propagation.f90
+&Propagation
+      UseCoulombDirectly      = F
+      UseHadronic             = F
+      predictorCorrector      = F
+      Mode                    = 1
+/
+
+! file: code/collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.000
+/

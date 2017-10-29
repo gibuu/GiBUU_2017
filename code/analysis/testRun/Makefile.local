@@ -1,0 +1,3 @@
+SUBDIREXCL := 
+FILEEXCL := HiPion_CompOutput.f90  ReSplineFort973.f90 testLowPhotonAnalysis.f90 HiLeptonMix10Runs.f90 HiLeptonCLASrho0.f90 testLowPhotonAnalysis.f90 ReadSigmaWdatBin.f90 IntegrateHist.f90 ReadDileptonEvents.f90 testDileptonOmegaDalitz.f90 IntegrateHist2D.f90
+EXEFILE := testDileptonFF.f90 testDileptonDelta.f90 createBremsTable.f90

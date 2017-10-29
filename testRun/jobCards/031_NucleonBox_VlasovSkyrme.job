@@ -1,0 +1,78 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! This jobcard was used to produce results for
+! the code-comparison project (box homework 2).
+!------------------------------------------------------------------------------
+! * box size (20fm)^3
+! * temperature T=0
+! * density initialization with standing wave in z direction
+! * Vlasov mode with Skyrme potentials
+! * no collisions, no Pauli blocking
+!------------------------------------------------------------------------------
+
+&input
+  eventtype           =  31   ! box
+  numEnsembles        = 100
+  num_runs_sameEnergy =   1
+  length_real = 2000
+
+  delta_T             = 0.5
+  numTimeSteps        = 1000
+
+  path_To_Input   = '~/GiBUU/buuinput'
+
+  continousBoundaries = T
+/
+
+&initInABox
+  proton_Density  = 0.08   ! fm^-3
+  neutron_Density = 0.08   ! fm^-3
+  fermiMotion     = T
+  temp            = 0.
+  standing_wave_number = 1
+/
+
+&InABoxAnalysis
+  Enable = T
+  Interval = 2
+/
+
+&initDensity
+  densitySwitch = 1           ! 1=dynamic density according to testparticle density
+  gridSize      = 10, 10, 10  ! half-size of the box [fm]
+  gridPoints    = 40, 40, 40  ! Number of grid points
+  !  splineExtrapolation = F
+/
+
+&initPauli
+  pauliSwitch = 0   ! 0=none, 1=dynamic, 2=analytic
+/
+
+&EventOutput
+  WriteRealParticles = T
+  EventFormat        = 3   ! 1=LesHouches, 2=Oscar, 3=Shanghai
+  Interval           = 40
+/
+
+
+!!!!!!!!! potentials !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&baryonPotential
+  EQS_Type        = 12     ! 12 = Shanghai Meeting
+  symmetryPotFlag = 1
+  dsymm           = 0.03
+/
+
+&coulomb
+  coulombFlag = F
+/
+
+
+!!!!!!!!! collision term !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&collisionterm
+  oneBodyProcesses   = F
+  twoBodyProcesses   = F
+  threeBodyProcesses = F
+  maxOut             = 4
+  collisionProtocol  = F
+/

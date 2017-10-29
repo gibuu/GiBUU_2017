@@ -1,0 +1,23 @@
+
+!****************************************************
+! Input for xsection test 
+$test
+!
+! Important: Id's must be integers (e.g. not pion or nucleon)
+! These ID-numbers can be found in the tex-files which are generated in each run
+!
+id1=1,   q1= 1, anti1=.false.  ! proton
+!id1=101, q1= 1, anti1=.false.  ! pi+
+!id1=101, q1=-1, anti1=.false.  ! pi-
+
+!id2=1, q2=1, anti2=.false.  ! proton
+id2=1, q2=0, anti2=.false.  ! neutron
+
+
+dens=0.       ! nuclear density
+$end          
+!****************************************************
+
+$input
+path_To_Input='~/CHI/QC/BUU/NEW/workingCode/buuinput'
+$end

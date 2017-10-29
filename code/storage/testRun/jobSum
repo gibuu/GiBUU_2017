@@ -1,0 +1,12 @@
+! jobcard for sumHist
+
+&sumHist
+  nFiles = 500
+  nDirs  = 10
+  dirName   = "run_"
+  weighting = 0
+/
+
+&files
+  pattern = "('zDensity.',i4.4,'.dat')"
+/

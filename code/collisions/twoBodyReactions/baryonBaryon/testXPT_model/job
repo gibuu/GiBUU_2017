@@ -1,0 +1,9 @@
+$input
+path_to_input="~/WC/buuinput"
+$end
+
+$barbar_to_barbar_model
+!couplings_switch=1
+!lambda_cutoff=1.2
+$end
+

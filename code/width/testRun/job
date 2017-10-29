@@ -1,0 +1,94 @@
+!*************************************************** -*- fortran -*-
+! General Input :
+!***************************************************
+
+$baryonWidthVacuum
+!use_cutOff=.true.
+$end
+
+$mesonWidthVacuum
+  omega_width = 1
+$end
+
+$baryonWidth
+!  readTable = F
+$end
+
+$initDatabase
+!  rho_dilep = T
+$end
+
+$spectralFunction
+which_nuclWidth=5
+!inMediumWidth=.true.
+$end
+
+$inMediumWidth
+!makeTable=.false.
+!stopAtDelta=.true.
+!num_MonteCarlo_Points=20
+$end
+
+$inMediumReal
+!noDispersion=.true.
+abs_accuracy=0.02
+rel_accuracy=0.3
+intSolver=2
+!makeTable=.true.
+$end
+
+$input
+numEnsembles= 10000   ! number of ensembles
+eventtype   = 3    ! 2=PionA, 3=photon A
+numTimeSteps= 0  ! number of time steps
+delta_T     = 0.4 ! time step size
+fullensemble=.false.
+!num_runs_SameEnergy=1
+!num_Energies=1
+num_runs_SameEnergy=3
+num_Energies=1
+FinalCoulombCorrection=.false.
+!set_length_perturbative=.true.
+!length_perturbative=5
+path_To_Input="~/GiBUU/buuinput"
+$end
+
+$initDensity
+densitySwitch=2            !1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=0           !1=dynamic, 2=analytic
+$end
+
+
+$baryonPotential
+EQS_Type=5,  ! Switch for equation of state for nucleon resonances spin=1/2
+             !     Parameters for nucleon potentials:
+             !  1=soft mom-dep  lambda = 2.130
+             !  2=hard mom-dep  lambda = 2.126
+             !  3=soft  non-mom-dep
+             !  4=hard  non-mom-dep
+             !  5=medium  mom-dep
+DeltaPot=1,  ! Switch for potential of spin=3/2 resonances
+             ! 1=nucleon (spin=1/2) potential times  3/5   [according to ericson/Weise book]
+             ! 2= 100 MeV *rho/rhoNull
+$end
+
+!****************************************************************
+!   The widths of the particles
+!***************************************************************
+
+$width_Baryon
+  mediumSwitch       = .true.    ! Switch on/off in-medium width of all baryons at once.
+  mediumSwitch_coll  = .false.
+  mediumSwitch_Delta = .true.    ! Switch on/off in-medium width of the delta. .false.=vacuum width
+$end
+
+$width_Meson
+  mediumSwitch = 1       ! Switch on/off in-medium width of all mesons at once.
+$end
+
+$Coulomb
+  coulombFlag = .false.
+$end

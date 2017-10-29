@@ -1,0 +1,5 @@
+load "conf.gp"
+set output "Delta_HelicityAmplitudes.eps"
+set xlabel "W[GeV]"
+set ylabel "Amplitude"
+plot [1.0:2] "Helicities_proton_atphotonPoint.dat" u 1:2 w l t "A_{1/2} [GeV^{-1/2}]", "" u 1:3 w l t "A_{3/2} [GeV]"

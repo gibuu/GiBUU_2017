@@ -1,0 +1,59 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for a given particle on Nucleus
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =         200
+      numEnsembles    =          10
+      numTimeSteps    =         100
+      delta_T         =  0.1    ! time step size [fm]
+      freezeRealParticles     = T
+      localEnsemble   = T
+      length_perturbative = 200
+      printParticleVectors = T
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+      TARGET_A        =  64 ! mass
+      TARGET_Z        =  29 ! charge
+!      densitySwitch_static    =   3 ! 0: density=0.0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: ./init/initTransportGivenParticle.f90
+&TransportGivenParticle
+      particle_ID     =   1 ! ID of particle
+      charge          =   1 ! charge of particle
+      position        = 0.0, 0.0, 2.0 ! coordinates
+      threemomentum   = 0.0, 0.0, 0.1 ! 3-momentum
+!      mass            = 0.138 ! mass of the particle
+!      maxmass         = 1.5 ! maximal mass if according spectral function
+!      perweight       = 1.0 ! weight of this particle
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91)=0.44
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

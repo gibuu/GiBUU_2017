@@ -1,0 +1,19 @@
+!***************************************************
+! General Input :
+!***************************************************
+
+$input
+  path_To_Input = '~/GiBUU/buuinput'
+$end
+
+$initDatabase
+  propagationSwitch = 0   ! 0=all resonances with more than 1 star, 1=only delta&nucleon, 2=only nucleons
+                          ! used to initialize the resonances' database
+$end
+
+$inputBYK
+  id1 = 1
+  id2 = 1
+  charge1 = 1
+  charge2 = 0
+$end

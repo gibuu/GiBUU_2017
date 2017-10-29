@@ -1,0 +1,287 @@
+!*************************************************** -*- fortran -*-
+!* A JobCard for BUU: (K.Gallmeister, 6.10.2005)
+!* ==================
+!* xxx
+!* yyy
+!* zzz
+!***************************************************
+
+!***************************************************
+! General Input :
+!**************************************************
+
+$initDatabase
+      propagationSwitch=0       ! 0=all resonances with more than 1 star, 
+                                ! 1=only delta&nucleon 2=only nucleons
+                                ! used to initialize the resonances' database
+$end
+
+$input
+!      numEnsembles= 2000         ! number of ensembles
+      numEnsembles= 2         ! number of ensembles
+      eventtype   = 14          ! HiPion
+      numTimeSteps= 10         ! number of time steps
+!      num_runs_SameEnergy=10000  ! number of runs per energy
+      num_runs_SameEnergy=10  ! number of runs per energy
+
+!      num_Energies=1
+!      printParticleVectors=.true.
+!
+      set_length_perturbative = .TRUE.
+!      length_perturbative = 50
+      length_perturbative = 5000
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+$end
+
+
+$initRandom
+      SEED=45678                ! Seed for the random number
+$end
+
+$initDensity
+      densitySwitch=2           ! 1=dynamic density according to testparticle density, 
+                                ! 2=analytic density prescription
+      densitySwitch_Static=1    ! 1=Woods-Saxon, 2=according NPA 554 (Oset)
+$end
+
+$initPauli
+      pauliSwitch=2             ! 1=dynamic, 2=analytic
+$end
+
+$propagation
+      delta_P=0.01              ! Delta Momentum for derivatives
+      coulomb=.false.           ! Whether to use coulomb in propagation
+      hadronic=.true.           ! Whether to use hadronic potentials in propagation
+      DerivativeType=1          ! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+      predictorCorrector=.false. ! Whether to use a predictor/corrector algorithm to do the propagation
+$end
+
+!************************************************************
+!       Input for potentials
+!************************************************************
+
+$mesonPotential
+      vectorMesonPot=0          ! Switch for medium-modification of vector mesons
+                                !    1=Brown-Rho-Scaling
+                                !    2=Brown-Rho-Scaling with momentum dependence 
+                                !     according to Kondtradyuk (page 162,effenberger dr.-thesis)
+                                !    else=no modification
+      vectorMesonPot=0          ! Switch for offshell-potential (so called fake-potential)
+      
+      offshellPotential=.false. ! Switch for offshell-potential (so called fake-potential)
+      
+      pionPot_Switch=0          ! Switch for pionPotential
+                                ! 1=Oset potential (NPA 554),  which is valid up to 50Mev kinetic energy
+                                ! 2=Kapusta suggestion for pion potential (rather unusual)
+                                ! 3=Delta Hole potential, which is valid up to 130 MeV kinetic energy
+                                ! 4=Smooth spline transition between switch 1 and 3.
+                                ! else=no pion potential
+
+
+      noPerturbativePotential=.true. ! [Documentation nyi]
+$end
+
+$baryonPotential
+
+      EQS_Type=5,               ! Switch for equation of state for nucleon resonances spin=1/2
+                                !     Parameters for nucleon potentials:
+                                !  1=soft mom-dep  lambda = 2.130
+                                !  2=hard mom-dep  lambda = 2.126
+                                !  3=soft  non-mom-dep
+                                !  4=hard  non-mom-dep
+                                !  5=medium  mom-dep
+      DeltaPot=1,               ! Switch for potential of spin=3/2 resonances
+                                ! 1=nucleon (spin=1/2) potential times  3/5   [according to ericson/Weise book]
+                                ! 2= 100 MeV *rho/rhoNull
+      noPerturbativePotential=.true. ! [Documentation nyi]
+$end
+
+!************************************************************
+!       Input specific for the reactions
+!************************************************************
+
+$projectile   ! Only relevant for heavy ion collisions
+      projectile_Z=79,
+      projectile_A=197
+$end
+
+
+$target
+!      target_Z=  1, target_A=  1 ! deuterium (proton,neutron)
+!      target_Z=  6, target_A= 12 ! C
+!      target_Z=  7, target_A= 14 ! C
+!      target_Z= 16, target_A= 32 ! S
+      target_Z= 29, target_A= 64 ! Cu
+!      target_Z= 36, target_A= 84 ! Kr
+!      target_Z= 54, target_A=131 ! Xe
+!      target_Z= 82, target_A=208 ! Pb
+$end
+
+!************************************************************
+
+$deuteriumFermi
+      iParam=1,                 !Parameterization of momentum distribution: 0=no Fermi momentum, 1-7 various parameterizations
+      pMax=0.5                  !cut-off for Fermi momentum
+$end
+
+
+!************************************************************
+
+$elementary              ! EVENTTYPE = 0
+      impactParameter=0.,       !smaller 0: Impact parameter Integration
+      distance=20.,
+      coulombCorrection=.true.,
+      particleId_1=1,           !Identity of first particle
+      particleCharge_1=0,       !Charge of second particle
+      particleId_2=1,           !Identity of second particle
+      particleCharge_2=0,       !Charge of second particle
+$end
+
+!************************************************************
+
+$heavyIon                ! EVENTTYPE = 1
+      impact_Parameter=0.0,
+      distance=20.,
+      coulomb=.false.,
+      ekin_lab_Target=1.0,      ! kinetic Energy/nucleon of Target in lab frame
+      ekin_lab_Projectile=0.0   ! kinetic Energy/nucleon of Projectile in lab frame
+$end
+
+!************************************************************
+
+$pionNucleus             ! EVENTTYPE = 2
+      distance=10.              ! distance of pions to nucleus
+      impact_parameter=-2.      ! negative impact-parameter=>impact-parameter integration
+      charge=-1                 ! charge of pions
+      numberPions=100           ! number of pions per ensemble
+      ekin_lab=50.0             ! kinetic energy in system where nucleus rests
+      coulomb=.true.            ! switch for coulomb correction of incoming state
+      coulombDistance=400.      ! distance for the coulomb correction (=infinity)
+      delta_ekin_lab=0.03
+$end
+
+!************************************************************
+
+$HiPionNucleus           ! EVENTTYPE = 12
+      distance=10.              ! distance of pions to nucleus
+      impact_parameter=-99      ! negative impact-parameter=>impact-parameter integration
+      charge=-1                 ! charge of pions
+      numberPions= 25           ! number of pions per ensemble
+      ekin_lab=515.             ! kinetic energy in system where nucleus rests
+      doPerturbativeInit=.TRUE. ! Do perturbative init
+!      doPerturbativeInit=.FALSE. ! Do perturbative init
+      DoOnlyOne = .TRUE.
+!      DoOnlyOne = .FALSE.
+$end
+
+
+
+!************************************************************
+
+
+$HiPhotonNucleus         ! EVENTTYPE = 13
+      shadow=.true.             ! account for nuclear shadowing
+      FRITIOF=.false.           ! generate Events in the transition region
+      nu=20.                    ! photon energy 
+      Delta_nu=5.               ! increase of photon energy
+      Q2=1.e-03                 ! photon virtuality
+      epsilon=0.99              ! photon polarization
+      minimumMomentum=0.1       ! minimum momentum for nucleons to be propagated
+$end
+
+!************************************************************
+
+$HiLeptonNucleus         ! EVENTTYPE = 14
+      iExperiment=10             ! Type of Experiment 
+      shadow=.true.              ! account for nuclear shadowing
+!      shadow=.false.             ! account for nuclear shadowing
+      FRITIOF=.true              ! generate Events in the transition region
+!      FRITIOF=.false.            ! generate Events in the transition region
+      minimumMomentum=0.1       ! minimum momentum for nucleons to be propagated
+$end
+
+!*********************************************************
+!          The collision term
+!**********************************************************
+
+$collReporter
+      UseCollReporter=.FALSE.
+!      cR_sizeT = 100
+!      cR_sizeE =  70
+!      cR_DeltaT=  0.2
+!      cR_DeltaE=  1.0
+$end
+
+
+$hadronFormation
+!      useJetSetVec = .false.
+      useJetSetVec = .true.
+      fakCS=1.0       ! XS-scaling for t= tP_i...tF
+      powerCS   = 1.0 ! power of 't' (constant, linear, quadratic)
+      useTimeFrom = 1 ! 1: tP_min, 2: tP_max, 3: tF
+      useTimeTo   = 3 ! 1: tP_min, 2: tP_max, 3: tF
+
+      GuessDiffrTimes = .TRUE.
+!      GuessDiffrTimes = .false.
+
+!      pedestalCS = 0.5
+      useJetSetVec_Q = .true.
+     
+$end
+
+$collisionTerm
+      energyCheck=0.1           ! accuracy of energy check in GeV
+      minimumEnergy=0.100       ! minimal kinetic energy of a produced nucleon in GeV
+      oneBodyProcesses=.true.
+      twoBodyProcesses=.true.
+      threeBodyProcesses=.true.
+      twoBodyProcessesRealReal = .FALSE.
+$end
+
+$master_1Body
+      debug=.false.
+      correctEnergy=.true.
+$end
+
+$master_2Body
+      debug=.false.
+      correctEnergy=.true.
+      correctEnergy_message=.false.
+      fullEnergy=.true.
+      baryonBaryonScattering=.true.
+      baryonMesonScattering=.true.
+      mesonMesonScattering=.false.
+      usePythia = 0
+      doPythiaReweight = .FALSE.
+$end
+
+$master_3Body
+      debug=.false.
+      correctEnergy=.true.
+$end
+
+
+!****************************************************************
+!   The widths of the particles
+!***************************************************************
+
+$width_Baryon
+      mediumSwitch=.true.       ! Switch on/off in-medium width of all baryons at once -> The vacuum width are used.
+      mediumSwitch_Delta=.true. ! Switch on/off in-medium width of the delta. .false.=vacuum width
+$end
+
+$width_Meson
+      mediumSwitch=.true.       ! Switch on/off in-medium width of all mesons at once -> The vacuum width are used.
+$end
+
+
+!******************************************************************
+! Temperature and thermodynamics
+!****************************************************
+
+$initThermoDynamics
+      temperatureSwitch=1 ! 1=groundstate calculations (T=0,mu=E_F)
+                          ! 2=the full procedure according to testparticle density (real particles only!)
+$end

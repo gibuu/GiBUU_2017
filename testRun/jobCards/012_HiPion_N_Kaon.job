@@ -1,0 +1,83 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for high energy kaon induced reactions on Nucleon
+! here we intend to produce a list of all possible final channels.
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          12
+      numEnsembles    =         500
+      numTimeSteps    =           0
+      delta_T         =  0.1    ! time step size [fm]
+      freezeRealParticles     = T
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+      TARGET_A        =  1 ! mass
+      TARGET_Z        =  1 ! charge
+!      densitySwitch_static    =   3 ! 0: density=0.0, 1: Woods-Saxon by Lenske, 2: NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii
+/
+
+! file: ./init/initHiPion.f90
+&HiPionNucleus
+      distance        =   10.0  ! distance in z-direction at init
+      impact_parameter=  -99.0  ! if <0: choosen by MC
+      ProjectileID    =  111    ! id of projectile
+      ProjectileCharge=  0     ! charge of projectile
+!      ProjectileAnti  =   F     ! antiparticle flag of projectile
+      nTestparticles  =   25    ! Number of projectile testparticles
+      ekin_lab        =   10.0 ! kinetic energy of projectile [GeV]
+      DoPerturbativeInit = T    ! T: collision happens at time=0
+      DoOnlyOne       = T       ! T: no ping-ping-ping...
+      minimumMomentum =   0.000 ! minimal momentum to be created.
+!      minimumMomentum =   1.000 ! minimal momentum to be created.
+!      NucCharge       = -1      ! if >=0: scatter only on nucleons with this charge
+/
+
+! file: ./analysis/HiPionAnalysis.f90
+&HiPion_Analysis
+      DoOutChannels = T
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91)=0.44
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      noPerturbativePotential = T
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      energyCheck     =  0.100
+/
+
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/

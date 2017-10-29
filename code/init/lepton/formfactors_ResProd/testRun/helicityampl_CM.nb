@@ -1,0 +1,564 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     21926,        482]*)
+(*NotebookOutlinePosition[     22556,        504]*)
+(*  CellTagsIndexPosition[     22512,        500]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    StyleBox[\(P11 \((1440)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1440\ P11\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"eqnp11", "=", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"A12", "==", " ", 
+            
+            FormBox[\(1\/2\ \@pi\ \((2\ F2\ mn\ \((mn + ms)\) - 
+                    F1\ q2)\)\ \@\(\(\((\((mn - ms)\)\^2 - q2)\)\ \
+alphaQED\)\/\(mn\^5\ \((2\ ms\^2 - 2\ mn\^2)\)\)\)\),
+              "TraditionalForm"]}], ",", " ", 
+          RowBox[{"S12", "==", " ", 
+            
+            FormBox[\(\(\((F1\ \((mn + ms)\) - 
+                        2\ F2\ mn)\)\ \@pi\ \((\((mn - ms)\)\^2 - 
+                        q2)\)\ \@\(\((mn + ms)\)\^2 - q2\)\ \
+\@\(\(ms\ \ alphaQED\)\/\(ms\^2 - mn\^2\)\)\)\/\(8\ mn\^\(5/2\)\ \
+ms\^\(3/2\)\)\),
+              "TraditionalForm"]}]}], 
+        "}"}]}], "\[IndentingNewLine]", \(FullSimplify[
+      Solve[eqnp11, \ {F1, 
+          F2}]]\), "\[IndentingNewLine]", \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A12 \[Equal] 
+        1\/2\ \@pi\ \@\(\(alphaQED\ \((\((mn - ms)\)\^2 - q2)\)\)\/\(mn\^5\ \
+\((2\ ms\^2 - 2\ mn\^2)\)\)\)\ \((2\ F2\ mn\ \((mn + ms)\) - F1\ q2)\), 
+      S12 \[Equal] \(\@\(\(alphaQED\ ms\)\/\(ms\^2 - mn\^2\)\)\ \((F1\ \((mn \
++ ms)\) - 2\ F2\ mn)\)\ \@pi\ \((\((mn - ms)\)\^2 - q2)\)\ \@\(\((mn + \
+ms)\)\^2 - q2\)\)\/\(8\ mn\^\(5/2\)\ ms\^\(3/2\)\)}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{F1 \[Rule] \(2\ \((2\ \@2\ ms\^\(3/2\)\ \((mn + \
+ms)\)\ \@\(\(alphaQED\ \((q2 - \((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \
+\((mn + ms)\)\)\)\ S12\ mn\^\(5/2\) + A12\ \@\(\(alphaQED\ ms\)\/\(ms\^2 - mn\
+\^2\)\)\ \((\((mn - ms)\)\^2 - q2)\)\ \@\(\((mn + ms)\)\^2 - \
+q2\))\)\)\/\(\@\(\(alphaQED\ ms\)\/\(2\ ms\^2 - 2\ mn\^2\)\)\ \@pi\ \((\((mn \
+- ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^\(3/2\)\ \@\(\(alphaQED\ \
+\((q2 - \((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\), 
+        F2 \[Rule] \(2\ \@2\ ms\^\(3/2\)\ q2\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ S12\ mn\^\(5/2\) + \
+A12\ \((mn + ms)\)\ \@\(\(alphaQED\ ms\)\/\(ms\^2 - mn\^2\)\)\ \((\((mn - ms)\
+\)\^2 - q2)\)\ \@\(\((mn + ms)\)\^2 - q2\)\)\/\(mn\ \@\(\(alphaQED\ ms\)\/\(2\
+\ ms\^2 - 2\ mn\^2\)\)\ \@pi\ \@\(\((mn + ms)\)\^2 - q2\)\ \@\(\(alphaQED\ \
+\((q2 - \((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \
+\((mn\^4 - 2\ \((ms\^2 + q2)\)\ mn\^2 + \((ms\^2 - q2)\)\^2)\)\)}}\)], \
+"Output"],
+
+Cell["\<\
+        List(List(Rule(F1,(2*(A12*Sqrt((alphaQED*ms)/(-mn**2 + \
+ms**2))*((mn - ms)**2 - q2)*Sqrt((mn + ms)**2 - q2) + 
+     -         2*Sqrt(2)*mn**2.5*ms**1.5*(mn + ms)*Sqrt((alphaQED*(-(mn - \
+ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms)))*S12))/
+     -     (Sqrt((alphaQED*ms)/(-2*mn**2 + 2*ms**2))*Sqrt(pi)*((mn - ms)**2 - \
+q2)*((mn + ms)**2 - q2)**1.5*
+     -       Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms))))),
+     -   Rule(F2,(A12*(mn + ms)*Sqrt((alphaQED*ms)/(-mn**2 + ms**2))*((mn - \
+ms)**2 - q2)*Sqrt((mn + ms)**2 - q2) + 
+     -       2*Sqrt(2)*mn**2.5*ms**1.5*q2*Sqrt((alphaQED*(-(mn - ms)**2 + \
+q2))/(mn**5*(mn - ms)*(mn + ms)))*S12)/
+     -     (mn*Sqrt((alphaQED*ms)/(-2*mn**2 + 2*ms**2))*Sqrt(pi)*Sqrt((mn + \
+ms)**2 - q2)*
+     -       Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms)))*(mn**4 + (ms**2 - q2)**2 - 2*mn**2*(ms**2 + q2)))))
+     -   )\
+\>", "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    StyleBox[\(S11 \((1535)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1535\ S11\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"eqns11", "=", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"A12", "==", " ", 
+            
+            FormBox[\(-\(\(\@\(pi\/2\)\ \((2\ F2\ mn\ \((mn - ms)\) + 
+                          F1\ q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 - \
+q2)\)\ \ alphaQED\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\)\
+\)\),
+              "TraditionalForm"]}], ",", " ", 
+          RowBox[{"S12", "==", " ", 
+            
+            FormBox[\(\(\((2\ F2\ mn + 
+                        F1\ \((mn - 
+                              ms)\))\)\ \@pi\ \@\(-\(\(\((\((mn - ms)\)\^2 - \
+q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\ alphaQED\)\/\(mn\ \((mn - ms)\)\ ms\^2\
+\ \((mn + ms)\)\)\)\)\)\/\(8\ mn\^2\)\),
+              "TraditionalForm"]}]}], 
+        "}"}]}], "\[IndentingNewLine]", \(FullSimplify[
+      Solve[eqns11, \ {F1, 
+          F2}]]\), "\[IndentingNewLine]", \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    FormBox[
+      RowBox[{\(General::"spell1"\), \(\(:\)\(\ \)\), "\<\"Possible spelling \
+error: new symbol name \\\"\\!\\(TraditionalForm\\`eqns11\\)\\\" is similar \
+to existing symbol \\\"\\!\\(TraditionalForm\\`eqnp11\\)\\\". \
+\\!\\(\\*ButtonBox[\\\"More\[Ellipsis]\\\", ButtonStyle->\\\"RefGuideLinkText\
+\\\", ButtonFrame->None, ButtonData:>\\\"General::spell1\\\"]\\)\"\>"}], 
+      TraditionalForm]], "Message"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A12 \[Equal] \(-\(\(\@pi\ \@\(-\(\(alphaQED\ \((\((mn \
++ ms)\)\^2 - q2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \((2\ F2\ mn\ \
+\((mn - ms)\) + F1\ q2)\)\)\/\(2\ \@2\ mn\^2\)\)\), 
+      S12 \[Equal] \(\((2\ F2\ mn + F1\ \((mn - ms)\))\)\ \@pi\ \
+\@\(-\(\(alphaQED\ \((\((mn - ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - \
+q2)\)\^2\)\/\(mn\ \((mn - ms)\)\ ms\^2\ \((mn + ms)\)\)\)\)\)\/\(8\ \
+mn\^2\)}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{F1 \[Rule] \(2\ mn\^2\ \((\@2\ \@\(-\(\(alphaQED\ \
+\((\((mn - ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\)\/\(mn\ \((mn - \
+ms)\)\ ms\^2\ \((mn + ms)\)\)\)\)\ A12 + 4\ \((mn - ms)\)\ \@\(\(alphaQED\ \
+\((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ S12)\)\
+\)\/\(\@pi\ \((\((mn - ms)\)\^2 - q2)\)\ \@\(-\(\(alphaQED\ \((\((mn - \
+ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\)\/\(mn\ \((mn - ms)\)\ \
+ms\^2\ \((mn + ms)\)\)\)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\), 
+        F2 \[Rule] \(-\(\(\@2\ mn\ \((A12\ \@\(-\(\(alphaQED\ \((\((mn - \
+ms)\)\^2 - q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\)\/\(mn\ \((mn - ms)\)\ \
+ms\^2\ \((mn + ms)\)\)\)\)\ \((mn - ms)\) + 
+                      2\ \@2\ q2\ \@\(\(alphaQED\ \((q2 - \((mn + ms)\)\^2)\)\
+\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ S12)\)\)\/\(\@pi\ \((\((mn - \
+ms)\)\^2 - 
+                      q2)\)\ \@\(-\(\(alphaQED\ \((\((mn - ms)\)\^2 - q2)\)\ \
+\((\((mn + ms)\)\^2 - q2)\)\^2\)\/\(mn\ \((mn - ms)\)\ ms\^2\ \((mn + ms)\)\)\
+\)\)\ \@\(\(alphaQED\ \((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \
+\((mn + ms)\)\)\)\)\)\)}}\)], "Output"],
+
+Cell["\<\
+        \
+List(List(Rule(F1,(2*mn**2*(Sqrt(2)*A12*Sqrt(-((alphaQED*((mn - ms)**2 - \
+q2)*((mn + ms)**2 - q2)**2)/
+     -              (mn*(mn - ms)*ms**2*(mn + ms)))) + 
+     -         4*(mn - ms)*Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - \
+ms)*(mn + ms)))*S12))/
+     -     (Sqrt(pi)*((mn - ms)**2 - q2)*Sqrt(-((alphaQED*((mn - ms)**2 - \
+q2)*((mn + ms)**2 - q2)**2)/
+     -           (mn*(mn - ms)*ms**2*(mn + ms))))*Sqrt((alphaQED*(-(mn + \
+ms)**2 + q2))/(mn*(mn - ms)*(mn + ms))))),
+     -   Rule(F2,-((Sqrt(2)*mn*(A12*(mn - ms)*Sqrt(-((alphaQED*((mn - ms)**2 \
+- q2)*((mn + ms)**2 - q2)**2)/
+     -                (mn*(mn - ms)*ms**2*(mn + ms)))) + 
+     -           2*Sqrt(2)*q2*Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - \
+ms)*(mn + ms)))*S12))/
+     -       (Sqrt(pi)*((mn - ms)**2 - q2)*Sqrt(-((alphaQED*((mn - ms)**2 - \
+q2)*((mn + ms)**2 - q2)**2)/
+     -             (mn*(mn - ms)*ms**2*(mn + ms))))*Sqrt((alphaQED*(-(mn + \
+ms)**2 + q2))/(mn*(mn - ms)*(mn + ms))))))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    StyleBox[\(D13 \((1520)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1520\ D13\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"eqnd13", "=", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"A32", "\[Equal]", " ", 
+            
+            FormBox[\(\(\@pi\ \((\((mn - 
+                              ms)\)\ \((2\ C3\ mn + \((C4 + C5)\)\ \((mn + 
+                                    ms)\))\) + \((C5 - 
+                              C4)\)\ q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 - \
+q2)\)\ \ alphaQED\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\)\
+\),
+              "TraditionalForm"]}], ",", "    ", 
+          RowBox[{"A12", "==", 
+            
+            FormBox[\(\(\@\(pi\/3\)\ \((\((mn - 
+                              ms)\)\ \((2\ C3\ mn\^2 + \((C4 + 
+                                    C5)\)\ ms\ \((mn + 
+                                    ms)\))\) - \((2\ C3\ mn + \((C4 - 
+                                    C5)\)\ ms)\)\ q2)\)\ \@\(-\(\(\((\((mn + \
+ms)\)\^2 - q2)\)\ \ alphaQED\)\/\(mn\ \((mn - ms)\)\ \((mn + \
+ms)\)\)\)\)\)\/\(2\ mn\^2\ ms\)\),
+              "TraditionalForm"]}], ",", " ", "\[IndentingNewLine]", 
+          RowBox[{"S12", "==", " ", 
+            
+            FormBox[\(\(\@\(pi\/6\)\ \((2\ ms\ \((C3\ mn + C4\ ms)\) + 
+                        C5\ \((mn\^2 + ms\^2 - 
+                              q2)\))\)\ \((\((mn + ms)\)\^2 - 
+                        q2)\)\ \@\(-\(\(\((\((mn - ms)\)\^2 - \
+q2)\)\ \ alphaQED\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ \
+ms\^2\)\),
+              "TraditionalForm"]}]}], 
+        "}"}]}], "\[IndentingNewLine]", \(FullSimplify[
+      Solve[eqnd13, \ {C3, C4, 
+          C5}]]\), "\[IndentingNewLine]", \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A32 \[Equal] \(\@pi\ \@\(-\(\(alphaQED\ \((\((mn + \
+ms)\)\^2 - q2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \((\((mn - \
+ms)\)\ \((2\ C3\ mn + \((C4 + C5)\)\ \((mn + ms)\))\) + \((C5 - C4)\)\ \
+q2)\)\)\/\(2\ mn\^2\), 
+      A12 \[Equal] \(\@pi\ \@\(-\(\(alphaQED\ \((\((mn + ms)\)\^2 - q2)\)\)\/\
+\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \((\((mn - ms)\)\ \((2\ C3\ mn\^2 + \
+\((C4 + C5)\)\ ms\ \((mn + ms)\))\) - \((2\ C3\ mn + \((C4 - C5)\)\ ms)\)\ \
+q2)\)\)\/\(2\ \@3\ mn\^2\ ms\), 
+      S12 \[Equal] \(\@pi\ \((2\ ms\ \((C3\ mn + C4\ ms)\) + C5\ \((mn\^2 + \
+ms\^2 - q2)\))\)\ \@\(-\(\(alphaQED\ \((\((mn - ms)\)\^2 - q2)\)\)\/\(mn\^5\ \
+\((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \((\((mn + ms)\)\^2 - q2)\)\)\/\(2\ \@6\ \
+ms\^2\)}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{C3 \[Rule] \(\((3\ A12 - \@3\ A32)\)\ mn\ \
+ms\)\/\(\@3\ \@pi\ \((\((mn - ms)\)\^2 - q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn \
++ ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\), 
+        C4 \[Rule] \((\@\(2\/3\)\ \((\@6\ A32\ \((mn\^2 + ms\ mn + ms\^2 - 
+                          q2)\)\ \((\((mn + ms)\)\^2 - 
+                          q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ mn\^2 + 
+                    3\ ms\ \((2\ ms\ \((\(-mn\^2\) + ms\^2 - 
+                                q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ S12 - \@2\ A12\ mn\^3\ \
+\((\((mn + ms)\)\^2 - 
+                                q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\))\))\))\)/\((\@pi\ \
+\((\((mn - ms)\)\^2 - 
+                    q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\ \@\(\(alphaQED\ \
+\((q2 - \((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \
+\@\(\(alphaQED\ \((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + \
+ms)\)\)\))\), 
+        C5 \[Rule] \(-\(\((\@\(2\/3\)\ ms\^2\ \((3\ \@2\ A12\ \((\((mn + \
+ms)\)\^2 - 
+                            q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ mn\^2 + \@6\ A32\ \
+\((\((mn + ms)\)\^2 - 
+                            q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ mn\^2 + 
+                      6\ \((\(-mn\^2\) + ms\^2 + 
+                            q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ S12)\))\)/\((\@pi\ \((\
+\((mn - ms)\)\^2 - 
+                      q2)\)\ \((\((mn + ms)\)\^2 - q2)\)\^2\ \@\(\(alphaQED\ \
+\((q2 - \((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \
+\@\(\(alphaQED\ \((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + \
+ms)\)\)\))\)\)\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(C3,((3*A12 - Sqrt(3)*A32)*mn*ms)/
+     -     (Sqrt(3)*Sqrt(pi)*((mn - ms)**2 - q2)*Sqrt((alphaQED*(-(mn + \
+ms)**2 + q2))/(mn*(mn - ms)*(mn + ms))))),
+     -   Rule(C4,(Sqrt(0.6666666666666666)*(Sqrt(6)*A32*mn**2*(mn**2 + mn*ms \
++ ms**2 - q2)*((mn + ms)**2 - q2)*
+     -          Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms))) + 
+     -         3*ms*(-(Sqrt(2)*A12*mn**3*((mn + ms)**2 - \
+q2)*Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms)))) + 
+     -            2*ms*(-mn**2 + ms**2 - q2)*Sqrt((alphaQED*(-(mn + ms)**2 + \
+q2))/(mn*(mn - ms)*(mn + ms)))*S12)))/
+     -     (Sqrt(pi)*((mn - ms)**2 - q2)*((mn + ms)**2 - \
+q2)**2*Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms)))*
+     -       Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))))),
+     -   Rule(C5,-((Sqrt(0.6666666666666666)*ms**2*(3*Sqrt(2)*A12*mn**2*((mn \
++ ms)**2 - q2)*
+     -            Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms))) + 
+     -           Sqrt(6)*A32*mn**2*((mn + ms)**2 - q2)*Sqrt((alphaQED*(-(mn - \
+ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms))) + 
+     -           6*(-mn**2 + ms**2 + q2)*Sqrt((alphaQED*(-(mn + ms)**2 + \
+q2))/(mn*(mn - ms)*(mn + ms)))*S12))/
+     -       (Sqrt(pi)*((mn - ms)**2 - q2)*((mn + ms)**2 - q2)**2*
+     -         Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms)))*
+     -         Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))))))))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    StyleBox[\(P33 \((1232)\)\),
+      "Subtitle"]], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`1232\ P33\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{"eqnd13", "=", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"A32", "\[Equal]", " ", 
+            
+            FormBox[\(\(-\(1\/2\)\)\ \@pi\ \((\((2\ C3\ mn - \((C4 + 
+                                C5)\)\ \((mn - ms)\))\)\ \((mn + 
+                          ms)\) + \((C4 - 
+                          C5)\)\ q2)\)\ \@\(-\(\(\((\((mn - ms)\)\^2 - q2)\)\ \
+alphaQED\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\),
+              "TraditionalForm"]}], ",", " ", 
+          RowBox[{"A12", "==", " ", 
+            
+            FormBox[\(\(\@\(pi\/3\)\ \((\((C4 + C5)\)\ ms\ \((ms\^2 - 
+                              mn\^2)\) + \((C4 - C5)\)\ ms\ q2 + 
+                        2\ C3\ mn\ \((q2 - 
+                              mn\ \((mn + 
+                                    ms)\))\))\)\ \@\(-\(\(\((\((mn - ms)\)\^2 \
+- q2)\)\ \ alphaQED\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ ms\
+\)\),
+              "TraditionalForm"]}], ",", " ", "\[IndentingNewLine]", 
+          RowBox[{"S12", "==", " ", 
+            
+            FormBox[\(\(\@\(pi\/6\)\ \((2\ ms\ \((C3\ mn + C4\ ms)\) + 
+                        C5\ \((mn\^2 + ms\^2 - 
+                              q2)\))\)\ \((\((mn - ms)\)\^2 - 
+                        q2)\)\ \@\(-\(\(\((\((mn + ms)\)\^2 - q2)\)\ alphaQED\
+\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ mn\^2\ ms\^2\)\),
+              "TraditionalForm"]}]}], 
+        "}"}]}], "\[IndentingNewLine]", \(FullSimplify[
+      Solve[eqnd13, \ {C3, C4, 
+          C5}]]\), "\[IndentingNewLine]", \(FortranForm[%]\)}], "Input"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{A32 \[Equal] \(-\(1\/2\)\)\ \@pi\ \@\(-\(\(alphaQED\ \
+\((\((mn - ms)\)\^2 - q2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \
+\((\((2\ C3\ mn - \((C4 + C5)\)\ \((mn - ms)\))\)\ \((mn + ms)\) + \((C4 - 
+                    C5)\)\ q2)\), 
+      A12 \[Equal] \(\@pi\ \@\(-\(\(alphaQED\ \((\((mn - ms)\)\^2 - q2)\)\)\/\
+\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\ \((\((C4 + C5)\)\ ms\ \((ms\^2 - \
+mn\^2)\) + \((C4 - C5)\)\ ms\ q2 + 2\ C3\ mn\ \((q2 - mn\ \((mn + ms)\))\))\)\
+\)\/\(2\ \@3\ ms\), 
+      S12 \[Equal] \(\@pi\ \((2\ ms\ \((C3\ mn + C4\ ms)\) + C5\ \((mn\^2 + \
+ms\^2 - q2)\))\)\ \((\((mn - ms)\)\^2 - q2)\)\ \@\(-\(\(alphaQED\ \((\((mn + \
+ms)\)\^2 - q2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\/\(2\ \@6\ \
+mn\^2\ ms\^2\)}\)], "Output"],
+
+Cell[BoxData[
+    \(TraditionalForm\`{{C3 \[Rule] \(-\(\(\((3\ A12 + \@3\ A32)\)\ \
+ms\)\/\(\@3\ mn\ \@pi\ \((\((mn + ms)\)\^2 - 
+                      q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\)\)\), 
+        C4 \[Rule] \((\@\(2\/3\)\ \((\@6\ A32\ \((\((mn - ms)\)\^2 - 
+                          q2)\)\ \((mn\^2 - ms\ mn + ms\^2 - 
+                          q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\) - 
+                    3\ mn\ ms\ \((\@2\ A12\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \((\((mn - ms)\)\^2 - 
+                                q2)\) + 
+                          2\ mn\ ms\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \((mn\^2 - ms\^2 + 
+                                q2)\)\ S12)\))\))\)/\((\@pi\ \((\((mn - ms)\)\
+\^2 - q2)\)\^2\ \((\((mn + ms)\)\^2 - 
+                    q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \@\(\(alphaQED\ \
+\((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\))\), 
+        C5 \[Rule] \(-\(\((\@\(2\/3\)\ ms\^2\ \((6\ \@\(\(alphaQED\ \((q2 - \
+\((mn - ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \((\(-mn\^2\
+\) + ms\^2 + q2)\)\ S12\ mn\^2 - 
+                      3\ \@2\ A12\ \((\((mn - ms)\)\^2 - 
+                            q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\) + \@6\ A32\ \((\((mn - \
+ms)\)\^2 - 
+                            q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn + \
+ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + ms)\)\)\))\))\)/\((\@pi\ \((\((mn \
+- ms)\)\^2 - q2)\)\^2\ \((\((mn + ms)\)\^2 - 
+                      q2)\)\ \@\(\(alphaQED\ \((q2 - \((mn - \
+ms)\)\^2)\)\)\/\(mn\^5\ \((mn - ms)\)\ \((mn + ms)\)\)\)\ \@\(\(alphaQED\ \
+\((q2 - \((mn + ms)\)\^2)\)\)\/\(mn\ \((mn - ms)\)\ \((mn + \
+ms)\)\)\))\)\)\)}}\)], "Output"],
+
+Cell["\<\
+        List(List(Rule(C3,-(((3*A12 + Sqrt(3)*A32)*ms)/
+     -       (Sqrt(3)*mn*Sqrt(pi)*((mn + ms)**2 - q2)*Sqrt((alphaQED*(-(mn - \
+ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms)))))),
+     -   Rule(C4,(Sqrt(0.6666666666666666)*(Sqrt(6)*A32*((mn - ms)**2 - \
+q2)*(mn**2 - mn*ms + ms**2 - q2)*
+     -          Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))) - 
+     -         3*mn*ms*(Sqrt(2)*A12*((mn - ms)**2 - q2)*Sqrt((alphaQED*(-(mn \
++ ms)**2 + q2))/(mn*(mn - ms)*(mn + ms))) + 
+     -            2*mn*ms*Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - \
+ms)*(mn + ms)))*(mn**2 - ms**2 + q2)*S12)))/
+     -     (Sqrt(pi)*((mn - ms)**2 - q2)**2*((mn + ms)**2 - \
+q2)*Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + ms)))*
+     -       Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))))),
+     -   Rule(C5,-((Sqrt(0.6666666666666666)*ms**2*(-3*Sqrt(2)*A12*((mn - \
+ms)**2 - q2)*
+     -            Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))) + 
+     -           Sqrt(6)*A32*((mn - ms)**2 - q2)*Sqrt((alphaQED*(-(mn + \
+ms)**2 + q2))/(mn*(mn - ms)*(mn + ms))) + 
+     -           6*mn**2*Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - \
+ms)*(mn + ms)))*(-mn**2 + ms**2 + q2)*S12))/
+     -       (Sqrt(pi)*((mn - ms)**2 - q2)**2*((mn + ms)**2 - q2)*
+     -         Sqrt((alphaQED*(-(mn - ms)**2 + q2))/(mn**5*(mn - ms)*(mn + \
+ms)))*
+     -         Sqrt((alphaQED*(-(mn + ms)**2 + q2))/(mn*(mn - ms)*(mn + \
+ms))))))))\
+\>", "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{1028, 995},
+WindowMargins->{{50, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 75, 2, 41, "Input"],
+Cell[1854, 57, 60, 1, 28, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[1951, 63, 870, 20, 163, "Input"],
+Cell[2824, 85, 420, 6, 74, "Output"],
+Cell[3247, 93, 1095, 15, 197, "Output"],
+Cell[4345, 110, 935, 18, 160, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5317, 133, 75, 2, 41, "Input"],
+Cell[5395, 137, 60, 1, 28, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5492, 143, 924, 21, 170, "Input"],
+Cell[6419, 166, 436, 7, 22, "Message"],
+Cell[6858, 175, 457, 7, 71, "Output"],
+Cell[7318, 184, 1228, 18, 201, "Output"],
+Cell[8549, 204, 1016, 20, 175, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9602, 229, 75, 2, 41, "Input"],
+Cell[9680, 233, 60, 1, 28, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9777, 239, 1634, 34, 235, "Input"],
+Cell[11414, 275, 790, 12, 208, "Output"],
+Cell[12207, 289, 2022, 33, 471, "Output"],
+Cell[14232, 324, 1524, 29, 250, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15793, 358, 75, 2, 41, "Input"],
+Cell[15871, 362, 60, 1, 28, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15968, 368, 1592, 32, 231, "Input"],
+Cell[17563, 402, 803, 12, 204, "Output"],
+Cell[18369, 416, 2027, 32, 471, "Output"],
+Cell[20399, 450, 1511, 29, 250, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

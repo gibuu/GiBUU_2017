@@ -1,0 +1,96 @@
+!***************************************************
+! This is an example for heavy-ion reactions
+!***************************************************
+
+!***************************************************
+! General Input
+!***************************************************
+$inputGeneral
+TheModel=2                  !1=Phase space coalescence / 2=SMM
+SubEvents=3               !number of subsequent runs
+NumEnsemples=200            !number of ensemples
+RealParticles=800           !max. number of particles per Events
+PathToBUUInput='~/localHD/GiBUU_results/HypHI/res_XePbE1AGeV/res_submit_005/' 
+BUU_DataFile='auau060fmc.dat'   !BUU Data File to be analyzed
+ALADIN_Flag=.true.              !Analyze ONLY spectator matter
+Get_Hyp=.false.                  !if true, formation of hypernuclei via coalescence
+
+$end
+
+!///////////////////////////////////////////////////
+! NAMELISTS conscerning SMM-code:
+! (1) NAMELIST /inputSMM
+! (2) NAMELIST /inputGrid
+!///////////////////////////////////////////////////
+
+!***************************************************
+! Input for SMM model
+! Improtant ONLY if: TheModel==2
+!***************************************************
+
+$inputSMM
+SMM_Seed=12345,			   !initialize RG
+EventType=1                        !=1:X+X reactions / =2: p+X reactions
+E_Bind_Input=10.795                !Precise value of the binding energy (MeV/A)
+SMM_Flag=1                         !=1: Full SMM / =0: Only evaporation
+SMM_Events=50                      !Number of events for SMM statistical code
+CorrectExc=.false.                  !Correction due to non-energy conservation
+Delta_Exc=0.25                     !Value for correction (MeV/A)
+MaxNumSources=10
+SourceInfo='Source060.dat'
+PathToSMMInput='~/localHD/GiBUU_results/HypHI/res_XePbE1AGeV/res_submit_005/'
+$end
+
+
+!***************************************************
+! inputGrid is only important, if expanding fireball source 
+! are considered in the analysis (mostly NOT the case).
+!***************************************************
+$inputGrid
+gridSize(1)=40.  ! Size of density grid in x-direction (fm)
+gridSize(2)=40.  ! Size of density grid in y-direction (fm)
+gridSize(3)=40.  ! Size of density grid in z-direction (fm)
+gridPoints(1)=36 ! Number of grid points in x-direction
+gridPoints(2)=36 ! Number of grid points in y-direction
+gridPoints(3)=40 ! Number of grid points in z-direction
+
+$end
+
+!***************************************************
+! Input for phase-space coalescence:
+! Improtant ONLY if: TheModel==1
+!***************************************************
+
+$inputCoalescence
+Get_Analysis=.true.		   !switch for Analysis
+Get_Flow=.true.			   !switch for flow (valid only for Get_Analysis=true)
+Get_Zdist=.true.		   !switch for charge distributions (valid only for Get_Analysis=true)
+Get_Model=2			   !1=SMDI, 2=RMF
+Get_Hyp=.false.			   !Performe Coalescence between Clusters and Hyperons (true)
+Get_Asy=.true.			   !check asymmetry content of produced clusters
+Get_GEM=.true.                     !switch on/off GEM de-excitation
+R_c=3.5				   !Coalescence in coordinate space (fm)
+P_c=1.5				   !Coalescence in momentum space (fm**-1)
+MaxGEM=80                          !Max. value of GEM Steps
+Out1='dNdY_Z.PSCE.dat'	           !Output File1 (flows)
+Out2='dNdpt.PSCE.dat'	           !Output File2 (pt-Distributions)
+Out3='dNdZ.PSCE.dat'                !Output File3 (Charge Distributions)
+Out4='TeilchenFile'                !Prints the fragment vector
+Out5='dNdY_Fra.PSCE.dat'            !Prints rapidity distributions for specific clusters
+Out6='dNdY_NPK.whpot.dat'            !Prints        -//- for nuc,pions,kaons
+Out7='dNdY_Hyps.whpot.dat'           !Prints       -//- for HyperClusters
+PathToClusterInput='~/GiBUU_full/GiBUU/workingCode/testRun/auswerteTools/ClusterCode/code/input/'
+$end
+
+
+!***************************************************
+! Input for analysis :
+! Default: u0_Proj=1., uz_Proj=0., SpectCut=0.
+!***************************************************
+$inputAnalysis
+u0_Proj=1.10146                    !Gamma-Factor of Projectile in CMS
+uz_Proj=0.46176                    !Gamma*Beta-Factor of Projectile in CMS
+SpectCut=0.5                       !Cut for selecting only spectator matter
+ImpactParameter_bin=0.25           !impact parameter bin in units of [fm]
+$end
+

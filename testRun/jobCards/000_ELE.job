@@ -1,0 +1,78 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for elementary interactions
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =           0 ! elementary interactions
+      numEnsembles    =        2
+      numTimeSteps    =           2
+      delta_T         =      1.0    ! time step size [fm]
+      num_runs_SameEnergy=      200 ! number of runs per energy
+      num_energies    =          10 ! number of energies
+
+!      DoPrLevel(1) = .FALSE.
+!      DoPrLevel(2) = .FALSE.
+
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./init/initElementary.f90
+&elementary
+      impactParameter =  -1.5   ! <0: impact parameter integration
+      particleId      =         101,           1
+      particleAnti    =           F,           F
+      particleCharge  =           1,           1
+!      particleMass    =       -99.9,       -99.9 ! <0: default values
+
+      srtsRaiseFlag   = F ! T: srts stepping, F: ekin_lab stepping
+      ekin_lab        =  0.500 ! [GeV] start
+      delta_ekin_lab  =  0.100 ! [GeV] increment
+      srts            =  3.000 ! [GeV] start
+      delta_srts      =  1.000 ! [GeV] increment
+/
+
+! file: ./analysis/ElementaryAnalysis.f90
+&elementary_analysis
+!      DoOutChannels     = T
+!      DoH2d             = T
+!      Do45ForAllEvents  = T
+!      Dodsigdt          = T
+!      Do2Part           = T
+/
+
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch = 0         ! 0: density = 0.0
+/
+
+! file: ./collisions/twoBodyReactions/hadronFormation.f90
+&hadronformation
+      useJetSetVec = F       ! not needed for elementary, speedup
+/
+
+! file: ./propagation/propagation.f90
+&Propagation
+      UseHadronic = F ! Whether to use hadronic potentials in propagation
+      Mode = 0 ! Cascade mode
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch = 0 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91) = 0.44     ! width intrinsic kT
+/

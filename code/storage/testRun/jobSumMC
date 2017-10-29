@@ -1,0 +1,8 @@
+! jobcard for sumHistMC
+
+&sumHist
+  fileNames(1) = "DileptonMass.dat"
+  dirName      = "run_"
+  nDirs        = 96
+  weighting    = 1
+/ 

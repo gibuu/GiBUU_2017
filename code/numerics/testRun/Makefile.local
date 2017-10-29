@@ -1,0 +1,3 @@
+SUBDIREXCL :=
+FILEEXCL := testdistr.f90 testGamma.f90 rotationTest.f90 splineTest.f90 testTabulation.f90 testInterpolation.f90  test_derivatives.f90 testdistr.f90 test_lorentz.f90 benchClebsch.f90 testRot.f90 testClebschSum.f90 testRandom.f90 testBreitWigner.f90 testADI.f90 testClebsch.f90 test.f90 testMink.f90 testMaxwell.f90 testBesselK.f90 ColoredNoise.f90
+EXEFILE := ColoredNoise.f90

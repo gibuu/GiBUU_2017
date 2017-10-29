@@ -1,0 +1,29 @@
+!************************************************************ -*- fortran -*-
+
+$datatable
+!      nEV = 100
+!      nEV = 1000
+!      nEV = 10000
+      nEV = 100000
+!      nEV = 1000000
+!      doMassless=.true.
+      cTarget = 1
+      Ebeam = XXX
+      Wcut1 = 0.0, Wcut2 = 0.0
+$end
+
+$input 
+      path_to_input="~/buuinput"
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+$end
+
+$pythia
+      PARP( 91)=0.44            ! width intrinsic kT
+!      CKIN(77) = 1.5
+!      CKIN(5) = 0.75
+$end
+
+$initRandom
+      SEED=45678                ! Seed for the random number
+$end

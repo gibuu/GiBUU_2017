@@ -1,0 +1,421 @@
+!***************************************************************************************************************************************
+!* Lepton and photon induced reactions: MasterJobCard
+!* O. Buss, T. Leitner, 08.01.2008
+!*
+!* This JobCard serves as a template for  
+!* lepton and photon nucleus collisions (not High Energy!).
+!* 
+!***************************************************************************************************************************************
+
+!################################################
+!init flags
+!################################################
+!****************
+! electron init:
+!****************
+
+$lowElectron
+energy_li=1.08          	! Initial electron energy
+energy_lf=0.05          	! Final electron energy
+delta_energy_lf=0.025   	! step size for energy in energy scans
+theta_lf=32.0           	! Theta scattering angle of final lepton
+theta_k=-40.            	! pion scattering angle theta
+phi_k=-30.              	! pion scattering angle phi
+z_definition=0          	! 0=incoming electron defines z-axis, 1=incoming virtual photon defines z-axis
+resonances=.true.       	! Switch resonance contribution on/off
+onlyDelta=.false.       	! Switch for including only delta resonance (only useful if resonances=.true.)
+singlePi=.true.         	! Switch single pion production on/off
+singlePi_minEnergy=0.19 	! Threshold for pion production. If nu is smaller than this value, then no pion is produced.
+QE_scattering=.true.    	! Switch QE scattering on/off
+nuclearTarget_corr=.true. 
+$end
+
+$hadronTensorQE 
+extraTerm=.true.         	! Switch to take out the extra term which preserves charge conservation in case of a momentum dependend mass.
+$end
+
+
+$quasiElastic_elec
+benharMethod=.false.     	! Evaluates the in-medium cross sections as Benhar does.
+benharMethod_sim=.false. 	! Evaluates the in-medium cross sections similar as Benhar does.
+final_free=.false.       	! Evaluates the cross section assuming the final particle is free.
+simple_BW=.false.        	! If .true. then we use for the nucleon a simple Breit-Wigner with the  width defined in "width".
+width=0.001              	! Width of the BW used for the QE cross section (only if simple_BW=.true.).
+$end
+
+
+!****************
+! photon init:
+!****************
+
+$low_photo_induced
+energy_gamma=0.                 ! Energy of incoming photon
+delta_energy=0.                 ! Increase of energy for energy scans.
+realRun=.false.                 ! Do not initialize the final state particles as perturbative particles but as real ones.
+vecMes=.false.                  ! Switch for the production of vector mesons (.false.=no vector meson production) 
+resonances=.true.               ! Switch for including or excluding resonance production processes
+onlyDelta=.false.               ! Switch for including only delta resonance (only useful if resonances=.true.)
+singlePi=.true.                 ! Switch for including direct single pion production. If resonances=.true. then it's only a background, else the full cross section.
+twoPi=.true.                    ! Switch for the 2pi production: gamma N -> N pi pi (.false.=no 2pi production) 
+noNucs_twoPi=.false. 	        ! Do not propagate the nucleons which are produced in a 2Pi event.
+pascalTwoPi=.true.              ! To switch on Pascal's event generator for the gamma N -> N pi pi reaction.  .true.=Pascal's prescription ; .false. = phase space
+equalDistribution_twoPi=.false. ! All two pion production channels are populated with the same probability -> Higher statistics for pi^0 pairs. The perweights are readjusted.
+nuclearTarget_corr=.true. 
+$end
+
+
+
+!****************
+! neutrino init:
+!****************
+$neutrino_induced
+process_ID=2         		! 1 = EM, 2 = CC, 3 = NC, -1 = antiEM, -2 = antiCC, -3 = antiNC
+flavor_ID=1          		! 1 = muon, 2 = electron, 3 = tau
+nuXsectionMode=1     		! 0=sigma, 1=dSigmadCosThetadElepton, 2=dSigmadQsdElepton, 3=dSigmadQs, 4=dSigmadCosTheta, 5=dSigmadElepton
+  				! calculation for specific experiments (choose with flag nuExp): 10=EXP_dSigmadEnu, else above plus 10 
+nuExp=0				! only relevant if nuXsectionmode.ge.10: 0 = noExp, 1 = MiniBooNE (others not yet implemented)
+includeQE=.true.
+includeDELTA=.true.
+includeRES=.true.
+$end
+
+$nl_neutrinoxsection
+integralPrecision=2		!should be smaller for nuXsectionMode.eq.0 (e.g. 2)
+integralPrecisionQE=50		!should be smaller for nuXsectionMode.eq.0 (e.g. 300)
+$end
+
+
+! SPECFIC NEUTRINO FLAGS depending on nuXsectionMode: choose one)
+
+!$nl_integratedSigma
+!enu=
+!delta_enu=
+!$end
+
+$nl_dSigmadCosThetadElepton
+enu=1.
+costheta=0.6
+elepton=0.5
+delta_elepton=0.02
+$end
+
+!$nl_dSigmadQsdElepton
+!enu=
+!Qs=
+!elepton=
+!delta_elepton=
+!$end
+
+!$nl_dSigmadQs
+!enu=
+!Qs=
+!delta_Qs=
+!$end
+
+!$nl_dSigmadCosTheta
+!enu=
+!costheta=
+!delta_costheta=
+!$end
+
+!$nl_dSigmadElepton
+!enu=
+!elepton=
+!delta_elepton=
+!$end
+
+$matrixElementQE
+useQEextraterm=.true.
+useCorrelations=.false.
+nievesCorr_para=3               ! if useCorrelations: 1=Alvarez-Ruso modified, 2=Nieves original, 3=Speth 
+$end
+
+$neutrino_matrixelement
+which_resonanceModel=0          !0=QE + matrixelements from MAID, 1=QE matrixelements + old Delta, 2=Rein-Sehgal
+$end
+
+$MiniBooNE_energyFlux    	! only when nuXsectionmode.ge.10 and nuExp=1
+useMiniBooNEflux=.false. 	! if false use enuMiniBooNE value for enu
+enuMiniBooNE=0.7
+Eb=0.034  	 		! binding energy in Nuance
+$end
+
+
+
+
+
+
+!****************
+! NHV-like 1-pion production:
+!****************
+$nl_singlePionProductionNHVlike
+debug_HNV=0
+integralPrecision_pion_int=1    ! 1-2-3  is enough, because gauss routine with 64 points is used
+integration_type=2		! 1=1-point Monte Carlo (>1000 ensembles),    2=gauss-64points
+$end
+
+$nl_NievesHadronTensor
+debug_HNV_hadrTens=0
+directDelta=.false.
+crossedDelta=.true.
+nucleonPole=.false.
+crossedNucleonPole=.false.
+contactTerm=.false.
+pionPole=.false.
+pionInFlight=.false.
+$end
+
+
+
+
+!****************
+! form factors:
+!****************
+$input_FF_ResProd
+FF_ResProd=1 			! 0=MAID in CM-frame, 1=fit of Lalakulich ,2=MAID in LAB-frame  
+HNV_axialFF=.true.		! for the switch FF_ResProd=1:  .true.= to use HNV axial ff
+$end
+
+
+
+!****************************
+! init transportGivenParticle
+!****************************
+$TransportGivenParticle
+particle_ID=2
+charge=1
+position=(/0.,0.,0./)
+threemomentum=(/1.,1.,1./)
+mass=1.3			!if negative, choose mass according to spectralfunction
+perweight=1			
+frequency=50			!after this amount of time steps a new output file is generated
+$end
+
+!################################################
+!analysis flags
+!################################################
+
+!****************
+! Electron and photon analysis
+!****************
+
+$lowElePhoto_Analysis
+dE_switch=.false.      		! If .true. then also dSigma/dE is produced, if false not..
+dOmega_switch=.false.  		! If .true. then also dSigma/dOmega is produced, if false not..
+$end
+
+$lowPhotonAnalysis
+outputEvents=.false.   		! If .true. then all events are printed to file for the photon induced events.
+$end
+
+!****************
+! Neutrino analysis
+!****************
+
+$neutrinoAnalysis
+detailed_diff_output=.false.
+kineticEnergyDetectionThreshold=0.
+inclusiveAnalysis=.false.     	!if .true. we don't care whether particles have made it out	
+$end
+
+
+
+!################################################
+! general input
+!################################################
+
+$target     
+target_Z=8,   
+target_A=16
+densitySwitch_Static=2 		! 0: density=0.0, 1: Woods-Saxon by Lenske, 2 : NPA 554, 3: Woods-Saxon by Lenske, different neutron and proton radii, 
+				! 5: density distribution is a sphere with density according to the input value of "fermiMomentum_input".
+fermiMomentum_input=0.225 	! Input value of the fermi momentum for densitySwitch_static=5.
+fermiMotion=.true.
+$end
+
+$input
+numEnsembles=1   
+eventtype=5         		! 5=neutrino, 200=simple transport of a given particle
+numTimeSteps=0  
+delta_T=0.25 
+fullensemble=.true.
+localEnsemble=.true.
+num_runs_SameEnergy=1
+num_Energies=3
+printParticleVectors=.false.
+set_Length_perturbative=.false.
+length_Perturbative=200
+freezeRealParticles=.true. 
+LRF_equals_CALC_frame=.true.	!if .false.: no offshelltransport possible
+path_to_input='/home/nucleus/olalakul/GiBUU/buuinput'
+$end
+
+$initDatabase
+propagationSwitch=3        	! 3=all resonances
+usageForXsectionSwitch=2   	! 2=Everybody besides I=1/2 1*
+$end
+
+$initRandom
+SEED=223214      
+$end
+
+$initDensity
+densitySwitch=2  		! 1=dynamic density according to testparticle density, 2=analytic density prescription
+$end
+
+$initPauli
+pauliSwitch=2           	! 1=dynamic, 2=analytic
+$end
+
+
+!################################################
+! in-medium width
+!################################################
+
+$baryonWidthVacuum
+use_cutoff=.true.
+$end
+
+$width_Baryon
+mediumSwitch=.false.           	! Switch all medium switches off
+mediumSwitch_Delta=.false.     	! Use Oset broadening of the Delta (only relevant for mediumSwitch_coll=.false.)
+mediumSwitch_coll=.false.      	! Use collisional broadening of all resonances
+$end
+
+$baryonWidthMedium_tables
+minRes=-1000            
+maxRes=1000
+deltaOset=.false.        	! Switch on Delta modification according to Oset (sets mediumSwitch_Delta=.true. in $width_Baryon)
+$end
+
+$spectralFunction
+nuclwidth=0.001         	! if mediumSwitch_coll=.false.: this parameter determines the "bare nucleon width"
+relativistic=.true.     	! if mediumSwitch_coll=.false.: relativistic or non-rel. spectral function
+$end
+
+$selfenergy_realPart
+noDispersion=.false.   		! If .true. dispersion relations are neglected
+$end
+
+!################################################
+! propagation
+!################################################
+
+$propagation
+delta_P=0.01            	! Delta Momentum for derivatives
+delta_E=0.01			! Delta Energy for derivatives
+coulomb=.true.          	! Whether to use coulomb in propagation
+hadronic=.true.         	! Whether to use hadronic potentials in propagation
+DerivativeType=2        	! 1=first order Runge-Kutta, 2=second order Runge-Kutta
+predictorCorrector=.true.  	! Whether to use a predictor/corrector algorithm to do the propagation
+$end
+
+$offShellPotential
+useOffShellPotentialBaryons=.false.  	! if inMediumSwitch=.false. also useOffShellpotential will be set to .false.
+extrapolateBaryonWidth=.false.		! whether to extrapolate the baryon width below minimal mass
+$end
+
+
+!################################################
+! potentials
+!################################################
+
+$baryonPotential
+EQS_Type=5  			! 1=soft mom-dep, 2=hard mom-dep, 3=soft non-mom-dep, 4=hard non-mom-dep, 5=medium mom-dep
+DeltaPot=1  			! 1=2/3 of nucleon potential, 2=100 MeV*rho/rhoNull
+$end
+
+$mesonPotential
+pionPot_Switch=0        	! 1=Oset, 2=Kapusta, 3=Delta Hole, 4=Smooth transition between 1 and 3, else=no pion potential
+vectormesonPot=0
+noPerturbativePotential=.false.
+$end
+
+$Coulomb
+CoulombFlag=.true.
+$end
+
+!################################################
+! collision term
+!################################################
+
+$collisionTerm
+oneBodyProcesses=.true.
+twoBodyProcesses=.true.
+threeBodyProcesses=.true.
+$end
+
+$master_1Body
+correctEnergy=.true.
+$end
+
+$master_2Body
+baryonBaryonScattering=.true.
+baryonMesonScattering=.true.
+mesonMesonScattering=.false.
+$end
+
+$resonanceCrossSections
+fullPropagator=.true. 		! Use self energies in resonance propagators
+$end
+
+$barBar_barBar
+use_ND_ND_model=.true.   	! Switch for delta nucleon -> delta nucleon cross sections: false=old parametrization, true =one pion exchange model (Effenberger, Buss)
+new_NR_NR=.true.          	! .false.= Switch off the NR-> NR improvement (improvement= better NN<->NN fit is being used), only for debugging or comparing
+NR_NR_massSHIFT=.true.   	! .true.= Shift the srts in NR-> NR elastic collisions.
+oldOset_treatment=.false. 	! .true.= Use the old treatment for the Oset Delta width: no population of final state, only for debugging or comparing
+$end
+
+$master_3Body
+$end
+
+$angular_distribution
+deltaPWave=.true.
+pionnucleon_backward=.true.
+$end
+
+$insertion
+minimumEnergy=0.00
+$end
+
+$radiative_DeltaDecay
+Enable=.false.
+$end
+
+
+
+!################################################
+! temperature and thermodynamics
+!################################################
+
+$initThermoDynamics
+temperatureSwitch=1     	! 1=groundstate calculations, 2=full procedure using testparticle density (real particles only!)
+$end
+
+
+
+!*******************
+! testing NHV background:
+!*******************
+$nl_test_bgr
+process_ID=2			! 1=EM  2=CC
+out_lepton=2			! 1=electron 2=muon 3=tau
+debugflag=.false.
+cNpCTpppF=.true.
+incl_E1_ct_ctWpi=.false.
+incl_E1_ct_Epi=.false.
+incl_ct_E1=.true.
+incl_E1=.false.
+incl_Epi=.false.
+Enu=1.0			! neutrino or electron energy
+!E1=0.3
+costheta=0.6
+! for free lepton kinematics
+incl_minmaxctqPi_Q2_W2_Epi=.false.		! which limits (minmax) to calculate
+incl_minmaxt_Q2_W2=.false.
+incl_minmaxctnupi_Enu_sl_Epi=.false.
+incl_minmaxTpi_Enu_sl=.false.
+incl_minmaxEpi_Enu=.false.
+$end
+
+

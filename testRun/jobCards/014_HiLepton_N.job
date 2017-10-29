@@ -1,0 +1,124 @@
+!--------------------------------------------------------- -*- fortran -*- ----
+! sample jobcard for high energy lepton on nucleon (deuterium)
+!------------------------------------------------------------------------------
+! please visit the GiBUU homepage for further information:
+! https://gibuu.hepforge.org
+!------------------------------------------------------------------------------
+
+! file: ./inputOutput/input.f90
+&input
+      eventtype       =          14 ! HiLepton
+      numEnsembles    =        2000
+      numTimeSteps    =           0
+
+      length_perturbative = 50 ! okay for nucleon/deuterium
+
+      num_runs_SameEnergy=1  ! number of runs per energy
+!      num_runs_SameEnergy=10000  ! number of runs per energy
+
+      DoPrLevel(1) = .FALSE.
+      DoPrLevel(2) = .FALSE.
+      path_To_Input   = '~/GiBUU/buuinput'
+/
+
+! file: ./density/nucleus.f90
+&target
+!      fermiMotion = .FALSE.
+      target_Z=  1, target_A=  1 ! proton,neutron, deuterium
+/
+
+! file: ./init/initHiLepton.f90
+&HiLeptonNucleus
+      shadow  = F
+!      DoStatistics = T ! additional output
+!      iExperiment= 0 ! no experiment/fixed kinematics
+!      iExperiment= 1 ! Hermes, 27GeV, D,N,Kr
+!      iExperiment= 2 ! Hermes, 27GeV, Ne
+!      iExperiment= 3 ! Hermes, 27GeV, H
+!      iExperiment= 4 ! JLAB,   12GeV
+!      iExperiment= 5 ! JLAB,    5GeV
+!      iExperiment= 6 ! EMC,   100GeV
+!      iExperiment= 7 ! EMC,   120GeV
+!      iExperiment= 8 ! EMC,   200GeV
+!      iExperiment= 9 ! EMC,   280GeV
+!      iExperiment=10 ! Hermes, 12GeV
+!      iExperiment=11 ! Hermes, 27GeV, arXiv:0704.3270 (attenuation)
+!      iExperiment=12 ! Mainz, Yoon: Ebeam=1.5GeV
+      iExperiment=13 ! Hermes, 27GeV, arXiv:0704.3712 (pT-broadening)
+!      iExperiment=14 ! JLAB,  5GeV, rho0 experiment
+!      iExperiment=15 ! JLAB,  4GeV, rho0 experiment
+!      iExperiment=16, EIC_Ee=3, EIC_EA=30 ! EIC, E_e and E_A given explicit (3+30,11+30,4+100)
+!      iExperiment=17 ! no detector, total cross section, Ebeam
+!      iExperiment=18 ! E665, 470GeV
+!      iExperiment=19 ! CLAS/JLAB, 12GeV RunGroupA optimized 10.6 GeV
+!      iExperiment=20 ! CLAS/JLAB, 12GeV RunGroupA theoretical
+/
+
+! file: ./analysis/HiLeptonAnalysis.f90
+&HiLepton_Analysis
+!      DoLeptonKinematics = T
+!      DoHadronKinematics = T
+!      DoTimes       = T
+!      DoOutChannels = T
+!      DoInvMasses   = T
+!      DoFindRho0    = T
+!      DoClasie      = T
+!      DoMorrow      = T
+
+!      DoClassifyFirst = T
+/
+
+! file: ./density/density.f90
+&initDensity
+      densitySwitch   = 2 ! 2: static density
+/
+
+! file: ./density/pauliBlocking.f90
+&initPauli
+      pauliSwitch     = 2 ! 0: no Pauli blocking, 1: dynamic, 2: analytic
+/
+
+! file: ./numerics/random.f90
+&initRandom
+      SEED=45678                ! Seed for the random number
+/
+
+! file: ./collisions/twoBodyReactions/HiEnergy/DoCollTools.f90
+&pythia
+      PARP(91) = 0.44     ! width intrinsic kT
+/
+
+! file: ./potential/baryonPotential.f90
+&baryonPotential
+      noPerturbativePotential = T ! perturbative baryons feel no potential
+/
+
+! file: ./potential/mesonPotential.f90
+&mesonPotential
+      noPerturbativePotential = T ! perturbative mesons feel no potential
+/
+
+! file: ./collisions/twoBodyReactions/master_2Body.f90
+&master_2Body
+      correctEnergy_message=.false. ! reduce verbosity
+/
+
+! file: ./collisions/collisionTerm.f90
+&collisionterm
+      energyCheck     =  0.100
+/
+
+! file: ./collisions/insertion.f90
+&insertion
+      minimumEnergy   =  0.100 ! minimal kinetic energy of produced nucleons (GeV)
+/
+
+! file: ./collisions/twoBodyReactions/hadronFormation.f90
+&hadronformation
+      useJetSetVec    = F ! not needed on nucleon -> speed up
+/
+
+! file: ./analysis/EventOutputAnalysis.f90
+&EventOutput
+!      WritePerturbativeParticles = T  ! if you want that output
+/

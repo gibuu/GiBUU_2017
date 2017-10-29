@@ -1,0 +1,3 @@
+SUBDIREXCL := 
+FILEEXCL := test.f90 main.f90
+EXEFILE:= testPotMain.f90 testArgonne.f90 testNuc.f90

@@ -1,0 +1,59 @@
+$baryonPotential
+  !Switch for equation of state for nucleon resonances spin=1/2
+  !Parameters for nucleon potentials:
+  !  4=no potential
+  !  1=soft mom-dep  lambda = 2.130
+  !  2=hard mom-dep  lambda = 2.126
+  !  3=soft  non-mom-dep
+  !  4=hard  non-mom-dep
+  !  5=medium  mom-dep
+EQS_TYPE=3
+p_0=0.45
+U_0=-0.11
+rho_0=0.16
+bindingEnergy=-0.016
+compressibility=0.220
+$end
+
+$width_Baryon
+mediumSwitch=.true.       ! Switch on/off in-medium width of all baryons at once -> The vacuum width are used.
+mediumSwitch_coll=.true.       ! Switch on/off in-medium width of all baryons at once -> The vacuum width are used.
+!mediumSwitch_Delta=.true. ! Switch on/off in-medium width of the delta. .false.=vacuum width
+$end
+
+$quasiElastic_elec
+width=0.010
+$end
+
+!************************************
+
+
+$baryonWidthMedium_tables
+maxRes=2
+$end
+
+$selfenergy_realPart
+maxRes=2
+! nodispersion=.false.
+$end
+
+
+$initDatabase
+propagationSwitch=0        ! 0=all resonances with more than 1 star, 1=only delta&nucleon 2=only nucleons
+                           ! used to initialize the resonances' database
+$end
+
+$input
+path_to_input="~/localtp/GiBUU/workingCode/buuinput"
+$end
+
+$initRandom
+SEED=45678         !Seed for the random number
+$end
+
+$initDensity
+densitySwitch=3           !0=no density,1=dynamic density according to testparticle density, 2=analytic density prescription
+densityInput_proton=0.08
+densityInput_neutron=0.08
+$end
+
