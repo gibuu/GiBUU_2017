@@ -217,7 +217,7 @@ module neutrinoXsection
   !****************************************************************************
   !****g* neutrinoXsection/mcutDIS
   ! SOURCE
-  real, save :: mcutDIS = 0.71
+  real, save :: mcutDIS = 0.60
   ! PURPOSE
   ! parameter to control Q^2 dependence of DIS
   !****************************************************************************
