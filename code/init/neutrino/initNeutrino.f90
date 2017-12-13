@@ -956,7 +956,7 @@ contains
 
           ! all what's to do with xsections:
 
-          fak1 = sigtot/float(numtry)
+          fak1 = totalWeight/float(numtry)
           fak2 = 1./float(num_runs_sameEnergy)
 
           call neutrinoProdInfo_Store(firstEvent, k, fak1,&
