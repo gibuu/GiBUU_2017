@@ -1,0 +1,8 @@
+MakefileDepend
+*.mod
+*.o
+*.a
+*.x
+*.diff
+*.orig
+*.rej

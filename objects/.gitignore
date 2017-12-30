@@ -1,0 +1,6 @@
+Makefile
+*.f
+*.f90
+*.F90
+*.inc
+LIB/
