@@ -248,6 +248,7 @@ endif
 	fi
 
 buildLIBpdfstub: libPDFstub.orig.6225.a
+	@mkdir -p $(LIBDIR)
 	@-rm -f $(LIBDIR)/$<
 	@ln -s $(CURDIR)/$< $(LIBDIR)
 
